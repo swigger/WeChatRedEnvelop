@@ -1,51 +1,78 @@
 #import "WeChatRedEnvelop.h"
+#import "Debug.h"
+#import "info.h"
+
 
 %hook CMessageMgr
 - (void)AsyncOnAddMsg:(NSString *)msg MsgWrap:(CMessageWrap *)wrap {
 	%orig;
 	
-	if (!yb_shouldStart) {return;}
-	float delayTime = (float)arc4random_uniform(yb_delayTime) + 0.1;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		switch(wrap.m_uiMessageType) {
-		case 49: { // AppNode
+	float delayTime = (float)arc4random_uniform(yb_delayTime) + 1.0;
+	int msgType = wrap.m_uiMessageType;
 
-			CContactMgr *contactManager = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("CContactMgr") class]];
-			CContact *selfContact = [contactManager getSelfContact];
+	CContactMgr *contactManager = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("CContactMgr") class]];
+	CContact *selfContact = [contactManager getSelfContact];
 
-			BOOL isMesasgeFromMe = NO;
-			if ([wrap.m_nsFromUsr isEqualToString:selfContact.m_nsUsrName]) {
-				isMesasgeFromMe = YES;
+	if (msgType != 49) return;
+	BOOL isMesasgeFromMe = NO;
+	if ([wrap.m_nsFromUsr isEqualToString:selfContact.m_nsUsrName]) {
+		isMesasgeFromMe = YES;
+	}
+	if (isMesasgeFromMe)
+	{
+		// 自己发的红包，就不需要机器人来抢了吧？？
+		return;
+	}
+
+	if ([wrap.m_nsContent rangeOfString:@"wxpay://"].location == NSNotFound)
+		return; //不是红包？？
+	if ([wrap.m_nsFromUsr rangeOfString:@"@chatroom"].location == NSNotFound)
+		return; //只抢群里的红包
+
+	if (!yb_shouldStart)
+	{
+		soundAlert();
+		return;
+	}
+
+	{
+		// 特定的群不抢。
+		CContact * ct = [contactManager getContact:wrap.m_nsFromUsr listType:2 contactType:0];
+		if (ct)
+		{
+			NSString * ctname = [ct getContactDisplayName];
+			DUMP(ctname);
+			if (need_skip([ctname UTF8String]))
+			{
+				sl_printf("此群不抢了\n");
+				soundAlert();
+				return;
 			}
-
-			if ([wrap.m_nsContent rangeOfString:@"wxpay://"].location != NSNotFound) { // 红包
-				if ([wrap.m_nsFromUsr rangeOfString:@"@chatroom"].location != NSNotFound ||
-					(isMesasgeFromMe && [wrap.m_nsToUsr rangeOfString:@"@chatroom"].location != NSNotFound)) { // 群组红包或群组里自己发的红包
-
-					NSString *nativeUrl = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl];
-					nativeUrl = [nativeUrl substringFromIndex:[@"wxpay://c2cbizmessagehandler/hongbao/receivehongbao?" length]];
-
-					NSDictionary *nativeUrlDict = [%c(WCBizUtil) dictionaryWithDecodedComponets:nativeUrl separator:@"&"];
-
-					/** 构造参数 */
-					NSMutableDictionary *params = [@{} mutableCopy];
-					[params safeSetObject:nativeUrlDict[@"msgtype"] forKey:@"msgType"];
-					[params safeSetObject:nativeUrlDict[@"sendid"] forKey:@"sendId"];
-					[params safeSetObject:nativeUrlDict[@"channelid"] forKey:@"channelId"];
-					[params safeSetObject:[selfContact getContactDisplayName] forKey:@"nickName"];
-					[params safeSetObject:[selfContact m_nsHeadImgUrl] forKey:@"headImg"];
-					[params safeSetObject:[[wrap m_oWCPayInfoItem] m_c2cNativeUrl] forKey:@"nativeUrl"];
-					[params safeSetObject:msg forKey:@"sessionUserName"];	
-
-					WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
-					[logicMgr OpenRedEnvelopesRequest:params];
-				}
-			}	
-			break;
 		}
-		default:
-			break;
+		// 特定的文字不抢。
+		if (dont_open([wrap.m_nsContent UTF8String]))
+		{
+			soundAlert();
+			return;
 		}
+	}
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		NSString *nativeUrl = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl];
+		nativeUrl = [nativeUrl substringFromIndex:[@"wxpay://c2cbizmessagehandler/hongbao/receivehongbao?" length]];
+		NSDictionary *nativeUrlDict = [%c(WCBizUtil) dictionaryWithDecodedComponets:nativeUrl separator:@"&"];
+
+		NSMutableDictionary *params = [@{} mutableCopy];
+		[params safeSetObject:nativeUrlDict[@"msgtype"] forKey:@"msgType"];
+		[params safeSetObject:nativeUrlDict[@"sendid"] forKey:@"sendId"];
+		[params safeSetObject:nativeUrlDict[@"channelid"] forKey:@"channelId"];
+		[params safeSetObject:[selfContact getContactDisplayName] forKey:@"nickName"];
+		[params safeSetObject:[selfContact m_nsHeadImgUrl] forKey:@"headImg"];
+		[params safeSetObject:[[wrap m_oWCPayInfoItem] m_c2cNativeUrl] forKey:@"nativeUrl"];
+		[params safeSetObject:msg forKey:@"sessionUserName"];
+
+		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
+		[logicMgr OpenRedEnvelopesRequest:params];
     });
 }
 %end
@@ -91,9 +118,9 @@
                yb_delayTime = 0;
     }];
     
-    UIAlertAction *delay10SecsAction = [UIAlertAction actionWithTitle:@"10秒内开抢" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *delay10SecsAction = [UIAlertAction actionWithTitle:@"5秒内开抢" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                yb_shouldStart = YES;
-               yb_delayTime = 10;
+               yb_delayTime = 5;
     }];
     
     UIAlertAction *delay30SecsAction = [UIAlertAction actionWithTitle:@"30秒内开抢" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

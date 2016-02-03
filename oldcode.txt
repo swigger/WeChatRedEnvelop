@@ -1,0 +1,18 @@
+DUMP(wrap.m_nsAppExtInfo);
+DUMP(wrap.m_nsAppID);
+DUMP(wrap.m_nsAppMediaUrl);
+DUMP(wrap.m_nsAppName);
+DUMP(wrap.m_nsDesc);
+DUMP(wrap.m_nsJsAppId);
+DUMP(wrap.m_nsMsgSource);
+DUMP(wrap.m_nsPrePublishId);
+DUMP(wrap.m_nsShareOpenUrl);
+DUMP(wrap.m_nsShareOriginUrl);
+DUMP(wrap.m_nsThumbUrl);
+DUMP(wrap.m_nsTitle);
+DUMP(wrap.m_nsContent);
+DUMP(wrap.m_nsFromUsr);
+DUMP(wrap.m_nsRealChatUsr);
+DUMP(wrap.m_nsToUsr);
+	send_multi_log([wrap.m_nsContent UTF8String]);
+
