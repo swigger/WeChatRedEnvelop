@@ -131,9 +131,11 @@
     [alertVc addAction:beginAction];
     [alertVc addAction:delay10SecsAction];
     [alertVc addAction:delay30SecsAction];
-    [alertVc addAction:cancelAction];
-   [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVc animated:YES completion:nil];
+	[alertVc addAction:cancelAction];
+	[[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVc animated:YES completion:nil];
 
 }
 
 %end
+
+//" vim: filetype=logos
