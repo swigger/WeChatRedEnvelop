@@ -102,9 +102,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	if (indexPath.section != 0) {%orig;} // 非第一组直接返回
+	if (indexPath.section != 0) {return %orig;} // 非第一组直接返回
 	//判断是否是自己添加多出来的那一行
-	if (indexPath.row != yb_cellNumber) {%orig;}
+	if (indexPath.row != yb_cellNumber) {return %orig;}
 
 
 	UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"是否开启自动抢红包"  message:nil preferredStyle:UIAlertControllerStyleAlert];
