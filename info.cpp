@@ -60,7 +60,7 @@ int any_line_in_name(const char * fn, const char * thename)
 
 int need_skip(const char * grpname)
 {
-	return any_line_in_name("group.skip.txt", grpname) == 0 ? 0 : 1;
+	return any_line_in_name("group.skip.txt", grpname) <= 0 ? 0 : 1;
 }
 
 int dont_open(const char * content)
