@@ -47,7 +47,6 @@ int any_line_in_name(const char * fn, const char * thename)
 		
 		memcpy(line1, line, sz);
 		line1[sz] = 0;
-		send_log(line1);
 		if (strstr(thename, line1))
 		{
 			r = 1;
@@ -80,11 +79,10 @@ int dont_open(const char * content)
 			int f = any_line_in_name("hb.keyword.txt", sc.c_str());
 			if (f>=0)
 			{
-				sl_printf("%s fail not open\n", sc.c_str());
 				return f;
 			}
 			const char * kws[] = {"卧底", "潜水", "机器人", "外挂", "开挂",
-				"自动抢", "专属", "美女", 0};
+				"自动抢", "专", "美女", 0};
 			for (int i=0; kws[i]; ++i)
 			{
 				if (strstr(sc.c_str(), kws[i]))

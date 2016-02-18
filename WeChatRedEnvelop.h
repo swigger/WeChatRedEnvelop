@@ -103,3 +103,11 @@ long yb_cellNumber = 0;
 @interface SettingPluginsViewController : SettingBaseViewController
 @end
 
+@interface MMUIResponder : UIResponder
+@end
+
+@protocol ResourceMonitorDelegate <NSObject>
+@end
+
+@interface MicroMessengerAppDelegate : MMUIResponder <UIApplicationDelegate, UIAlertViewDelegate, ResourceMonitorDelegate>
+@end

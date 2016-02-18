@@ -31,20 +31,32 @@
 
 	if (!yb_shouldStart)
 	{
+		sl_printf("设置了不抢红包\n");
 		soundAlert();
 		return;
 	}
 
+	static char ssig[300];
+	ssig[0] = 0;
 	{
+		NSString * ctname = nil;
+		NSString * sndername = nil;
 		// 特定的群不抢。
+		CContact * ct1= [contactManager getContact:wrap.m_nsRealChatUsr listType:1 contactType:0];
+		if (ct1) sndername = [ct1 getContactDisplayName];
 		CContact * ct = [contactManager getContact:wrap.m_nsFromUsr listType:2 contactType:0];
-		if (ct)
+		if (ct) ctname = [ct getContactDisplayName];
+		if (ctname || sndername)
 		{
-			NSString * ctname = [ct getContactDisplayName];
+			snprintf(ssig, sizeof(ssig), "[%s/%s]", ctname ? [ctname UTF8String] : "",
+											  sndername ? [sndername UTF8String] : "");
+		}
+		if (ctname)
+		{
 			DUMP(ctname);
 			if (need_skip([ctname UTF8String]))
 			{
-				sl_printf("此群不抢了\n");
+				sl_printf("%s 此群不抢了\n", ssig);
 				soundAlert();
 				return;
 			}
@@ -52,6 +64,7 @@
 		// 特定的文字不抢。
 		if (dont_open([wrap.m_nsContent UTF8String]))
 		{
+			sl_printf("%s 此红包不抢了\n", ssig);
 			soundAlert();
 			return;
 		}
@@ -72,6 +85,7 @@
 		[params safeSetObject:msg forKey:@"sessionUserName"];
 
 		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
+		sl_printf("%s 打开红包！！延时%lf秒", ssig, (double) delayTime);
 		[logicMgr OpenRedEnvelopesRequest:params];
     });
 }
@@ -98,7 +112,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.contentView.backgroundColor = [UIColor whiteColor];
 	return cell;
-
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
