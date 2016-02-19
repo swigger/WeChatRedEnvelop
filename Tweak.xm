@@ -2,6 +2,10 @@
 #import "Debug.h"
 #import "info.h"
 
+unsigned int yb_delayTime = 5;
+BOOL yb_shouldStart = YES;
+long yb_cellNumber = -9999;
+
 
 %hook CMessageMgr
 - (void)AsyncOnAddMsg:(NSString *)msg MsgWrap:(CMessageWrap *)wrap {

@@ -82,11 +82,6 @@
 - (void)safeSetObject:(id)arg1 forKey:(id)arg2;
 @end
 
-unsigned int yb_delayTime = 0;
-BOOL yb_shouldStart = YES;
-long yb_cellNumber = 0;
-
-
 @interface MMUINavigationBar : UINavigationBar
 - (void)setFrame:(struct CGRect)arg1;
 @end
