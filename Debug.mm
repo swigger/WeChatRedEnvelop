@@ -39,14 +39,19 @@ void send_multi_log(const char * p)
 
 void sl_printf(const char * fmt, ...)
 {
-	char buf[1000] = {0};
+	char buf[3000] = {0};
 	va_list vg;
+	size_t len = sizeof(buf)-1;
+
+	time_t t = time(0);
+	struct tm ttt = * localtime(&t);
+	int np = sprintf(buf, "[%02d:%02d:%02d] ", ttt.tm_hour, ttt.tm_min, ttt.tm_sec);
+
 	va_start(vg, fmt);
-	vsnprintf(buf, sizeof(buf)-1, fmt, vg);
+	vsnprintf(buf+np, len-np, fmt, vg);
 	va_end(vg);
 	send_log(buf);
 }
-
 
 void dump(const char * name, NSString * s)
 {
