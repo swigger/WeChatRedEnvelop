@@ -79,14 +79,15 @@ long yb_cellNumber = -9999;
 		nativeUrl = [nativeUrl substringFromIndex:[@"wxpay://c2cbizmessagehandler/hongbao/receivehongbao?" length]];
 		NSDictionary *nativeUrlDict = [%c(WCBizUtil) dictionaryWithDecodedComponets:nativeUrl separator:@"&"];
 
+		/** 构造参数 */
 		NSMutableDictionary *params = [@{} mutableCopy];
-		[params safeSetObject:nativeUrlDict[@"msgtype"] forKey:@"msgType"];
-		[params safeSetObject:nativeUrlDict[@"sendid"] forKey:@"sendId"];
-		[params safeSetObject:nativeUrlDict[@"channelid"] forKey:@"channelId"];
-		[params safeSetObject:[selfContact getContactDisplayName] forKey:@"nickName"];
-		[params safeSetObject:[selfContact m_nsHeadImgUrl] forKey:@"headImg"];
-		[params safeSetObject:[[wrap m_oWCPayInfoItem] m_c2cNativeUrl] forKey:@"nativeUrl"];
-		[params safeSetObject:msg forKey:@"sessionUserName"];
+		params[@"msgType"] = nativeUrlDict[@"msgtype"] ?: @"1";
+		params[@"sendId"] = nativeUrlDict[@"sendid"] ?: @"";
+		params[@"channelId"] = nativeUrlDict[@"channelid"] ?: @"1";
+		params[@"nickName"] = [selfContact getContactDisplayName] ?: @"小锅";
+		params[@"headImg"] = [selfContact m_nsHeadImgUrl] ?: @"";
+		params[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
+		params[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
 
 		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
 		sl_printf("%s 打开红包！！延时%lf秒", ssig, (double) delayTime);
@@ -150,7 +151,6 @@ long yb_cellNumber = -9999;
     [alertVc addAction:delay30SecsAction];
 	[alertVc addAction:cancelAction];
 	[[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVc animated:YES completion:nil];
-
 }
 
 %end
