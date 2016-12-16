@@ -11,6 +11,8 @@ long yb_cellNumber = -9999;
 - (void)AsyncOnAddMsg:(NSString *)msg MsgWrap:(CMessageWrap *)wrap {
 	%orig;
 	
+	static char ssig[300];
+	ssig[0] = 0;
 	float delayTime = (float)arc4random_uniform(yb_delayTime) + 1.0;
 	int msgType = wrap.m_uiMessageType;
 
@@ -40,15 +42,13 @@ long yb_cellNumber = -9999;
 		return;
 	}
 
-	static char ssig[300];
-	ssig[0] = 0;
 	{
 		NSString * ctname = nil;
 		NSString * sndername = nil;
 		// 特定的群不抢。
-		CContact * ct1= [contactManager getContact:wrap.m_nsRealChatUsr listType:1 contactType:0];
+		CContact * ct1= [contactManager getContactByName:wrap.m_nsRealChatUsr];
 		if (ct1) sndername = [ct1 getContactDisplayName];
-		CContact * ct = [contactManager getContact:wrap.m_nsFromUsr listType:2 contactType:0];
+		CContact * ct = [contactManager getContactByName:wrap.m_nsFromUsr];
 		if (ct) ctname = [ct getContactDisplayName];
 		if (ctname || sndername)
 		{

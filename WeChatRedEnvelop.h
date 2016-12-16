@@ -5,39 +5,26 @@
 @end
 
 @interface CMessageWrap : NSObject // 微信消息
-@property (retain, nonatomic) WCPayInfoItem *m_oWCPayInfoItem;
-@property (assign, nonatomic) NSUInteger m_uiMesLocalID;
-@property (retain, nonatomic) NSString* m_nsFromUsr; // 发信人，可能是群或个人
-@property (retain, nonatomic) NSString* m_nsToUsr; // 收信人
-@property (assign, nonatomic) NSUInteger m_uiStatus;
-@property (retain, nonatomic) NSString* m_nsContent; // 消息内容
-@property (retain, nonatomic) NSString* m_nsRealChatUsr; // 群消息的发信人，具体是群里的哪个人
-@property (nonatomic) NSUInteger m_uiMessageType;
+@property(retain, nonatomic) NSString *m_nsRealChatUsr; // 群消息的发信人，具体是群里的哪个人
+@property(retain, nonatomic) NSString *m_nsMsgSource; // @synthesize m_nsMsgSource;
+@property(nonatomic) unsigned int m_uiCreateTime; // @synthesize m_uiCreateTime;
+@property(nonatomic) unsigned int m_uiStatus; // @synthesize m_uiStatus;
+@property(retain, nonatomic) NSString *m_nsContent; // @synthesize m_nsContent;
+@property(nonatomic) unsigned int m_uiMessageType; // @synthesize m_uiMessageType;
+@property(retain, nonatomic) NSString *m_nsToUsr; // @synthesize m_nsToUsr 收信人;
+@property(retain, nonatomic) NSString *m_nsFromUsr; // @synthesize m_nsFromUsr 发信人，群或个人;
 @property (nonatomic) long long m_n64MesSvrID;
-@property (nonatomic) NSUInteger m_uiCreateTime;
-@property (retain, nonatomic) NSString *m_nsDesc;
+@property(nonatomic) unsigned int m_uiMesLocalID; // @synthesize m_uiMesLocalID;
 @property (retain, nonatomic) NSString *m_nsAppExtInfo;
-@property (nonatomic) NSUInteger m_uiAppDataSize;
-@property (nonatomic) NSUInteger m_uiAppMsgInnerType;
+@property(retain, nonatomic) NSString *m_nsAppID; // @dynamic m_nsAppID;
+@property(retain, nonatomic) NSString *m_nsAppName; // @dynamic m_nsAppName;
+@property(retain, nonatomic) NSString *m_nsDesc; // @dynamic m_nsDesc;
 @property (retain, nonatomic) NSString *m_nsShareOpenUrl;
 @property (retain, nonatomic) NSString *m_nsShareOriginUrl;
-@property (retain, nonatomic) NSString *m_nsJsAppId;
-@property (retain, nonatomic) NSString *m_nsPrePublishId;
-@property (retain, nonatomic) NSString *m_nsAppID;
-@property (retain, nonatomic) NSString *m_nsAppName;
 @property (retain, nonatomic) NSString *m_nsThumbUrl;
-@property (retain, nonatomic) NSString *m_nsAppMediaUrl;
-@property (retain, nonatomic) NSData *m_dtThumbnail;
 @property (retain, nonatomic) NSString *m_nsTitle;
-@property (retain, nonatomic) NSString *m_nsMsgSource;
-- (instancetype)initWithMsgType:(int)msgType;
-+ (UIImage *)getMsgImg:(CMessageWrap *)arg1;
-+ (NSData *)getMsgImgData:(CMessageWrap *)arg1;
-+ (NSString *)getPathOfMsgImg:(CMessageWrap *)arg1;
-- (UIImage *)GetImg;
-- (BOOL)IsImgMsg;
-- (BOOL)IsAtMe;
-+ (void)GetPathOfAppThumb:(NSString *)senderID LocalID:(NSUInteger)mesLocalID retStrPath:(NSString **)pathBuffer;
+@property(retain, nonatomic) WCPayInfoItem *m_oWCPayInfoItem; // @dynamic m_oWCPayInfoItem;
+- (id)initWithMsgType:(long long)arg1;
 @end
 
 @interface WCRedEnvelopesControlData : NSObject
@@ -75,7 +62,8 @@
 
 @interface CContactMgr : NSObject
 - (id)getSelfContact;
-- (id)getContact:(id)arg1 listType:(unsigned int)arg2 contactType:(unsigned int)arg3;
+- (id)getContactFromDB:(id)arg1;
+- (id)getContactByName:(id)arg1;
 @end
 
 @interface NSMutableDictionary (SafeInsert)
