@@ -39,17 +39,8 @@
 			<key>default</key>
 			<integer>1</integer>
 
-			<key>validValues</key>
-			<array>
-				<integer>1</integer>
-				<integer>2</integer>
-			</array>
-
-			<key>validTitles</key>
-			<array>
-				<string>1s</string>
-				<string>2s</string>
-			</array>
+			<key>valuesDataSource</key><string>numValues</string>
+			<key>titlesDataSource</key><string>numTitles</string>
 
 			<key>detail</key>
 			<string>PSListItemsController</string>
@@ -69,17 +60,8 @@
 			<key>default</key>
 			<integer>5</integer>
 
-			<key>validValues</key>
-			<array>
-				<integer>1</integer>
-				<integer>5</integer>
-			</array>
-
-			<key>validTitles</key>
-			<array>
-				<string>1s</string>
-				<string>5s</string>
-			</array>
+			<key>valuesDataSource</key><string>numValues</string>
+			<key>titlesDataSource</key><string>numTitles</string>
 
 			<key>detail</key>
 			<string>PSListItemsController</string>

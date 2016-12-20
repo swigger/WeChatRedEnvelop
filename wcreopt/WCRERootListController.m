@@ -1,4 +1,5 @@
-#include "WCRERootListController.h"
+#import <Foundation/Foundation.h>
+#import "WCRERootListController.h"
 #import "Preferences/PSSpecifier.h"
 
 void uncaughtExceptionHandler(NSException *exception) {
@@ -15,11 +16,38 @@ void uncaughtExceptionHandler(NSException *exception) {
 		dup2(fid, 2);
 		NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
+#if __has_feature(objc_arc)
+		_specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
+#else
 		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
+#endif
 	}
 
 	return _specifiers;
 }
+
+- (NSArray*) numValues{
+	NSMutableArray * arr = [[NSMutableArray alloc] init];
+	for (int i=1; i<=120; ++i)
+	{
+		if (i>10 && (i%5)!=0) continue;
+		if (i>30 && (i%30)!=0) continue;
+		[arr addObject:@(i)];
+	}
+	return arr;
+}
+
+- (NSArray*) numTitles{
+	NSMutableArray * arr = [[NSMutableArray alloc] init];
+	for (int i=1; i<=120; ++i)
+	{
+		if (i>10 && (i%5)!=0) continue;
+		if (i>30 && (i%30)!=0) continue;
+		[arr addObject:[NSString stringWithFormat:@"%ds", i]];
+	}
+	return arr;
+}
+
 
 @end
 
@@ -28,26 +56,41 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 @interface KeywordsControler : UIViewController
 @property (strong, nonatomic) UINavigationController * rootController;
-@property (strong, nonatomic) UIViewController * parentController;
+@property (strong, nonatomic) PSListController * parentController;
 @end
 
+#define PL_PATH @"/var/mobile/Library/Preferences/net.swigger.wcreopt.plist"
 
 @implementation KeywordsControler{
 	CGRect _keybd;
+	NSString * _id;
 }
 
 - (void) setSpecifier:(PSSpecifier *)spec{
-	NSLog(@"=== spec === id:%@ %@", spec.identifier, spec);
+	_id = spec.identifier;
+}
+
+- (NSString*) text{
+	NSUserDefaults * def = [[NSUserDefaults alloc]initWithSuiteName:@"net.swigger.wcreopt"];
+	NSString * s = (NSString*) [def objectForKey:_id];
+	if (!s) s = @"";
+	return s;
+}
+
+- (void) setText:(NSString*)text {
+	NSUserDefaults * def = [[NSUserDefaults alloc]initWithSuiteName:@"net.swigger.wcreopt"];
+	[def setObject:text forKey:_id];
 }
 
 - (void)loadView{
-	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+	CGRect applicationFrame = [[UIScreen mainScreen] bounds];
 	applicationFrame.origin.y += _rootController.navigationBar.frame.size.height;
 	applicationFrame.size.height -= _rootController.navigationBar.frame.size.height;
 
 	UITextView *contentView = [[UITextView alloc] initWithFrame:applicationFrame];
 	[contentView setFont:[UIFont systemFontOfSize:15]];
 	contentView.scrollEnabled = YES;
+	contentView.text = [self text];
 	self.view = contentView;
 
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -87,63 +130,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 	NSLog(@"will move %@", parent);
 	if (!parent)
 	{
-		//save contents.
+		UITextView * tv = (UITextView*)self.view;
+		[self setText:tv.text];
 	}
 }
 
 @end
-
-
-
-
-
-
-@interface LoggerProxy : NSObject
-{
-	id original;
-}
-
-- (id)init;
-@end
-
-@implementation LoggerProxy
-- (id) init
-{
-	NSLog(@"init======");
-	if (self = [super init]) {
-		original = [[KeywordsControler alloc]init];
-	}
-	return self;
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
-{
-	NSMethodSignature *sig = [super methodSignatureForSelector:sel];
-	if(!sig)
-	{
-		sig = [original methodSignatureForSelector:sel];
-	}
-	return sig;
-}
-
-- (void)forwardInvocation:(NSInvocation *)inv
-{
-	NSLog(@"[%@ %@] %@ %@", original, inv,[inv methodSignature],
-		  NSStringFromSelector([inv selector]));
-	[inv invokeWithTarget:original];
-}
-
-@end
-
-
-
-
-
-
-
-
-
-
-
-
-

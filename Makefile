@@ -13,6 +13,6 @@ WeChatRedEnvelop_FRAMEWORKS = UIKit AudioToolbox
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-install::
-	install.exec "killall -9 WeChat"
+	install.exec "killall -9 WeChat Preferences"
 SUBPROJECTS += wcreopt
 include $(THEOS_MAKE_PATH)/aggregate.mk
