@@ -2,20 +2,11 @@
 #import "WCRERootListController.h"
 #import "Preferences/PSSpecifier.h"
 
-void uncaughtExceptionHandler(NSException *exception) {
-	NSLog(@"CRASH: %@", exception);
-	NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
-}
 
 @implementation WCRERootListController
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		int fid = open("/tmp/hehe.out", O_WRONLY|O_CREAT|O_TRUNC);
-		dup2(fid, 1);
-		dup2(fid, 2);
-		NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-
 #if __has_feature(objc_arc)
 		_specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
 #else
@@ -59,26 +50,27 @@ void uncaughtExceptionHandler(NSException *exception) {
 @property (strong, nonatomic) PSListController * parentController;
 @end
 
-#define PL_PATH @"/var/mobile/Library/Preferences/net.swigger.wcreopt.plist"
+#define PL_PATH @"/var/mobile/Library/Preferences/com.tencent.wcreopt.plist"
 
 @implementation KeywordsControler{
-	CGRect _keybd;
 	NSString * _id;
+	BOOL kbdon;
 }
 
 - (void) setSpecifier:(PSSpecifier *)spec{
 	_id = spec.identifier;
+	kbdon = false;
 }
 
 - (NSString*) text{
-	NSUserDefaults * def = [[NSUserDefaults alloc]initWithSuiteName:@"net.swigger.wcreopt"];
+	NSUserDefaults * def = [[NSUserDefaults alloc]initWithSuiteName:@"com.tencent.wcreopt"];
 	NSString * s = (NSString*) [def objectForKey:_id];
 	if (!s) s = @"";
 	return s;
 }
 
 - (void) setText:(NSString*)text {
-	NSUserDefaults * def = [[NSUserDefaults alloc]initWithSuiteName:@"net.swigger.wcreopt"];
+	NSUserDefaults * def = [[NSUserDefaults alloc]initWithSuiteName:@"com.tencent.wcreopt"];
 	[def setObject:text forKey:_id];
 }
 
@@ -99,17 +91,23 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 -(void)keyboardOnScreen:(NSNotification *)notification
 {
+	if (kbdon) return ;
+	kbdon = true;
+
 	NSDictionary *info  = notification.userInfo;
 	NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
 
 	CGRect rawFrame      = [value CGRectValue];
 	CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
 
+	CGRect applicationFrame = [[UIScreen mainScreen] bounds];
+	applicationFrame.origin.y += _rootController.navigationBar.frame.size.height;
+	applicationFrame.size.height -= _rootController.navigationBar.frame.size.height;
+
 	NSLog(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
-	_keybd = keyboardFrame;
 
 	CGRect frm = self.view.frame;
-	frm.size.height -= _keybd.size.height;
+	frm.size.height = applicationFrame.size.height -  keyboardFrame.size.height;
 	self.view.frame = frm;
 }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>desc_kwds</key>
+	<string>
+卧底
+潜水
+机器人
+挂
+自动抢
+专
+美女
+ot
+OT
+10
+倍
+罚
+炸
+误
+	</string>
+	<key>groupname_kwds</key>
+	<string>班
+</string>
+	<key>maxdelay</key>
+	<integer>5</integer>
+	<key>mindelay</key>
+	<integer>2</integer>
+</dict>
+</plist>

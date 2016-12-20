@@ -70,17 +70,42 @@ void dumpi(const char * name, uint64_t code)
 	send_log(msg);
 }
 
-void soundAlert()
+int soundAlert()
 {
 	static SystemSoundID sndid = 0;
 	if (sndid == 0)
 	{
 		NSString * sndPath = [[NSBundle mainBundle] pathForResource:@"hongbao" ofType:@"mp3"];
+		if (!sndPath) return -1;
 		NSURL *pewPewURL = [NSURL fileURLWithPath:sndPath];
 		OSStatus st = AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &sndid);
 		(void)st;
 	}
-	AudioServicesPlaySystemSound(sndid);
+	if (sndid)
+		return AudioServicesPlaySystemSound(sndid), 0;
+	return -2;
+}
+
+void uncaughtExceptionHandler(NSException *exception)
+{
+	NSLog(@"CRASH: %@", exception);
+	NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+}
+
+void testall()
+{
+	static int w = 0;
+	if (w == 0)
+	{
+		w = 1;
+		const char * fn = "/var/hehe.out";
+		int fid = open(fn, O_WRONLY|O_CREAT|O_TRUNC);
+		sl_printf("open: %s: %d %s\n", fn, fid, strerror(errno));
+		dup2(fid, 1);
+		dup2(fid, 2);
+		sl_printf("write: %d\n", write(fid, "hello\n", 6 ));
+		NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+	}
 }
 
 

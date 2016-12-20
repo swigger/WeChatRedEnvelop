@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>wcreopt</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.swigger.wcreopt</string>
+	<string>com.tencent.wcreopt</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>

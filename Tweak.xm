@@ -1,19 +1,33 @@
 #import "WeChatRedEnvelop.h"
 #import "Debug.h"
 #import "info.h"
+#include <sys/stat.h>
 
-unsigned int yb_delayTime = 5;
-BOOL yb_shouldStart = YES;
-long yb_cellNumber = -9999;
+#define PL_PATH "/private/var/mobile/Library/Preferences/com.tencent.wcreopt.plist"
 
+NSMutableDictionary * loadSettings()
+{
+	static int64_t timeid = -1;
+	static NSMutableDictionary * oldinfo;
+	struct stat st = {0};
+	stat(PL_PATH, &st);
+
+	if (timeid != st.st_mtimespec.tv_sec || oldinfo == 0)
+	{
+		NSMutableDictionary * dic = [[NSMutableDictionary alloc]initWithContentsOfFile:@PL_PATH];
+		oldinfo = dic;
+		timeid = st.st_mtimespec.tv_sec;
+		return dic;
+	}
+	return oldinfo;
+}
 
 %hook CMessageMgr
 - (void)AsyncOnAddMsg:(NSString *)msg MsgWrap:(CMessageWrap *)wrap {
 	%orig;
-	
+
 	static char ssig[300];
 	ssig[0] = 0;
-	float delayTime = (float)arc4random_uniform(yb_delayTime) + 1.0;
 	int msgType = wrap.m_uiMessageType;
 
 	CContactMgr *contactManager = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("CContactMgr") class]];
@@ -35,7 +49,9 @@ long yb_cellNumber = -9999;
 	if ([wrap.m_nsFromUsr rangeOfString:@"@chatroom"].location == NSNotFound)
 		return; //只抢群里的红包
 
-	if (!yb_shouldStart)
+	NSDictionary * ss =  loadSettings();
+	NSObject * en = [ss objectForKey:@"enabled"];
+	if (en && [(NSNumber*)en intValue] == 0)
 	{
 		sl_printf("设置了不抢红包\n");
 		soundAlert();
@@ -55,10 +71,15 @@ long yb_cellNumber = -9999;
 			snprintf(ssig, sizeof(ssig), "[%s/%s]", ctname ? [ctname UTF8String] : "",
 											  sndername ? [sndername UTF8String] : "");
 		}
+
+		NSString * gnkwds = (NSString*)[ss objectForKey:@"groupname_kwds"];
+		if (!gnkwds)gnkwds = @"";
+		NSString * desckwds = (NSString*)[ss objectForKey:@"desc_kwds"];
+		if (!desckwds)desckwds = @"专\n外挂";
+
 		if (ctname)
 		{
-			DUMP(ctname);
-			if (need_skip([ctname UTF8String]))
+			if (need_skip([ctname UTF8String], [gnkwds UTF8String]))
 			{
 				sl_printf("%s 此群不抢了\n", ssig);
 				soundAlert();
@@ -66,12 +87,26 @@ long yb_cellNumber = -9999;
 			}
 		}
 		// 特定的文字不抢。
-		if (dont_open([wrap.m_nsContent UTF8String]))
+		if (dont_open([wrap.m_nsContent UTF8String], [desckwds UTF8String]))
 		{
 			sl_printf("%s 此红包不抢了\n", ssig);
 			soundAlert();
 			return;
 		}
+	}
+
+	float delayTime =  0.0;
+	{
+		//计算时间
+		NSNumber * mindelay = [ss objectForKey:@"mindelay"];
+		uint32_t a = mindelay ? [mindelay intValue] : 1;
+		NSNumber * maxdelay = [ss objectForKey:@"maxdelay"];
+		uint32_t b = maxdelay ? [maxdelay intValue] : 1;
+		if (b<a)b=a;
+		delayTime = arc4random_uniform(b-a+1)+a;
+		if (a==b) delayTime = a;
+
+		sl_printf("延时信息 [%d, %d]=>%f", a, b, delayTime);
 	}
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -96,63 +131,5 @@ long yb_cellNumber = -9999;
 }
 %end
 
-%hook SettingPluginsViewController
-- (long long)tableView:(id)arg1 numberOfRowsInSection:(long long)arg2{
-	if (arg2 == 0) {
-		yb_cellNumber = %orig ;
-		return %orig + 1; 
-	} //帮第一组加一行 其他的不处理
-	return %orig;
-}
-
-- (id)tableView:(UITableView *)arg1 cellForRowAtIndexPath:(NSIndexPath *)arg2{
-	if (arg2.section != 0) {return %orig;} // 非第一组直接返回
-	//判断是否是自己添加多出来的那一行
-	if (arg2.row != yb_cellNumber)  {return %orig;} 
-
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SettingPluginsViewController"];
-    // cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LuckyMoney_RoundBtn@2x" ofType:@"png"]];
-    cell.textLabel.text = @"          自动抢红包";
-    [cell.textLabel setFont:[UIFont systemFontOfSize:17]];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.contentView.backgroundColor = [UIColor whiteColor];
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	if (indexPath.section != 0) {return %orig;} // 非第一组直接返回
-	//判断是否是自己添加多出来的那一行
-	if (indexPath.row != yb_cellNumber) {return %orig;}
-
-
-	UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"是否开启自动抢红包"  message:nil preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"终止" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-               yb_shouldStart = NO;
-    }];
-    
-    UIAlertAction *beginAction = [UIAlertAction actionWithTitle:@"开始" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-               yb_shouldStart = YES;
-               yb_delayTime = 0;
-    }];
-    
-    UIAlertAction *delay10SecsAction = [UIAlertAction actionWithTitle:@"5秒内开抢" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-               yb_shouldStart = YES;
-               yb_delayTime = 5;
-    }];
-    
-    UIAlertAction *delay30SecsAction = [UIAlertAction actionWithTitle:@"30秒内开抢" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-               yb_shouldStart = YES;
-               yb_delayTime = 30;
-    }];
-
-    [alertVc addAction:beginAction];
-    [alertVc addAction:delay10SecsAction];
-    [alertVc addAction:delay30SecsAction];
-	[alertVc addAction:cancelAction];
-	[[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVc animated:YES completion:nil];
-}
-
-%end
 
 //" vim: filetype=logos

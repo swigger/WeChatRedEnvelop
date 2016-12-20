@@ -14,9 +14,10 @@ extern "C"{
 #endif
 	
 	void dumpi(const char * s, uint64_t code);
-	void soundAlert(void);
+	int soundAlert(void);
 	
 	void sl_printf(const char * fmt, ...);
+	void testall();
 
 #ifdef __cplusplus
 }
