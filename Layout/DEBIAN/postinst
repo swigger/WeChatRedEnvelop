@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "installed"
+killall -9 WeChat Preferences
+[ -e /var/mobile/Library/Preferences/com.tencent.wcreopt.plist ] || cp /var/root/com.tencent.wcreopt.plist /var/mobile/Library/Preferences/ 

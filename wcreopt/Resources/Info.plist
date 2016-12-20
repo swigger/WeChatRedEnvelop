@@ -6,6 +6,8 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>wcreopt</string>
+	<key>CFBundleName</key>
+	<string>微信抢红包</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.tencent.wcreopt</string>
 	<key>CFBundleInfoDictionaryVersion</key>

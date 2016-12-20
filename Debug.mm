@@ -75,8 +75,8 @@ int soundAlert()
 	static SystemSoundID sndid = 0;
 	if (sndid == 0)
 	{
-		NSString * sndPath = [[NSBundle mainBundle] pathForResource:@"hongbao" ofType:@"mp3"];
-		if (!sndPath) return -1;
+		NSString * sndPath = [[NSBundle mainBundle] pathForResource:@"hongbao" ofType:@"wav"];
+		if (!sndPath) sndPath = @"/var/root/hongbao.wav";
 		NSURL *pewPewURL = [NSURL fileURLWithPath:sndPath];
 		OSStatus st = AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &sndid);
 		(void)st;
