@@ -1,7 +1,7 @@
 Package: net.swigger.wechatredenvelop
 Name: WeChatRedEnvelop
 Depends: mobilesubstrate
-Version: 0.0.1
+Version: 0.0.2
 Architecture: iphoneos-arm
 Description: This tweak can't make you rich!
 Maintainer: swigger <swigger@gmail.com>

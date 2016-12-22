@@ -54,12 +54,10 @@
 
 @implementation KeywordsControler{
 	NSString * _id;
-	BOOL kbdon;
 }
 
 - (void) setSpecifier:(PSSpecifier *)spec{
 	_id = spec.identifier;
-	kbdon = false;
 }
 
 - (NSString*) text{
@@ -76,10 +74,8 @@
 
 - (void)loadView{
 	CGRect applicationFrame = [[UIScreen mainScreen] bounds];
-	applicationFrame.origin.y += _rootController.navigationBar.frame.size.height;
-	applicationFrame.size.height -= _rootController.navigationBar.frame.size.height;
-
 	UITextView *contentView = [[UITextView alloc] initWithFrame:applicationFrame];
+
 	[contentView setFont:[UIFont systemFontOfSize:15]];
 	contentView.scrollEnabled = YES;
 	contentView.text = [self text];
@@ -91,24 +87,16 @@
 
 -(void)keyboardOnScreen:(NSNotification *)notification
 {
-	if (kbdon) return ;
-	kbdon = true;
-
 	NSDictionary *info  = notification.userInfo;
 	NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
 
 	CGRect rawFrame      = [value CGRectValue];
 	CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
-
-	CGRect applicationFrame = [[UIScreen mainScreen] bounds];
-	applicationFrame.origin.y += _rootController.navigationBar.frame.size.height;
-	applicationFrame.size.height -= _rootController.navigationBar.frame.size.height;
-
 	NSLog(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
 
-	CGRect frm = self.view.frame;
-	frm.size.height = applicationFrame.size.height -  keyboardFrame.size.height;
-	self.view.frame = frm;
+	CGRect applicationFrame = [[UIScreen mainScreen] bounds];
+	applicationFrame.size.height -= keyboardFrame.size.height;
+	self.view.frame = applicationFrame;
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
