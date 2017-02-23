@@ -30,7 +30,8 @@ NSMutableDictionary * loadSettings()
 	ssig[0] = 0;
 	int msgType = wrap.m_uiMessageType;
 
-	CContactMgr *contactManager = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("CContactMgr") class]];
+	MMServiceCenter * center = (MMServiceCenter*)[objc_getClass("MMServiceCenter") defaultCenter];
+	CContactMgr *contactManager = [center getService:[objc_getClass("CContactMgr") class]];
 	CContact *selfContact = [contactManager getSelfContact];
 
 	if (msgType != 49) return;
@@ -124,7 +125,8 @@ NSMutableDictionary * loadSettings()
 		params[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
 		params[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
 
-		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
+		MMServiceCenter * center = (MMServiceCenter*)[objc_getClass("MMServiceCenter") defaultCenter];
+		WCRedEnvelopesLogicMgr *logicMgr = [center getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
 		sl_printf("%s 打开红包！！延时%lf秒", ssig, (double) delayTime);
 		[logicMgr OpenRedEnvelopesRequest:params];
     });
