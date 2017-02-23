@@ -1,122 +1,101 @@
 #pragma once
-@protocol IAcctStorageMgrExt;
 @protocol IAppMsgPathMgr;
-@protocol IBrandAttrMgrExt;
-@protocol IContactProfileMgrExt;
-@protocol IMMLanguageMgrExt;
 @protocol IMsgExtendOperation;
-@protocol IStrangerContactMgrExt;
-@protocol ISysNewXmlMsgExtendOperation;
-@protocol MMDBRRepairerExt;
-@protocol MessageObserverDelegate;
-@protocol NSCoding;
-@protocol NSCopying;
-@protocol PBCoding;
-@protocol PBMessageObserverDelegate;
-@protocol RecoverCustomDataWorker;
-@protocol WCDBCoding;
-@protocol WCDBCorruptReportInterface;
 @protocol WCDBHandleWrapProtocol;
-@protocol WCDBHandlesPoolProtocol;
-@protocol WCDBRestoreProtocol;
-@protocol WCDataBaseEventDelegate;
-@protocol WCRedEnvelopesNetworkHelperDelegate;
-@class WCPayInfoItem;
-@class EmoticonSharedItem;
-@class AppTVItem;
-@class AppProductItem;
-@class EmotionDesignerSharedItem;
-@class WAAppPackageInfo;
-@class EmotionPageSharedItem;
-@class AppInnerJumpItem;
-@class WAAppMsgItem;
-@class MallProductItem;
-@class CardTicketItem;
-@class MessageExpItem;
-@class SnsObjItem;
-@class iWatchAppMsgItem;
-@class HardWareItem;
-@class MMObject;
-@class WCDBRWLock;
 @class WCDataBase;
 @class WCDataBaseTable;
-@class WXPBGeneratedMessage;
-@class MMTimer;
-@class MMService;
 @class WCDBHandlesPool;
-@class WCDBCorruptReport;
 @class WCDBHandleWrap;
-@class GiftCardItem;
-@class MMWCPushInfo;
-@class WCRedEnvelopesLogicMgr;
-@class ContactUpdateHelper;
-@class WCRedEnvelopesNetworkHelper;
-@class RecoverDataItem;
-@class PushMailWrap;
-@class FavLocationItem;
-@class FavURLItem;
-@class FavProductItem;
-@class FavTVItem;
-@class FavWeAppItem;
-@class FavoritesItem;
-@class MMAsset;
 @class CContactDB;
-@class CContactOPLog;
 @class CMessageWrap;
-@class CBaseContact;
-@class SubscriptBrandInfo;
-@class ChatRoomDetail;
-@class CContact;
-@class CQQContact;
-@class WANewYearContactInfo;
 @class NewContactDB;
-@class VideoParamsInfo;
-@class VideoParamsSource;
-@class VideoUploadStatInfo;
-@class ChatRoomData;
 @class CContactMgr;
 @class CMessageDB;
 @class CMMDB;
-@class ImageInfo;
-@class UrlInfo;
-@class ProtobufCGIWrap;
 @class OpLogDB;
-@class WCCanvasPageItem;
-@class BaseRequest;
-@class BaseResponse;
-@class SKBuiltinBuffer_t;
-@class SKBuiltinString_t;
-@class AsyncBizSubscribeRequest;
-@class AsyncBizSubscribeResponse;
-@class HongBaoReq;
-@class HongBaoRes;
-@class FestivalHongBaoReq;
-@class FestivalHongBaoRes;
-@class NSError;
-@class NSMutableDictionary;
-@class NSURL;
-@class NSTimer;
-@class NSDate;
-@class NSThread;
-@class NSMutableArray;
-@class NSData;
-@class UIImage;
-@class NSArray;
-@class NSDictionary;
-@class NSString;
-@class NSObject;
-typedef void (^CDUnknownBlockType)(void); // return type and parameters are unknown
-struct WCDBConditionBase {
-    _Bool _field1;
-};
 struct basic_string_;
 struct vector_;
 struct map_;
 struct set_;
 
-@interface MMObject : NSObject
-{
-}
+typedef void (^CDUnknownBlockType)(void); // return type and parameters are unknown
+
+
+@interface NSError (SimpleConstructor)
++ (_Bool)clearError:(id *)arg1;
++ (_Bool)fillError:(id *)arg1 withDomain:(id)arg2 code:(long long)arg3 description:(id)arg4;
++ (id)errorWithDomain:(id)arg1 code:(long long)arg2 description:(id)arg3;
+@end
+
+@interface NSMutableDictionary (KSSafeCollections)
+- (void)safeSetValue:(id)arg1 forKey:(id)arg2;
+- (void)setValueIfNotNil:(id)arg1 forKey:(id)arg2;
+- (void)safeSetObject:(id)arg1 forKey:(id)arg2;
+- (void)setObjectIfNotNil:(id)arg1 forKey:(id)arg2;
+@end
+
+@interface NSURL (EncodeUrl)
++ (id)safeUrlWithString:(id)arg1;
+@end
+
+@interface NSDate (dateFormatHelper)
++ (int)getNongliDayOfToday;
++ (void)printNongliDateOfYear:(int)arg1 andMonth:(int)arg2 andDay:(int)arg3;
++ (int)getHourOfToday;
+@end
+
+@interface NSThread (ThreadGetIndex)
+- (long long)getThreadNum;
+@end
+
+@interface NSMutableArray (Number)
+- (void)removeNumberIdenticalTo:(id)arg1;
+- (unsigned long long)messageWrapIndexOfNumberIdenticalTo:(id)arg1;
+@end
+
+@interface NSData (WXCBase64Addtion)
++ (id)decodeWebSafeBase64ForString:(id)arg1;
++ (id)decodeBase64ForString:(id)arg1;
+- (id)encodeWebSafeBase64ForData;
+- (id)encodeBase64ForData;
+@end
+
+@interface UIImage (MMCellBackgroundImage)
++ (id)imageWithBackgroundImage:(id)arg1 andPosition:(int)arg2;
++ (id)getImageWithBackgroundImage:(id)arg1 WithRect:(struct CGRect)arg2;
++ (int)getScreenScale;
+@end
+
+@interface NSArray (Swizzle)
++ (void)swizzleReplaceObjectAtIndexWithObject:(Class)arg1;
++ (void)swizzleRemoveObjectAtIndex:(Class)arg1;
++ (void)swizzleInsertObjectAtIndex:(Class)arg1;
++ (void)swizzleAddObject:(Class)arg1;
++ (void)swizzleObjectAtIndex:(Class)arg1;
++ (void)swizzleInitWithObjectsCount:(Class)arg1;
++ (void)load;
+@end
+
+@interface NSDictionary (Swizzle)
++ (void)swizzleRemoveObjectForKey:(Class)arg1;
++ (void)swizzleSetObjectForKeyedSubscript:(Class)arg1;
++ (void)swizzleSetObjectForKey:(Class)arg1;
++ (void)swizzleInitWithObjectsForKeysCount:(Class)arg1;
++ (void)swizzleObjectForKeyedSubscript:(Class)arg1;
++ (void)swizzleInitWithObjectsForKeys:(Class)arg1;
++ (void)load;
+@end
+
+@interface NSString (Emoji)
++ (id)changeEmoji2Text:(id)arg1;
++ (_Bool)isContainEmoji:(id)arg1;
++ (_Bool)isEmoji:(id)arg1;
+- (id)emojiUnifiedString;
+@end
+
+@interface NSObject (JPFix)
++ (void)jp_fixMethodSignature;
+- (id)jp_methodSignatureForSelector:(SEL)arg1;
 @end
 
 @protocol IAcctStorageMgrExt <NSObject>
@@ -126,84 +105,16 @@ struct set_;
 - (void)onSettingChange;
 @end
 
-@protocol IAppMsgPathMgr <NSObject>
-
-@optional
-+ (void)GetPathOfAppRemindAttach:(CMessageWrap *)arg1 retStrPath:(id *)arg2;
-+ (void)GetPathOfAppThumb:(NSString *)arg1 LocalID:(unsigned int)arg2 retStrPath:(id *)arg3;
-+ (void)GetPathOfMaskedAppThumb:(NSString *)arg1 LocalID:(unsigned int)arg2 retStrPath:(id *)arg3;
-+ (void)GetPathOfAppDataTemp:(NSString *)arg1 LocalID:(unsigned int)arg2 retStrPath:(id *)arg3;
-+ (void)GetPathOfAppDataTemp:(NSString *)arg1 LocalID:(unsigned int)arg2 AttachId:(NSString *)arg3 retStrPath:(id *)arg4;
-+ (void)GetPathOfAppDataByUserName:(NSString *)arg1 andMessageWrap:(CMessageWrap *)arg2 retStrPath:(id *)arg3;
-+ (void)GetPathOfAppDataByUserName:(NSString *)arg1 andMessageWrap:(CMessageWrap *)arg2 andAttachId:(NSString *)arg3 andAttachFileExt:(NSString *)arg4 retStrPath:(id *)arg5;
-+ (void)GetPathOfAppData:(NSString *)arg1 LocalID:(unsigned int)arg2 FileExt:(NSString *)arg3 retStrPath:(id *)arg4;
-+ (void)GetPathOfAppDir:(NSString *)arg1 retStrPath:(id *)arg2;
-@end
-
 @protocol IBrandAttrMgrExt
 
 @optional
 - (void)onBrandContactModified:(NSString *)arg1 withAttrChanged:(NSDictionary *)arg2;
 @end
 
-@protocol IContactProfileMgrExt
-
-@optional
-- (void)DidGetQQContactProfile:(CQQContact *)arg1 withImage:(_Bool)arg2;
-@end
-
 @protocol IMMLanguageMgrExt <NSObject>
 
 @optional
 - (void)onLanguageChange;
-@end
-
-@protocol IMsgExtendOperation <NSObject>
-@property(retain, nonatomic) CMessageWrap *m_refMessageWrap;
-- (id)copy;
-
-@optional
-- (NSString *)GetDisplaySessionContent;
-- (NSString *)GetDisplayContent;
-- (void)UpdateMassSendContent:(NSString *)arg1;
-- (_Bool)genImageFromMMAssetAndNotify:(id)arg1;
-- (_Bool)IsHDImg;
-- (void)setImage:(UIImage *)arg1 withImageInfo:(ImageInfo *)arg2 isLongOriginImage:(_Bool)arg3;
-- (void)setImage:(UIImage *)arg1 withData:(NSData *)arg2 withImageInfo:(ImageInfo *)arg3 isLongOriginImage:(_Bool)arg4;
-- (void)setImage:(UIImage *)arg1 withData:(NSData *)arg2 isLongOriginImage:(_Bool)arg3;
-- (void)setImage:(UIImage *)arg1 isLongOriginImage:(_Bool)arg2;
-- (void)SetOriginal:(_Bool)arg1;
-- (unsigned int)GetContentAttributeBitSetFlag;
-- (_Bool)GetDownloadThumbStatus:(unsigned int *)arg1;
-- (_Bool)isShowAppMessageBlockButton;
-- (_Bool)isShowAppBottomButton;
-- (unsigned int)GetPreviewType;
-- (NSString *)getFileExt;
-- (void)UpdateVideoStatus:(CMessageDB *)arg1;
-- (void)SetPlaySounded:(_Bool)arg1;
-- (_Bool)IsPlaySounded;
-- (_Bool)IsRecording;
-- (void)SetPlayed;
-- (_Bool)IsDownloadEnded;
-- (_Bool)IsUnPlayed;
-- (_Bool)SaveMesVoice:(NSString *)arg1;
-- (NSString *)GetDownloadThumbPath;
-- (NSString *)GetThumbPath;
-- (void)ChangeForBackup;
-- (void)UpdateGameInfo:(NSString *)arg1;
-- (NSString *)GetGameStatReportString;
-- (NSString *)GetContent;
-- (void)UpdateContent:(NSString *)arg1;
-- (void)ChangeForDisplayAnyhow;
-- (void)ChangeForDisplay;
-@end
-
-@protocol IStrangerContactMgrExt <NSObject>
-
-@optional
-- (void)onStrangerContactUpdateForbidden:(NSString *)arg1;
-- (void)onStrangerContactUpdated:(NSString *)arg1 Contact:(CContact *)arg2;
-- (void)onStrangerContactUpdated:(NSArray *)arg1;
 @end
 
 @protocol ISysNewXmlMsgExtendOperation <NSObject>
@@ -227,35 +138,9 @@ struct set_;
 - (void)MessageReturn:(unsigned int)arg1 MessageInfo:(NSDictionary *)arg2 Event:(unsigned int)arg3;
 @end
 
-
 @protocol PBCoding <NSObject>
 - (const map_ *)getValueTagIndexMap;
 - (NSArray *)getValueTypeTable;
-@end
-
-@protocol PBMessageObserverDelegate
-- (void)MessageReturn:(ProtobufCGIWrap *)arg1 Event:(unsigned int)arg2;
-@end
-
-@protocol RecoverCustomDataWorker
-- (void)willCustomRecoverData:(RecoverDataItem *)arg1 path:(NSString *)arg2 needCatch:(_Bool *)arg3;
-@end
-
-@protocol WCDBCoding <PBCoding>
-+ (id)dummyObject;
-+ (const map_ *)getValueNameIndexMap;
-+ (NSArray *)getValueTable;
-@property(nonatomic) long long __rowID;
-
-@optional
-+ (NSDictionary *)getWCDBTableHelperDictionary;
-+ (const map_ *)getFileValueTagIndexMap;
-+ (NSArray *)getFileValueTypeTable;
-+ (const map_ *)getPackedValueTagIndexMap;
-+ (NSArray *)getPackedValueTypeTable;
-+ (const basic_string_ *)getWCDBPrimaryColumnName;
-+ (const struct WCDBIndexHelper *)getWCDBIndexArray;
-+ (unsigned long long)getWCDBIndexArrayCount;
 @end
 
 @protocol WCDBCorruptReportInterface <NSObject>
@@ -264,10 +149,6 @@ struct set_;
 
 @optional
 - (void)directReportCorrupt:(int)arg1 tableName:(NSString *)arg2 opType:(unsigned int)arg3;
-@end
-
-@protocol WCDBHandleWrapProtocol <NSObject>
-- (void)handleWrapWillEnd:(WCDBHandleWrap *)arg1;
 @end
 
 @protocol WCDBHandlesPoolProtocol <NSObject>
@@ -291,17 +172,625 @@ struct set_;
 - (void)onTransactionRollback;
 @end
 
-@protocol WCRedEnvelopesNetworkHelperDelegate <NSObject>
-- (void)OnWCToAsyncBizSubscribeResponse:(AsyncBizSubscribeResponse *)arg1 Request:(AsyncBizSubscribeRequest *)arg2;
-- (void)OnWCToBizHBCommonErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
-- (void)OnWCToBizHBCommonSystemErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
-- (void)OnWCToBizHBCommonResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
-- (void)OnWCToEnterpriseHBCommonErrorResponse:(FestivalHongBaoRes *)arg1 Request:(FestivalHongBaoReq *)arg2;
-- (void)OnWCToEnterpriseHBCommonSystemErrorResponse:(FestivalHongBaoRes *)arg1 Request:(FestivalHongBaoReq *)arg2;
-- (void)OnWCToEnterpriseHBCommonResponse:(FestivalHongBaoRes *)arg1 Request:(FestivalHongBaoReq *)arg2;
-- (void)OnWCToHongbaoCommonErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
-- (void)OnWCToHongbaoCommonSystemErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
-- (void)OnWCToHongbaoCommonResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+@interface AppTVItem : NSObject
+{
+    NSString *tvInfo;
+}
+
++ (void)initialize;
+@property(retain, nonatomic) NSString *tvInfo; // @synthesize tvInfo;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)toXML;
+- (void)dealloc;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+@end
+
+@interface EmotionDesignerSharedItem : NSObject
+{
+    unsigned int designerUin;
+    NSString *oldRedirectUrl;
+    NSString *designerName;
+}
+
++ (void)initialize;
+@property(retain, nonatomic) NSString *designerName; // @synthesize designerName;
+@property(retain, nonatomic) NSString *oldRedirectUrl; // @synthesize oldRedirectUrl;
+@property(nonatomic) unsigned int designerUin; // @synthesize designerUin;
+- (id)toXML;
+- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+@end
+
+@interface MMObject : NSObject
+{
+}
+
+@end
+
+@interface WCDBRWLock : NSObject
+{
+    NSCondition *m_locker;
+}
+
+- (void)dealloc;
+- (void)unlock:(unsigned long long)arg1;
+- (void)lock:(unsigned long long)arg1;
+- (_Bool)tryLockRead;
+- (id)init;
+
+@end
+
+@interface WXPBGeneratedMessage : NSObject
+{
+    int _has_bits_[3];
+    int _serializedSize;
+    struct PBClassInfo *_classInfo;
+    id *_ivarValueDict;
+}
+
++ (id)parseFromData:(id)arg1;
+- (_Bool)hasProperty:(int)arg1;
+- (unsigned int)continueFlag;
+- (id)baseResponse;
+- (void)setBaseRequest:(id)arg1;
+- (void)writeValueToCodedOutputDataNoTag:(struct CodedOutputData *)arg1 value:(id)arg2 fieldType:(unsigned char)arg3;
+- (void)writeValueToCodedOutputData:(struct CodedOutputData *)arg1 value:(id)arg2 fieldNumber:(int)arg3 fieldType:(unsigned char)arg4;
+- (void)writeToCodedOutputData:(struct CodedOutputData *)arg1;
+- (int)computeValueSizeNoTag:(id)arg1 fieldType:(unsigned char)arg2;
+- (int)computeValueSize:(id)arg1 fieldNumber:(int)arg2 fieldType:(unsigned char)arg3;
+- (int)serializedSize;
+- (id)serializedData;
+- (_Bool)isInitialized;
+- (_Bool)isMessageInitialized:(id)arg1;
+- (id)readValueFromCodedInputData:(struct CodedInputData *)arg1 fieldType:(unsigned char)arg2;
+- (id)mergeFromCodedInputData:(struct CodedInputData *)arg1;
+- (id)mergeFromData:(id)arg1;
+- (id)valueAtIndex:(int)arg1;
+- (void)setValue:(id)arg1 atIndex:(int)arg2;
+- (int)indexOfPropertyWithSetter:(const char *)arg1;
+- (int)indexOfPropertyWithGetter:(const char *)arg1;
+- (void)dealloc;
+- (id)init;
+
+@end
+
+@interface MMService : NSObject
+{
+    _Bool m_isServiceRemoved;
+    _Bool m_isServicePersistent;
+}
+
+@property _Bool m_isServicePersistent; // @synthesize m_isServicePersistent;
+@property _Bool m_isServiceRemoved; // @synthesize m_isServiceRemoved;
+
+@end
+
+@interface MMServiceCenter : NSObject
+{
+    NSMutableDictionary *m_dicService;
+    NSRecursiveLock *m_lock;
+}
+
++ (id)defaultCenter;
+- (void)callClearData;
+- (void)callReloadData;
+- (void)callServiceMemoryWarning;
+- (void)callTerminate;
+- (void)callEnterBackground;
+- (void)callEnterForeground;
+- (void)removeService:(Class)arg1;
+- (id)getService:(Class)arg1;
+- (void)dealloc;
+- (id)init;
+
+@end
+
+@interface WCDBCorruptReport : NSObject
+{
+    _Bool m_hasDirectReport;
+    unsigned int m_corruptNum;
+}
+
+@property _Bool m_hasDirectReport; // @synthesize m_hasDirectReport;
+@property unsigned int m_corruptNum; // @synthesize m_corruptNum;
+- (void)reportCorruptOnMainThread:(id)arg1;
+- (void)ClearCorruptNumWithDBID:(unsigned int)arg1;
+- (void)DirectReportCorruptWithDBID:(unsigned int)arg1 dbObject:(id)arg2 dbPath:(id)arg3 errorCode:(unsigned int)arg4 important:(_Bool)arg5;
+- (void)RecordCorruptWithDBID:(unsigned int)arg1 dbObject:(id)arg2 dbPath:(id)arg3 errorCode:(unsigned int)arg4 important:(_Bool)arg5;
+
+@end
+
+@interface WCBizUtil : NSObject
+{
+}
+
++ (id)getActionLocation;
++ (void)reportLocationAlert:(int)arg1 type:(int)arg2;
++ (id)parseRealnameGuideInfo:(id)arg1 alertViewScene:(int)arg2;
++ (void)logRealnameAction:(int)arg1;
++ (id)getBankResource:(id)arg1;
++ (void)logBannerUserAction:(int)arg1 bannerType:(int)arg2;
++ (void)playCoinSound;
++ (void)bizReportBannerUserAction:(int)arg1 bannType:(int)arg2;
++ (id)GetWCBizMainWindow;
++ (void)SetWCBizMainWindow:(id)arg1;
++ (void)ClearWCBizMainWindow;
++ (id)getTempFullPathOfYearHBImageForSender:(id)arg1;
++ (id)getFullPathOfYearHBImageWithFileId:(id)arg1 userName:(id)arg2;
++ (id)imageWithColor:(id)arg1;
++ (unsigned int)convertTenpayCmdIdToNewCGI:(unsigned int)arg1 payScene:(unsigned int)arg2;
++ (id)convertCGIEnumToString:(unsigned int)arg1;
++ (void)logOfflinePayGetToken:(int)arg1;
++ (void)logUserAction:(int)arg1;
++ (_Bool)validateUrl:(id)arg1;
++ (void)logLoanMoneyAction:(int)arg1;
++ (void)logTransferAction:(int)arg1;
++ (id)feeSymbolFromType:(id)arg1;
++ (id)feeTextFromType:(id)arg1 fee:(long long)arg2;
++ (_Bool)isEmptyKey:(id)arg1 inDictionary:(id)arg2;
++ (_Bool)isDomesticOrderWithMulitOrderDetail:(id)arg1;
++ (_Bool)isDomesticUserWithCardUserFlag:(unsigned int)arg1;
++ (_Bool)isOverseasUserWithCardUserFlag:(unsigned int)arg1;
++ (_Bool)isDomesticCardWithCardBankTag:(unsigned int)arg1;
++ (_Bool)isOverseasCardWithCardBankTag:(unsigned int)arg1;
++ (unsigned int)differntCharactorCountCompareString:(id)arg1 WithOriginalString:(id)arg2;
++ (id)getAddressBookTelphoneNumberDictionary;
++ (id)validWCMallPhoneNumber:(id)arg1;
++ (id)dictionaryWithDecodedComponets:(id)arg1 separator:(id)arg2;
++ (id)stringWithFormEncodedComponentsAscending:(id)arg1 ascending:(_Bool)arg2 skipempty:(_Bool)arg3 separator:(id)arg4;
++ (id)getWCBizLoginTitle:(id)arg1 MaxWidth:(double)arg2;
++ (id)getWCBizAuthTitle:(id)arg1 MaxWidth:(double)arg2;
++ (id)getTitleViewWithTitle:(id)arg1 SubTitle:(id)arg2 LandscapeMode:(_Bool)arg3 MaxWidth:(double)arg4;
++ (id)getTitleViewWithTitle:(id)arg1 LandscapeMode:(_Bool)arg2 MaxWidth:(double)arg3;
++ (id)getWCBizLoginTitle:(id)arg1 LandscapeMode:(_Bool)arg2 MaxWidth:(double)arg3;
++ (id)getWCBizAuthTitle:(id)arg1 LandscapeMode:(_Bool)arg2 MaxWidth:(double)arg3;
++ (id)getSaveStyleBarItemTitle:(id)arg1 target:(id)arg2 sel:(SEL)arg3;
++ (id)getWCFacingReceiveSettingDataPath;
++ (id)getWCPayCgiResponseCachePathWith:(id)arg1;
++ (id)getWCPayDigitalCrtPath;
++ (id)getWCPayRealnameWordingPath;
++ (id)getWCPayBankResourcePath;
++ (id)getWCPayPayManagePath;
++ (id)getWCRedEnvelopesLastRadomHBSelctedCountPath;
++ (id)getWCRedEnvelopesUserInfoPath;
++ (id)getWCMallFunctionListPath;
++ (id)getWCPayServerDynamicWordingPath;
++ (id)getFiltedTruthName:(id)arg1;
++ (id)getCreditCardHadViewFilePath;
++ (id)getWCAddressStageDataFilePath;
++ (id)getWCMallShowedInActivityCellProductId;
++ (id)getWCMallShowedBannerId;
++ (id)getWCMallShowedProductId;
++ (id)getWCMallShowedRedCodePath;
++ (id)getWCMallShowedNewPath;
++ (id)getWCMallTicketsListPath;
++ (id)getWCMallLatestActivityTipsPath;
++ (id)getWCMallTelephoneDictionaryPath;
++ (id)getWCMallTelephoneListPath;
++ (id)getWCAddressYiXunFilePath;
++ (id)getWCAddressFilePath;
++ (id)getWCPayLoanEntryInfoPath;
++ (id)getWCPayTransferedUserListPath;
++ (id)getWCPayNoticeInfoPath;
++ (id)getWCPayBalancePath;
++ (id)getWCPaySwitchInfoPath;
++ (id)getWCPayUserInfoPath;
++ (id)getWCPayCreditCardShowedNewInfoPath;
++ (id)getWCPayOfflinePayShowedNewInfoPath;
++ (id)getWCPayOfflinePayQueryUsrerInfoPath;
++ (id)getWCPayOfflinePayQueryInfoPath;
++ (id)getWCPayOfflinePayUserUinPath;
++ (id)getWCPayOfflinePayFreezeInfoPath;
++ (id)getWCPayOfflinePayDeviceIDPath;
++ (id)getWCPayOfflinePayCrtPath;
++ (id)getWCPayAvalibleCardBinInfoPath;
++ (id)getWCPayAllScenePayCardListPath;
++ (id)getWCPayPayCardListPath;
++ (id)getWCPaySettingPath;
++ (id)getWCBizImgCachedPath:(id)arg1;
++ (_Bool)isBindCardInfoFull:(id)arg1;
++ (id)getHeaderTipView:(id)arg1;
++ (id)getHeaderErrorTipView:(id)arg1;
++ (double)getFooterTipViewHeight:(id)arg1;
++ (id)getFooterTipView:(id)arg1;
++ (id)getFooterErrorTipView:(id)arg1;
++ (id)getStringFromBindCardInfo:(id)arg1;
++ (id)getCardTypeName:(id)arg1;
++ (_Bool)IsWCGroupPayAppServiceInPlane:(id)arg1;
++ (_Bool)IsWCRedEnvelopesAppServiceInPlane:(id)arg1;
++ (_Bool)IsWCPayTransferAppServiceInPlane:(id)arg1;
++ (unsigned char)GetWCPayVersion;
+
+@end
+
+@interface RecoverDataItem : NSObject
+{
+    unsigned int m_dataType;
+    unsigned int m_operationType;
+    NSString *m_nsDescription;
+    NSString *m_nsPath;
+}
+
+@property(retain, nonatomic) NSString *m_nsPath; // @synthesize m_nsPath;
+@property(nonatomic) unsigned int m_operationType; // @synthesize m_operationType;
+@property(nonatomic) unsigned int m_dataType; // @synthesize m_dataType;
+@property(retain, nonatomic) NSString *m_nsDescription; // @synthesize m_nsDescription;
+- (id)description;
+- (id)init;
+
+@end
+
+@interface PushMailWrap : NSObject <NSCopying>
+{
+    NSString *nsSender;
+    NSString *nsSenderAddress;
+    NSString *nsSubject;
+    NSString *nsDigest;
+    NSString *nsDate;
+    NSString *nsWapLink;
+    NSString *nsMailID;
+    NSString *nsAccount;
+    NSString *nsArgs;
+    unsigned long long uiUin;
+    _Bool bHasAttachment;
+    NSMutableArray *arrToList;
+    NSMutableArray *arrCCList;
+}
+
+@property(retain, nonatomic) NSMutableArray *arrCCList; // @synthesize arrCCList;
+@property(retain, nonatomic) NSMutableArray *arrToList; // @synthesize arrToList;
+@property(nonatomic) unsigned long long uiUin; // @synthesize uiUin;
+@property(nonatomic) _Bool bHasAttachment; // @synthesize bHasAttachment;
+@property(retain, nonatomic) NSString *nsArgs; // @synthesize nsArgs;
+@property(retain, nonatomic) NSString *nsAccount; // @synthesize nsAccount;
+@property(retain, nonatomic) NSString *nsMailID; // @synthesize nsMailID;
+@property(retain, nonatomic) NSString *nsWapLink; // @synthesize nsWapLink;
+@property(retain, nonatomic) NSString *nsDate; // @synthesize nsDate;
+@property(retain, nonatomic) NSString *nsDigest; // @synthesize nsDigest;
+@property(retain, nonatomic) NSString *nsSubject; // @synthesize nsSubject;
+@property(retain, nonatomic) NSString *nsSenderAddress; // @synthesize nsSenderAddress;
+@property(retain, nonatomic) NSString *nsSender; // @synthesize nsSender;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (void)dealloc;
+- (id)init;
+
+@end
+
+@interface FavLocationItem : NSObject
+{
+    double _lng;
+    double _lat;
+    double _scale;
+    NSString *_label;
+    NSString *_poiname;
+}
+
+@property(retain, nonatomic) NSString *poiname; // @synthesize poiname=_poiname;
+@property(retain, nonatomic) NSString *label; // @synthesize label=_label;
+@property(nonatomic) double scale; // @synthesize scale=_scale;
+@property(nonatomic) double lat; // @synthesize lat=_lat;
+@property(nonatomic) double lng; // @synthesize lng=_lng;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)init;
+
+@end
+
+@interface FavURLItem : NSObject
+{
+    NSString *_title;
+    NSString *_description;
+    NSString *_cleanUrl;
+    NSString *_thumbUrl;
+    int _openCache;
+    unsigned int _contentAttributeBitSetFlag;
+    NSString *_canvasInfoXml;
+}
+
+@property(retain, nonatomic) NSString *canvasInfoXml; // @synthesize canvasInfoXml=_canvasInfoXml;
+@property(nonatomic) unsigned int contentAttributeBitSetFlag; // @synthesize contentAttributeBitSetFlag=_contentAttributeBitSetFlag;
+@property(nonatomic) int openCache; // @synthesize openCache=_openCache;
+@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
+@property(retain, nonatomic) NSString *cleanUrl; // @synthesize cleanUrl=_cleanUrl;
+@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
+@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
+- (void)setContentOriginal:(_Bool)arg1;
+- (_Bool)isContentOriginal;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)init;
+
+@end
+
+@interface FavProductItem : NSObject
+{
+    NSString *_title;
+    NSString *_description;
+    NSString *_thumbUrl;
+    NSString *_info;
+    NSString *_sellerName;
+    NSString *_productUrl;
+}
+
+@property(retain, nonatomic) NSString *productUrl; // @synthesize productUrl=_productUrl;
+@property(retain, nonatomic) NSString *sellerName; // @synthesize sellerName=_sellerName;
+@property(retain, nonatomic) NSString *info; // @synthesize info=_info;
+@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
+@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
+@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)init;
+
+@end
+
+@interface FavTVItem : NSObject
+{
+    NSString *_title;
+    NSString *_description;
+    NSString *_thumbUrl;
+    NSString *_info;
+}
+
+@property(retain, nonatomic) NSString *info; // @synthesize info=_info;
+@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
+@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
+@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)init;
+
+@end
+
+@interface FavWeAppItem : NSObject
+{
+    NSString *_appUserName;
+    NSString *_title;
+    NSString *_desc;
+    NSString *_thumbUrl;
+    NSString *_pagePath;
+    unsigned int _debugMode;
+}
+
+@property(nonatomic) unsigned int debugMode; // @synthesize debugMode=_debugMode;
+@property(retain, nonatomic) NSString *pagePath; // @synthesize pagePath=_pagePath;
+@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
+@property(retain, nonatomic) NSString *desc; // @synthesize desc=_desc;
+@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
+@property(retain, nonatomic) NSString *appUserName; // @synthesize appUserName=_appUserName;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+
+@end
+
+@interface CContactOPLog : NSObject
+{
+    NSMutableDictionary *m_dicSkipContacts;
+}
+
++ (unsigned int)start_ModifyContact:(id)arg1;
++ (id)getModifyContactData:(id)arg1 addScene:(unsigned int)arg2 delScene:(unsigned int)arg3;
+- (_Bool)add_ModifyNotifyStatus:(id)arg1 withStatus:(unsigned int)arg2 NeedSync:(_Bool)arg3;
+- (_Bool)add_DeleteChatMsg:(id)arg1 sync:(_Bool)arg2;
+- (_Bool)add_DeleteChatContact:(id)arg1 sync:(_Bool)arg2;
+- (_Bool)add_ModifyContact:(id)arg1 delScene:(unsigned int)arg2 sync:(_Bool)arg3;
+- (_Bool)add_ModifyContact:(id)arg1 addScene:(unsigned int)arg2 sync:(_Bool)arg3;
+- (_Bool)add_ModifyContact:(id)arg1 sync:(_Bool)arg2;
+- (_Bool)add_ModifyContact:(id)arg1 addScene:(unsigned int)arg2 delScene:(unsigned int)arg3 sync:(_Bool)arg4;
+- (_Bool)isSkipContact:(id)arg1;
+- (void)add_SkipContact:(id)arg1;
+- (id)init;
+
+@end
+
+@interface WANewYearContactInfo : NSObject
+{
+    unsigned int _resSubType;
+    unsigned int _startTime;
+    unsigned int _endTime;
+    unsigned int _reportID;
+    NSString *_scanMatchText;
+    NSString *_errorURL;
+}
+
+@property(retain, nonatomic) NSString *errorURL; // @synthesize errorURL=_errorURL;
+@property(nonatomic) unsigned int reportID; // @synthesize reportID=_reportID;
+@property(nonatomic) unsigned int endTime; // @synthesize endTime=_endTime;
+@property(nonatomic) unsigned int startTime; // @synthesize startTime=_startTime;
+@property(nonatomic) unsigned int resSubType; // @synthesize resSubType=_resSubType;
+@property(retain, nonatomic) NSString *scanMatchText; // @synthesize scanMatchText=_scanMatchText;
+- (_Bool)isInValidTime;
+
+@end
+
+@interface VideoParamsInfo : NSObject
+{
+    unsigned int _fileSize;
+    unsigned int _duration;
+    unsigned int _videoBitrate;
+    unsigned int _audioBitrate;
+    unsigned int _audioChannel;
+    unsigned int _fps;
+    unsigned int _width;
+    unsigned int _height;
+}
+
+@property(nonatomic) unsigned int height; // @synthesize height=_height;
+@property(nonatomic) unsigned int width; // @synthesize width=_width;
+@property(nonatomic) unsigned int fps; // @synthesize fps=_fps;
+@property(nonatomic) unsigned int audioChannel; // @synthesize audioChannel=_audioChannel;
+@property(nonatomic) unsigned int audioBitrate; // @synthesize audioBitrate=_audioBitrate;
+@property(nonatomic) unsigned int videoBitrate; // @synthesize videoBitrate=_videoBitrate;
+@property(nonatomic) unsigned int duration; // @synthesize duration=_duration;
+@property(nonatomic) unsigned int fileSize; // @synthesize fileSize=_fileSize;
+
+@end
+
+@interface ChatRoomData : NSObject
+{
+    NSMutableDictionary *m_dicData;
+    unsigned int m_maxMemberCount;
+    unsigned int m_chatRoomVersion;
+    unsigned int m_uiLocalMemberVersion;
+    _Bool isSimplify;
+    NSRecursiveLock *_lock;
+}
+
+@property(nonatomic) _Bool isSimplify; // @synthesize isSimplify;
+@property(nonatomic) unsigned int localMemberVersion; // @synthesize localMemberVersion=m_uiLocalMemberVersion;
+@property(nonatomic) unsigned int chatRoomVersion; // @synthesize chatRoomVersion=m_chatRoomVersion;
+@property(nonatomic) unsigned int maxMemberCount; // @synthesize maxMemberCount=m_maxMemberCount;
+- (void)updateDicData:(struct XmlReaderNode_t *)arg1;
+- (unsigned int)getXmlNodeIntValue:(struct XmlReaderNode_t *)arg1 forName:(const char *)arg2;
+- (_Bool)isUndeliverCountOpen;
+- (void)setUndeliverCountOpen:(_Bool)arg1;
+- (_Bool)isShowDislayName;
+- (void)setShowDislayName:(_Bool)arg1;
+- (void)setInviterNameName:(id)arg1 forUserName:(id)arg2;
+- (id)getInviterNameForUsername:(id)arg1;
+- (id)getDislayNameForUserName:(id)arg1;
+- (void)setDislayName:(id)arg1 forUserName:(id)arg2;
+- (void)updateChatRoomData:(struct XmlReaderNode_t *)arg1;
+- (id)getDataDescription;
+- (id)getDataXml;
+- (void)parseData:(id)arg1;
+- (void)setDataForUserName:(id)arg1 key:(id)arg2 value:(id)arg3;
+- (id)getDataForUserName:(id)arg1 key:(id)arg2;
+- (void)mergeOldDetail:(id)arg1;
+- (void)merge:(id)arg1;
+- (id)initWithNewChatRoomData:(id)arg1;
+- (id)initWithChatRoomData:(id)arg1;
+- (id)init;
+
+@end
+
+@interface ImageInfo : NSObject <NSCopying>
+{
+    unsigned int m_uiImageSource;
+    NSURL *m_nuImageSourceURL;
+}
+
+@property(retain, nonatomic) NSURL *m_nuImageSourceURL; // @synthesize m_nuImageSourceURL;
+@property(nonatomic) unsigned int m_uiImageSource; // @synthesize m_uiImageSource;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)init;
+
+@end
+
+@interface UrlInfo : NSObject <NSCopying>
+{
+    NSString *m_nsRequestUrl;
+    NSData *m_dtResponseData;
+    NSString *m_nsRefer;
+    _Bool m_bGetMethod;
+    NSData *m_dtBodyData;
+    NSDictionary *m_dicReq;
+    NSDictionary *m_dicResp;
+    _Bool m_bCdn;
+    NSString *m_nsRequestUrlSuffix;
+    unsigned int m_uiRecvTime;
+    unsigned int m_uiRetCode;
+    unsigned int m_uiDataSize;
+    unsigned int m_uiDnsCostTime;
+    unsigned int m_uiConnectCostTime;
+    unsigned int m_uiSendCostTime;
+    unsigned int m_uiWaitResponseCostTime;
+    unsigned int m_uiReceiveCostTime;
+    NSString *m_nsClientIP;
+    NSString *m_nsServerIP;
+    unsigned int m_uiDnsType;
+    NSString *m_host;
+    NSString *m_nsXErrno;
+    NSMutableArray *m_aryReceiveData;
+    NSString *m_fileMd5;
+    _Bool m_bSupportValidateMd5;
+    _Bool m_bContinueReceive;
+    NSString *m_filePath;
+    _Bool m_useDCIP;
+    _Bool m_fromSns;
+    _Bool m_useXorEncrypt;
+    unsigned long long m_xorEncryKey;
+    unsigned int m_uiXEncIdx;
+    NSString *m_nsXEnc;
+    NSString *m_nsXEncToken;
+}
+
+@property(nonatomic) unsigned int m_uiXEncIdx; // @synthesize m_uiXEncIdx;
+@property(retain, nonatomic) NSString *m_nsXEncToken; // @synthesize m_nsXEncToken;
+@property(retain, nonatomic) NSString *m_nsXEnc; // @synthesize m_nsXEnc;
+@property(nonatomic) unsigned long long m_xorEncryKey; // @synthesize m_xorEncryKey;
+@property(retain, nonatomic) NSMutableArray *m_aryReceiveData; // @synthesize m_aryReceiveData;
+@property(nonatomic) _Bool m_useXorEncrypt; // @synthesize m_useXorEncrypt;
+@property(nonatomic) _Bool m_fromSns; // @synthesize m_fromSns;
+@property(nonatomic) _Bool m_useDCIP; // @synthesize m_useDCIP;
+@property(nonatomic) _Bool m_bSupportValidateMd5; // @synthesize m_bSupportValidateMd5;
+@property(retain, nonatomic) NSString *m_fileMd5; // @synthesize m_fileMd5;
+@property(retain, nonatomic) NSString *m_filePath; // @synthesize m_filePath;
+@property(nonatomic) _Bool m_bContinueReceive; // @synthesize m_bContinueReceive;
+@property(retain, nonatomic) NSString *m_nsXErrno; // @synthesize m_nsXErrno;
+@property(retain, nonatomic) NSString *m_nsRequestUrlSuffix; // @synthesize m_nsRequestUrlSuffix;
+@property(retain, nonatomic) NSString *m_host; // @synthesize m_host;
+@property(nonatomic) unsigned int m_uiDnsType; // @synthesize m_uiDnsType;
+@property(retain, nonatomic) NSString *m_nsServerIP; // @synthesize m_nsServerIP;
+@property(retain, nonatomic) NSString *m_nsClientIP; // @synthesize m_nsClientIP;
+@property(nonatomic) unsigned int m_uiReceiveCostTime; // @synthesize m_uiReceiveCostTime;
+@property(nonatomic) unsigned int m_uiWaitResponseCostTime; // @synthesize m_uiWaitResponseCostTime;
+@property(nonatomic) unsigned int m_uiSendCostTime; // @synthesize m_uiSendCostTime;
+@property(nonatomic) unsigned int m_uiConnectCostTime; // @synthesize m_uiConnectCostTime;
+@property(nonatomic) unsigned int m_uiDnsCostTime; // @synthesize m_uiDnsCostTime;
+@property(nonatomic) unsigned int m_uiDataSize; // @synthesize m_uiDataSize;
+@property(nonatomic) unsigned int m_uiRetCode; // @synthesize m_uiRetCode;
+@property(nonatomic) unsigned int m_uiRecvTime; // @synthesize m_uiRecvTime;
+@property(nonatomic) _Bool m_bCdn; // @synthesize m_bCdn;
+@property(retain, nonatomic) NSDictionary *m_dicResp; // @synthesize m_dicResp;
+@property(retain, nonatomic) NSDictionary *m_dicReq; // @synthesize m_dicReq;
+@property(retain, nonatomic) NSData *m_dtBodyData; // @synthesize m_dtBodyData;
+@property(nonatomic) _Bool m_bGetMethod; // @synthesize m_bGetMethod;
+@property(retain, nonatomic) NSString *m_nsRefer; // @synthesize m_nsRefer;
+@property(retain, nonatomic) NSData *m_dtResponseData; // @synthesize m_dtResponseData;
+@property(retain, nonatomic) NSString *m_nsRequestUrl; // @synthesize m_nsRequestUrl;
+- (id)GenStatStringWithDataType:(int)arg1;
+- (id)GenStatString;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)init;
+
+@end
+
+@interface NSTimer (Blocks)
++ (void)jdExecuteSimpleBlock:(id)arg1;
++ (id)timerWithTimeInterval:(double)arg1 block:(CDUnknownBlockType)arg2 repeats:(_Bool)arg3;
++ (id)scheduledTimerWithTimeInterval:(double)arg1 block:(CDUnknownBlockType)arg2 repeats:(_Bool)arg3;
+@end
+
+@protocol RecoverCustomDataWorker
+- (void)willCustomRecoverData:(RecoverDataItem *)arg1 path:(NSString *)arg2 needCatch:(_Bool *)arg3;
+@end
+
+@protocol WCDBCoding <PBCoding>
++ (id)dummyObject;
++ (const map_ *)getValueNameIndexMap;
++ (NSArray *)getValueTable;
+@property(nonatomic) long long __rowID;
+
+@optional
++ (NSDictionary *)getWCDBTableHelperDictionary;
++ (const map_ *)getFileValueTagIndexMap;
++ (NSArray *)getFileValueTypeTable;
++ (const map_ *)getPackedValueTagIndexMap;
++ (NSArray *)getPackedValueTypeTable;
++ (const basic_string_ *)getWCDBPrimaryColumnName;
++ (const struct WCDBIndexHelper *)getWCDBIndexArray;
++ (unsigned long long)getWCDBIndexArrayCount;
 @end
 
 @interface WCPayInfoItem : NSObject <PBCoding, NSCopying>
@@ -421,21 +910,6 @@ struct set_;
 
 @end
 
-@interface AppTVItem : NSObject
-{
-    NSString *tvInfo;
-}
-
-+ (void)initialize;
-@property(retain, nonatomic) NSString *tvInfo; // @synthesize tvInfo;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)toXML;
-- (void)dealloc;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-@end
-
 @interface AppProductItem : NSObject <PBCoding, NSCopying>
 {
     unsigned int type;
@@ -455,25 +929,6 @@ struct set_;
 @property(readonly, copy) NSString *debugDescription;
 @property(readonly, copy) NSString *description;
 @property(readonly) Class superclass;
-
-@end
-
-@interface EmotionDesignerSharedItem : NSObject
-{
-    unsigned int designerUin;
-    NSString *oldRedirectUrl;
-    NSString *designerName;
-}
-
-+ (void)initialize;
-@property(retain, nonatomic) NSString *designerName; // @synthesize designerName;
-@property(retain, nonatomic) NSString *oldRedirectUrl; // @synthesize oldRedirectUrl;
-@property(nonatomic) unsigned int designerUin; // @synthesize designerUin;
-- (id)toXML;
-- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
 
 @end
 
@@ -526,30 +981,6 @@ struct set_;
 @property(readonly, copy) NSString *debugDescription;
 @property(readonly, copy) NSString *description;
 @property(readonly) Class superclass;
-
-@end
-
-@interface WAAppMsgItem : MMObject
-{
-    unsigned int _type;
-    unsigned int _version;
-    NSString *_username;
-    NSString *_appid;
-    NSString *_pagepath;
-    NSString *_weappIconUrl;
-    WAAppPackageInfo *_packInfo;
-}
-
-@property(retain, nonatomic) WAAppPackageInfo *packInfo; // @synthesize packInfo=_packInfo;
-@property(retain, nonatomic) NSString *weappIconUrl; // @synthesize weappIconUrl=_weappIconUrl;
-@property(nonatomic) unsigned int version; // @synthesize version=_version;
-@property(nonatomic) unsigned int type; // @synthesize type=_type;
-@property(retain, nonatomic) NSString *pagepath; // @synthesize pagepath=_pagepath;
-@property(retain, nonatomic) NSString *appid; // @synthesize appid=_appid;
-@property(retain, nonatomic) NSString *username; // @synthesize username=_username;
-- (id)toXML;
-- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
-- (id)copyWithZone:(struct _NSZone *)arg1;
 
 @end
 
@@ -657,18 +1088,6 @@ struct set_;
 
 @end
 
-@interface iWatchAppMsgItem : MMObject
-{
-    SnsObjItem *_snsObj;
-}
-
-@property(retain, nonatomic) SnsObjItem *snsObj; // @synthesize snsObj=_snsObj;
-- (id)toXML;
-- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
-- (void)dealloc;
-
-@end
-
 @interface HardWareItem : MMObject <NSCopying>
 {
     unsigned int uiHardWareShowType;
@@ -713,18 +1132,1265 @@ struct set_;
 
 @end
 
-
-@interface WCDBRWLock : NSObject
+@interface MMTimer : NSObject
 {
-    NSCondition *m_locker;
+    _Bool _paused;
+    NSTimer *_m_timer;
+    NSDate *_pauseStart;
+    NSDate *_previousFireDate;
 }
 
++ (id)startTimeCheckWithInterval:(double)arg1 target:(id)arg2 selector:(SEL)arg3;
++ (id)scheduledNoRetainTimerWithTimeInterval:(double)arg1 target:(id)arg2 selector:(SEL)arg3 userInfo:(id)arg4 repeats:(_Bool)arg5;
+@property(retain, nonatomic) NSDate *previousFireDate; // @synthesize previousFireDate=_previousFireDate;
+@property(retain, nonatomic) NSDate *pauseStart; // @synthesize pauseStart=_pauseStart;
+@property(nonatomic) _Bool paused; // @synthesize paused=_paused;
+@property(retain, nonatomic) NSTimer *m_timer; // @synthesize m_timer=_m_timer;
+- (void)resumeTimer;
+- (void)pauseTimer;
+- (void)invalidate;
+- (void)stopTimeCheck;
 - (void)dealloc;
-- (void)unlock:(unsigned long long)arg1;
-- (void)lock:(unsigned long long)arg1;
-- (_Bool)tryLockRead;
+
+@end
+
+@interface GiftCardItem : MMObject <PBCoding, NSCopying>
+{
+    unsigned int bizUin;
+    NSString *orderId;
+    NSString *_appName;
+    NSString *_recvDigest;
+    NSString *_sendDigest;
+    NSString *_backgroundPicUrl;
+    NSString *_titleColorStr;
+    NSString *_descColorStr;
+}
+
++ (void)initialize;
+@property(retain, nonatomic) NSString *descColorStr; // @synthesize descColorStr=_descColorStr;
+@property(retain, nonatomic) NSString *titleColorStr; // @synthesize titleColorStr=_titleColorStr;
+@property(retain, nonatomic) NSString *backgroundPicUrl; // @synthesize backgroundPicUrl=_backgroundPicUrl;
+@property(retain, nonatomic) NSString *sendDigest; // @synthesize sendDigest=_sendDigest;
+@property(retain, nonatomic) NSString *recvDigest; // @synthesize recvDigest=_recvDigest;
+@property(retain, nonatomic) NSString *appName; // @synthesize appName=_appName;
+@property(retain, nonatomic) NSString *orderId; // @synthesize orderId;
+@property(nonatomic) unsigned int bizUin; // @synthesize bizUin;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)toXML;
+- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
+- (id)init;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+@interface FavoritesItem : NSObject <NSCoding>
+{
+    unsigned int _favId;
+    int _type;
+    int _status;
+    unsigned int _updateSeq;
+    unsigned int _localUpdateSeq;
+    unsigned int _updateTime;
+    int _sourceType;
+    unsigned int _editTime;
+    NSString *_title;
+    NSString *_description;
+    NSString *_link;
+    unsigned int _ctrlFlag;
+    NSString *_sourceId;
+    NSString *_fromUsr;
+    NSString *_toUsr;
+    NSString *_realChatName;
+    long long _n64MsgID;
+    NSString *_eventId;
+    NSString *_appId;
+    unsigned int _srcCreateTime;
+    NSString *_brandId;
+    NSMutableArray *_dataList;
+    unsigned int _totalDataSize;
+    FavLocationItem *_locItem;
+    FavURLItem *_urlItem;
+    FavProductItem *_productItem;
+    FavTVItem *_tvItem;
+    NSString *_remark;
+    unsigned int _remarkTime;
+    FavWeAppItem *_weAppItem;
+    NSMutableArray *_tagList;
+    NSMutableArray *_recommendTagList;
+    unsigned int m_uiFromScene;
+    NSString *m_nsFavUsername;
+    unsigned int m_preMsgIndex;
+    int _localStatus;
+    unsigned int _localId;
+    int _countMd5Status;
+    int _retryTimes;
+    NSDate *_startUploadTime;
+    double _cellHeight;
+    unsigned long long _sightLegalityType;
+    _Bool _isFromFavToChat;
+    unsigned int _version;
+    NSString *_deviceid;
+}
+
++ (id)xmlOfStreamVideo:(id)arg1;
++ (void)parseStreamVideoNode:(struct XmlReaderNode_t *)arg1 dataField:(id)arg2;
++ (id)FavritesItemToXML:(id)arg1;
++ (id)replacePathPrefix:(id)arg1;
++ (id)parseTagXml:(struct XmlReaderNode_t *)arg1;
++ (_Bool)ParseItemXML:(id)arg1 ToItem:(id)arg2;
+@property(nonatomic) _Bool isFromFavToChat; // @synthesize isFromFavToChat=_isFromFavToChat;
+@property(retain, nonatomic) NSString *deviceid; // @synthesize deviceid=_deviceid;
+@property(nonatomic) unsigned int version; // @synthesize version=_version;
+@property(nonatomic) unsigned int m_preMsgIndex; // @synthesize m_preMsgIndex;
+@property(retain, nonatomic) NSString *m_nsFavUsername; // @synthesize m_nsFavUsername;
+@property(nonatomic) unsigned int m_uiFromScene; // @synthesize m_uiFromScene;
+@property(nonatomic) double cellHeight; // @synthesize cellHeight=_cellHeight;
+@property(retain, nonatomic) NSDate *startUploadTime; // @synthesize startUploadTime=_startUploadTime;
+@property(nonatomic) int retryTimes; // @synthesize retryTimes=_retryTimes;
+@property(nonatomic) int countMd5Status; // @synthesize countMd5Status=_countMd5Status;
+@property(nonatomic) unsigned int localId; // @synthesize localId=_localId;
+@property(nonatomic) int localStatus; // @synthesize localStatus=_localStatus;
+@property(retain, nonatomic) NSArray *recommendTagList; // @synthesize recommendTagList=_recommendTagList;
+@property(retain, nonatomic) NSArray *tagList; // @synthesize tagList=_tagList;
+@property(nonatomic) unsigned int remarkTime; // @synthesize remarkTime=_remarkTime;
+@property(retain, nonatomic) NSString *remark; // @synthesize remark=_remark;
+@property(retain, nonatomic) FavWeAppItem *weAppItem; // @synthesize weAppItem=_weAppItem;
+@property(retain, nonatomic) FavTVItem *tvItem; // @synthesize tvItem=_tvItem;
+@property(retain, nonatomic) FavProductItem *productItem; // @synthesize productItem=_productItem;
+@property(retain, nonatomic) FavURLItem *urlItem; // @synthesize urlItem=_urlItem;
+@property(retain, nonatomic) FavLocationItem *locItem; // @synthesize locItem=_locItem;
+@property(nonatomic) unsigned int totalDataSize; // @synthesize totalDataSize=_totalDataSize;
+@property(retain, nonatomic) NSArray *dataList; // @synthesize dataList=_dataList;
+@property(retain, nonatomic) NSString *brandId; // @synthesize brandId=_brandId;
+@property(nonatomic) unsigned int srcCreateTime; // @synthesize srcCreateTime=_srcCreateTime;
+@property(retain, nonatomic) NSString *appId; // @synthesize appId=_appId;
+@property(retain, nonatomic) NSString *eventId; // @synthesize eventId=_eventId;
+@property(nonatomic) long long n64MsgID; // @synthesize n64MsgID=_n64MsgID;
+@property(retain, nonatomic) NSString *realChatName; // @synthesize realChatName=_realChatName;
+@property(retain, nonatomic) NSString *toUsr; // @synthesize toUsr=_toUsr;
+@property(retain, nonatomic) NSString *fromUsr; // @synthesize fromUsr=_fromUsr;
+@property(retain, nonatomic) NSString *sourceId; // @synthesize sourceId=_sourceId;
+@property(nonatomic) unsigned int ctrlFlag; // @synthesize ctrlFlag=_ctrlFlag;
+@property(retain, nonatomic) NSString *link; // @synthesize link=_link;
+@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
+@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
+@property(nonatomic) unsigned int editTime; // @synthesize editTime=_editTime;
+@property(nonatomic) int sourceType; // @synthesize sourceType=_sourceType;
+@property(nonatomic) unsigned int localUpdateSeq; // @synthesize localUpdateSeq=_localUpdateSeq;
+@property(nonatomic) unsigned int updateSeq; // @synthesize updateSeq=_updateSeq;
+@property(nonatomic) int status; // @synthesize status=_status;
+@property(nonatomic) unsigned int updateTime; // @synthesize updateTime=_updateTime;
+@property(nonatomic) int type; // @synthesize type=_type;
+@property(nonatomic) unsigned int favId; // @synthesize favId=_favId;
+- (_Bool)containsIllegalData;
+- (_Bool)needBatchGet;
+- (_Bool)canBeForward;
+- (_Bool)checkSightLegality;
+- (id)canBeForwardWithMsg;
+- (id)getFirstMediaData;
+- (_Bool)isRecordItem;
+- (id)getFavDataWrapByLocalDataID:(id)arg1;
+- (id)getDataWraps;
+- (_Bool)hasCDNData;
+- (unsigned int)itemServerSize;
+- (unsigned int)itemTotalSize;
+- (_Bool)canAutoDownload;
+- (_Bool)canAutoUpload;
+- (void)changeToFavSearchItem:(id)arg1;
+- (id)changeToFavSearchString;
+- (_Bool)dataHasBeenCopyedToTarget;
+- (void)addData:(id)arg1 Index:(int)arg2;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)initWithAddFavItem:(id)arg1;
 - (id)init;
 
+@end
+
+@interface MMAsset : MMObject <NSCopying>
+{
+    _Bool _m_isNeedOriginImage;
+    _Bool _m_isFailedFromIcloud;
+    _Bool _m_isLoadingFromIcloud;
+    int _sourceForSNSUploadStat;
+}
+
++ (_Bool)isAsset:(id)arg1 CreateWithInSecond:(double)arg2;
++ (struct CGSize)LongImageSizeWithTargetEdge:(double)arg1 originSize:(struct CGSize)arg2;
++ (id)decodeXmlString:(id)arg1;
+@property(nonatomic) int sourceForSNSUploadStat; // @synthesize sourceForSNSUploadStat=_sourceForSNSUploadStat;
+@property(nonatomic) _Bool m_isLoadingFromIcloud; // @synthesize m_isLoadingFromIcloud=_m_isLoadingFromIcloud;
+@property(nonatomic) _Bool m_isFailedFromIcloud; // @synthesize m_isFailedFromIcloud=_m_isFailedFromIcloud;
+@property(nonatomic) _Bool m_isNeedOriginImage; // @synthesize m_isNeedOriginImage=_m_isNeedOriginImage;
+- (_Bool)getIsEdited;
+- (id)getDrawLayerArray;
+- (void)setEditedImage:(id)arg1 withDrawLayer:(id)arg2 withEdited:(_Bool)arg3;
+- (void)asyncGetMetadata:(CDUnknownBlockType)arg1;
+- (void)stopGetBigImageICloudActivity;
+- (void)stopICloudActivity;
+- (struct CGSize)getImageRatioSize;
+- (id)getCreatedDate;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (void)asyncGetVideoFileSizeWithBlock:(CDUnknownBlockType)arg1;
+- (void)asyncGetVideoAssetWithBlock:(CDUnknownBlockType)arg1;
+- (id)getVideoUrl;
+- (void)getVideoDurationForDisplayWithCompletion:(CDUnknownBlockType)arg1;
+- (id)videoDuration;
+- (_Bool)isTimeLapseVideo;
+- (_Bool)isSlowMotionVideo;
+- (_Bool)isVideo;
+- (id)getOriginImageDataSize;
+- (_Bool)isGif;
+- (_Bool)isPicture;
+- (id)encodeXmlString;
+- (double)longitude;
+- (double)latitude;
+- (_Bool)hasLocation;
+- (id)alAssetReferenceUrl;
+- (id)assetUrl;
+- (void)asyncGetAspectRatioThumbnailWithTargetSize:(struct CGSize)arg1 andResult:(CDUnknownBlockType)arg2;
+- (void)asyncGetThumbnail:(CDUnknownBlockType)arg1;
+- (id)getThumbnail;
+- (id)getThumbImage;
+- (void)getDisplayImageWithCompressConfig:(id)arg1 ResultBlock:(CDUnknownBlockType)arg2 ErrorBlock:(CDUnknownBlockType)arg3;
+- (void)getBigImageWithCompressConfig:(id)arg1 ProcessBlock:(CDUnknownBlockType)arg2 ResultBlock:(CDUnknownBlockType)arg3 ErrorBlock:(CDUnknownBlockType)arg4;
+- (id)initWithUrl:(id)arg1 IsNeedOrigin:(_Bool)arg2;
+
+@end
+
+@interface CBaseContact : NSObject <PBCoding, NSCoding>
+{
+    NSString *m_nsUsrName;
+    NSString *m_nsEncodeUserName;
+    NSString *m_nsAliasName;
+    unsigned int m_uiConType;
+    NSString *m_nsNickName;
+    NSString *m_nsFullPY;
+    NSString *m_nsShortPY;
+    NSString *m_nsRemark;
+    NSString *m_nsRemarkPYShort;
+    NSString *m_nsRemarkPYFull;
+    NSString *m_nsDisplayNamePY;
+    unsigned int m_uiSex;
+    unsigned int m_uiType;
+    unsigned int m_uiChatState;
+    NSData *m_dtUsrImg;
+    NSString *m_nsImgStatus;
+    NSString *m_nsHDImgStatus;
+    NSString *m_nsHeadImgUrl;
+    NSString *m_nsHeadHDImgUrl;
+    NSString *m_nsHeadHDMd5;
+    NSString *m_nsDraft;
+    unsigned int m_uiDraftTime;
+    NSString *m_nsAtUserList;
+    unsigned int m_uiQQUin;
+    NSString *m_nsQQNickName;
+    NSString *m_nsQQRemark;
+    NSString *m_nsMobileIdentify;
+    NSString *m_nsGoogleContactName;
+    NSString *m_nsGoogleContactNickName;
+    unsigned int m_uiFriendScene;
+    unsigned int m_uiImgKey;
+    unsigned int m_uiExtKey;
+    unsigned int m_uiImgKeyAtLastGet;
+    unsigned int m_uiExtKeyAtLastGet;
+    _Bool m_hasDetectPlugin;
+    _Bool m_isPlugin;
+    _Bool m_hasDetectSelf;
+    _Bool m_isSelf;
+    NSString *m_nsAntispamTicket;
+    NSDictionary *_externalInfoJSONCache;
+}
+
++ (void)initialize;
+@property(retain, nonatomic) NSDictionary *externalInfoJSONCache; // @synthesize externalInfoJSONCache=_externalInfoJSONCache;
+@property(retain, nonatomic) NSString *m_nsDisplayNamePY; // @synthesize m_nsDisplayNamePY;
+@property(retain, nonatomic) NSString *m_nsAntispamTicket; // @synthesize m_nsAntispamTicket;
+@property(retain, nonatomic) NSString *m_nsShortPY; // @synthesize m_nsShortPY;
+@property(retain, nonatomic) NSString *m_nsAtUserList; // @synthesize m_nsAtUserList;
+@property(nonatomic) unsigned int m_uiDraftTime; // @synthesize m_uiDraftTime;
+@property(nonatomic) unsigned int m_uiFriendScene; // @synthesize m_uiFriendScene;
+@property(retain, nonatomic) NSString *m_nsGoogleContactNickName; // @synthesize m_nsGoogleContactNickName;
+@property(retain, nonatomic) NSString *m_nsGoogleContactName; // @synthesize m_nsGoogleContactName;
+@property(retain, nonatomic) NSString *m_nsMobileIdentify; // @synthesize m_nsMobileIdentify;
+@property(retain, nonatomic) NSString *m_nsQQRemark; // @synthesize m_nsQQRemark;
+@property(retain, nonatomic) NSString *m_nsQQNickName; // @synthesize m_nsQQNickName;
+@property(nonatomic) unsigned int m_uiQQUin; // @synthesize m_uiQQUin;
+@property(nonatomic) unsigned int m_uiExtKeyAtLastGet; // @synthesize m_uiExtKeyAtLastGet;
+@property(nonatomic) unsigned int m_uiImgKeyAtLastGet; // @synthesize m_uiImgKeyAtLastGet;
+@property(nonatomic) unsigned int m_uiExtKey; // @synthesize m_uiExtKey;
+@property(nonatomic) unsigned int m_uiImgKey; // @synthesize m_uiImgKey;
+@property(retain, nonatomic) NSString *m_nsDraft; // @synthesize m_nsDraft;
+@property(retain, nonatomic) NSString *m_nsHeadHDMd5; // @synthesize m_nsHeadHDMd5;
+@property(retain, nonatomic) NSString *m_nsHeadHDImgUrl; // @synthesize m_nsHeadHDImgUrl;
+@property(retain, nonatomic) NSString *m_nsHeadImgUrl; // @synthesize m_nsHeadImgUrl;
+@property(retain, nonatomic) NSString *m_nsHDImgStatus; // @synthesize m_nsHDImgStatus;
+@property(retain, nonatomic) NSString *m_nsImgStatus; // @synthesize m_nsImgStatus;
+@property(retain, nonatomic) NSData *m_dtUsrImg; // @synthesize m_dtUsrImg;
+@property(nonatomic) unsigned int m_uiChatState; // @synthesize m_uiChatState;
+@property(nonatomic) unsigned int m_uiType; // @synthesize m_uiType;
+@property(nonatomic) unsigned int m_uiSex; // @synthesize m_uiSex;
+@property(retain, nonatomic) NSString *m_nsRemarkPYFull; // @synthesize m_nsRemarkPYFull;
+@property(retain, nonatomic) NSString *m_nsRemarkPYShort; // @synthesize m_nsRemarkPYShort;
+@property(retain, nonatomic) NSString *m_nsRemark; // @synthesize m_nsRemark;
+@property(retain, nonatomic) NSString *m_nsFullPY; // @synthesize m_nsFullPY;
+@property(nonatomic) unsigned int m_uiConType; // @synthesize m_uiConType;
+@property(retain, nonatomic) NSString *m_nsAliasName; // @synthesize m_nsAliasName;
+@property(retain, nonatomic) NSString *m_nsEncodeUserName; // @synthesize m_nsEncodeUserName;
+@property(retain, nonatomic) NSString *m_nsUsrName; // @synthesize m_nsUsrName;
+@property(readonly, nonatomic) _Bool m_isPlugin; // @synthesize m_isPlugin;
+- (id)localizedStringForMale:(id)arg1 female:(id)arg2 andUnkownSex:(id)arg3;
+- (int)getImageStatusCode;
+- (_Bool)isHasGMail;
+- (id)getQQDisplayName;
+- (_Bool)isHasQQDisplayName;
+- (_Bool)isHasQQ;
+- (_Bool)isWeixinTeamContact;
+- (_Bool)isSelf;
+- (_Bool)hasContactDisplayUsrNameByCache;
+- (_Bool)hasContactDisplayUsrName;
+- (id)getContactDisplayUsrName;
+- (id)getContactTalkRoomName;
+- (id)getContactDisplayName;
+- (void)setDisplayNamePY;
+- (id)getRemark;
+- (void)saveUserImage;
+- (id)getContactHeadImage;
+- (_Bool)isNeedGetHDImg;
+- (_Bool)isHasHDImg;
+- (_Bool)isNeedGetUsrImgWithoutCheckLocalFile;
+- (_Bool)isNeedGetUsrImg;
+- (_Bool)isEnterpriseContact;
+- (_Bool)isWeSportContact;
+- (_Bool)isChatStatusNotifyOpen;
+- (_Bool)isMacHelper;
+- (_Bool)isQQ;
+- (_Bool)isQQMBlog;
+- (_Bool)isTemplateMsgHolder;
+- (_Bool)isFileHelper;
+- (_Bool)isBrandSessionHolder;
+- (_Bool)isGroupCard;
+- (_Bool)isChatroom;
+- (_Bool)isLbsroom;
+- (_Bool)isWeixin;
+- (_Bool)isMMContact;
+- (_Bool)isFavour;
+- (void)setSnsBlack:(_Bool)arg1;
+- (_Bool)isSnsBlack;
+- (void)setBlack:(_Bool)arg1;
+- (_Bool)isBlack;
+- (_Bool)isEqualToName:(id)arg1;
+- (_Bool)isEqualToContact:(id)arg1;
+- (id)getEncodeUserName;
+- (_Bool)isValid;
+- (void)setChatRoomTopic:(id)arg1;
+- (id)chatRoomTopic;
+- (long long)compare:(id)arg1;
+@property(readonly, copy) NSString *description;
+- (_Bool)copyFrom:(id)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)init;
+- (void)setRemarkWithoutEmojiChange:(id)arg1;
+- (void)setNickNameWithoutEmojiChange:(id)arg1;
+@property(retain, nonatomic) NSString *m_nsNickName; // @synthesize m_nsNickName;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly) Class superclass;
+
+@end
+
+@interface SubscriptBrandInfo : NSObject <PBCoding, NSCoding>
+{
+    unsigned int m_brandListCount;
+    unsigned int m_brandListVersion;
+}
+
++ (void)initialize;
+@property(nonatomic) unsigned int m_brandListVersion; // @synthesize m_brandListVersion;
+@property(nonatomic) unsigned int m_brandListCount; // @synthesize m_brandListCount;
+- (void)encodeWithCoder:(id)arg1;
+- (id)initWithCoder:(id)arg1;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+@interface ChatRoomDetail : NSObject <PBCoding, NSCoding>
+{
+    unsigned int m_uiChatRoomInfoVersion;
+    unsigned int m_uiChatRoomInfoSvrVersion;
+    NSString *m_nsChatRoomDesc;
+    NSString *m_nsChatRoomDescModer;
+    unsigned long long m_uiChatRoomDescTime;
+    _Bool m_bChatRoomDescReaded;
+    unsigned int m_uiChatRoomStatus;
+    unsigned int m_uiLocalInfoVersion;
+}
+
++ (void)initialize;
+@property(nonatomic) unsigned int m_uiLocalInfoVersion; // @synthesize m_uiLocalInfoVersion;
+@property(nonatomic) unsigned int m_uiChatRoomStatus; // @synthesize m_uiChatRoomStatus;
+@property(nonatomic) _Bool m_bChatRoomDescReaded; // @synthesize m_bChatRoomDescReaded;
+@property(nonatomic) unsigned long long m_uiChatRoomDescTime; // @synthesize m_uiChatRoomDescTime;
+@property(retain, nonatomic) NSString *m_nsChatRoomDescModer; // @synthesize m_nsChatRoomDescModer;
+@property(retain, nonatomic) NSString *m_nsChatRoomDesc; // @synthesize m_nsChatRoomDesc;
+@property(nonatomic) unsigned int m_uiChatRoomInfoSvrVersion; // @synthesize m_uiChatRoomInfoSvrVersion;
+@property(nonatomic) unsigned int m_uiChatRoomInfoVersion; // @synthesize m_uiChatRoomInfoVersion;
+- (void)encodeWithCoder:(id)arg1;
+- (id)initWithCoder:(id)arg1;
+- (id)init;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+@interface ProtobufCGIWrap : NSObject <NSCopying>
+{
+    WXPBGeneratedMessage *m_pbRequest;
+    Class m_pbRespClass;
+    WXPBGeneratedMessage *m_pbResponse;
+    unsigned int m_uiChannelType;
+    unsigned int m_uiCgi;
+    unsigned int m_uiScene;
+    NSString *m_nsCgiName;
+    NSString *m_nsUri;
+    unsigned int m_uiRequestEncryptType;
+    NSData *m_dtResponseDecryptKey;
+    unsigned int m_uiMessage;
+    Class m_eventHandlerClass;
+    NSObject *m_oUserData;
+    UrlInfo *m_oUrlInfo;
+    _Bool m_bNotifyPartLen;
+    unsigned int m_uiRetryCount;
+    double m_douTimeout;
+    int m_netwrokStrategy;
+}
+
+@property(nonatomic) int m_netwrokStrategy; // @synthesize m_netwrokStrategy;
+@property(nonatomic) double m_douTimeout; // @synthesize m_douTimeout;
+@property(nonatomic) unsigned int m_uiRetryCount; // @synthesize m_uiRetryCount;
+@property(nonatomic) _Bool m_bNotifyPartLen; // @synthesize m_bNotifyPartLen;
+@property(retain, nonatomic) UrlInfo *m_oUrlInfo; // @synthesize m_oUrlInfo;
+@property(retain, nonatomic) NSObject *m_oUserData; // @synthesize m_oUserData;
+@property(nonatomic) Class m_eventHandlerClass; // @synthesize m_eventHandlerClass;
+@property(nonatomic) unsigned int m_uiMessage; // @synthesize m_uiMessage;
+@property(retain, nonatomic) NSData *m_dtResponseDecryptKey; // @synthesize m_dtResponseDecryptKey;
+@property(nonatomic) unsigned int m_uiRequestEncryptType; // @synthesize m_uiRequestEncryptType;
+@property(nonatomic) unsigned int m_uiChannelType; // @synthesize m_uiChannelType;
+@property(retain, nonatomic) NSString *m_nsUri; // @synthesize m_nsUri;
+@property(retain, nonatomic) NSString *m_nsCgiName; // @synthesize m_nsCgiName;
+@property(nonatomic) unsigned int m_uiScene; // @synthesize m_uiScene;
+@property(nonatomic) unsigned int m_uiCgi; // @synthesize m_uiCgi;
+@property(retain, nonatomic) WXPBGeneratedMessage *m_pbResponse; // @synthesize m_pbResponse;
+@property(nonatomic) Class m_pbRespClass; // @synthesize m_pbRespClass;
+@property(retain, nonatomic) WXPBGeneratedMessage *m_pbRequest; // @synthesize m_pbRequest;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (id)init;
+
+@end
+
+@interface WCCanvasPageItem : NSObject <PBCoding, NSCopying>
+{
+    NSString *canvasPageXml;
+}
+
++ (void)initialize;
+@property(retain, nonatomic) NSString *canvasPageXml; // @synthesize canvasPageXml;
+- (id)toXML;
+- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+@interface BaseRequest : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(nonatomic) int clientVersion; // @dynamic clientVersion;
+@property(retain, nonatomic) NSData *deviceId; // @dynamic deviceId;
+@property(retain, nonatomic) NSData *deviceType; // @dynamic deviceType;
+@property(nonatomic) unsigned int scene; // @dynamic scene;
+@property(retain, nonatomic) NSData *sessionKey; // @dynamic sessionKey;
+@property(nonatomic) unsigned int uin; // @dynamic uin;
+
+@end
+
+@interface SKBuiltinBuffer_t : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
++ (id)skBufferWithData:(id)arg1;
+
+// Remaining properties
+@property(retain, nonatomic) NSData *buffer; // @dynamic buffer;
+@property(nonatomic) unsigned int iLen; // @dynamic iLen;
+
+@end
+
+@interface SKBuiltinString_t : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
++ (id)skStringWithString:(id)arg1;
+
+// Remaining properties
+@property(retain, nonatomic) NSString *string; // @dynamic string;
+
+@end
+
+@interface AsyncBizSubscribeRequest : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) NSString *bizUserName; // @dynamic bizUserName;
+
+@end
+
+@protocol PBMessageObserverDelegate
+- (void)MessageReturn:(ProtobufCGIWrap *)arg1 Event:(unsigned int)arg2;
+@end
+
+@interface WAAppMsgItem : MMObject
+{
+    unsigned int _type;
+    unsigned int _version;
+    NSString *_username;
+    NSString *_appid;
+    NSString *_pagepath;
+    NSString *_weappIconUrl;
+    WAAppPackageInfo *_packInfo;
+}
+
+@property(retain, nonatomic) WAAppPackageInfo *packInfo; // @synthesize packInfo=_packInfo;
+@property(retain, nonatomic) NSString *weappIconUrl; // @synthesize weappIconUrl=_weappIconUrl;
+@property(nonatomic) unsigned int version; // @synthesize version=_version;
+@property(nonatomic) unsigned int type; // @synthesize type=_type;
+@property(retain, nonatomic) NSString *pagepath; // @synthesize pagepath=_pagepath;
+@property(retain, nonatomic) NSString *appid; // @synthesize appid=_appid;
+@property(retain, nonatomic) NSString *username; // @synthesize username=_username;
+- (id)toXML;
+- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
+- (id)copyWithZone:(struct _NSZone *)arg1;
+
+@end
+
+@interface iWatchAppMsgItem : MMObject
+{
+    SnsObjItem *_snsObj;
+}
+
+@property(retain, nonatomic) SnsObjItem *snsObj; // @synthesize snsObj=_snsObj;
+- (id)toXML;
+- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
+- (void)dealloc;
+
+@end
+
+@interface MMWCPushInfo : MMObject <WCDBCoding>
+{
+    _Bool finishDownload;
+    unsigned int pushId;
+    unsigned int subType;
+    unsigned int networkType;
+    unsigned int scene;
+    unsigned int expireTime;
+    NSString *appId;
+    NSString *base;
+    NSArray *resUrls;
+    NSString *packageId;
+    NSString *domain;
+    NSString *bizId;
+    long long m___rowID;
+}
+
++ (id)parseCacheNode:(struct XmlReaderNode_t *)arg1;
++ (id)parseString:(const char *)arg1;
++ (unsigned int)parseSubType:(const char *)arg1;
++ (unsigned int)parseExpireTime:(const char *)arg1;
++ (unsigned int)parseNetType:(const char *)arg1;
++ (unsigned int)parseUInt32:(const char *)arg1;
++ (const basic_string_ *)getWCDBPrimaryColumnName;
++ (const struct WCDBIndexHelper *)getWCDBIndexArray;
++ (unsigned long long)getWCDBIndexArrayCount;
++ (const map_ *)getFileValueTagIndexMap;
++ (id)getFileValueTypeTable;
++ (const map_ *)getPackedValueTagIndexMap;
++ (id)getPackedValueTypeTable;
++ (const map_ *)getValueNameIndexMap;
++ (id)getValueTable;
++ (id)dummyObject;
+@property(nonatomic) long long __rowID; // @synthesize __rowID=m___rowID;
+@property(nonatomic) _Bool finishDownload; // @synthesize finishDownload;
+@property(retain, nonatomic) NSString *bizId; // @synthesize bizId;
+@property(retain, nonatomic) NSString *domain; // @synthesize domain;
+@property(retain, nonatomic) NSString *packageId; // @synthesize packageId;
+@property(retain, nonatomic) NSArray *resUrls; // @synthesize resUrls;
+@property(retain, nonatomic) NSString *base; // @synthesize base;
+@property(retain, nonatomic) NSString *appId; // @synthesize appId;
+@property(nonatomic) unsigned int expireTime; // @synthesize expireTime;
+@property(nonatomic) unsigned int scene; // @synthesize scene;
+@property(nonatomic) unsigned int networkType; // @synthesize networkType;
+@property(nonatomic) unsigned int subType; // @synthesize subType;
+@property(nonatomic) unsigned int pushId; // @synthesize pushId;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+@interface CContact : CBaseContact <PBCoding, NSCoding>
+{
+    unsigned int m_uiChatRoomStatus;
+    NSString *m_nsChatRoomMemList;
+    unsigned int m_uiChatRoomAccessType;
+    unsigned int m_uiChatRoomMaxCount;
+    unsigned int m_uiChatRoomVersion;
+    ChatRoomDetail *m_ChatRoomDetail;
+    NSString *m_nsChatRoomData;
+    ChatRoomData *m_ChatRoomData;
+    NSString *m_nsCountry;
+    NSString *m_nsProvince;
+    NSString *m_nsCity;
+    NSString *m_nsSignature;
+    unsigned int m_uiCertificationFlag;
+    NSString *m_nsCertificationInfo;
+    NSString *m_nsOwner;
+    NSString *m_nsFBNickName;
+    NSString *m_nsFBID;
+    unsigned int m_uiNeedUpdate;
+    NSString *m_nsWCBGImgObjectID;
+    int m_iWCFlag;
+    NSString *m_pcWCBGImgID;
+    NSString *m_nsExternalInfo;
+    NSString *m_nsBrandSubscriptConfigUrl;
+    unsigned int m_uiBrandSubscriptionSettings;
+    SubscriptBrandInfo *m_subBrandInfo;
+    NSString *m_nsBrandIconUrl;
+    _Bool m_isExtInfoValid;
+    NSDictionary *externalInfoJSONCache;
+    _Bool m_isShowRedDot;
+    NSString *m_nsMobileHash;
+    NSString *m_nsMobileFullHash;
+    NSString *m_nsLinkedInID;
+    NSString *m_nsLinkedInName;
+    NSString *m_nsLinkedInPublicUrl;
+    unsigned int m_uiDeleteFlag;
+    NSString *m_nsDescription;
+    NSString *m_nsCardUrl;
+    NSString *m_nsWorkID;
+    NSString *m_nsLabelIDList;
+    NSArray *m_arrPhoneItem;
+    NSRecursiveLock *m_lockForChatRoomData;
+    _Bool _m_bFromNewDB;
+    unsigned int _m_uiLastUpdate;
+    unsigned int _m_uiMetaFlag;
+    unsigned int _m_uiDebugModeType;
+    unsigned int _m_uiWxAppOpt;
+    unsigned int _uiLastUpdateAppVersionInfoTime;
+    NSString *m_nsWeiDianInfo;
+    NSDictionary *_m_dicWeiDianInfo;
+    NSString *_m_nsAppId;
+    WANewYearContactInfo *_m_weAppNewYearContactInfo;
+}
+
++ (_Bool)isHeadImgUpdated:(id)arg1 Local:(id)arg2;
++ (void)HandleChatMemUsrImg:(struct tagMMModChatRoomMember *)arg1 Contatct:(id)arg2 DocPath:(id)arg3;
++ (void)HandleUsrImgPB:(id)arg1 Contatct:(id)arg2 DocPath:(id)arg3;
++ (void)HandleUsrImg:(struct tagMMModContact *)arg1 Contatct:(id)arg2 DocPath:(id)arg3;
++ (id)genChatRoomName:(id)arg1 appendTail:(_Bool)arg2;
++ (id)genChatRoomName:(id)arg1;
++ (id)getChatRoomMemberWithoutMyself:(id)arg1;
++ (id)getChatRoomMember:(id)arg1;
++ (id)getChatRoomMemberUserName:(id)arg1;
++ (unsigned long long)getChatRoomMemberCount:(id)arg1;
++ (id)getMicroBlogUsrDisplayName:(id)arg1;
++ (id)parseContactKey:(id)arg1;
++ (id)SubscriptedBrandsFromString:(id)arg1;
++ (void)initialize;
++ (_Bool)isWeAppUserName:(id)arg1;
+@property(retain, nonatomic) WANewYearContactInfo *m_weAppNewYearContactInfo; // @synthesize m_weAppNewYearContactInfo=_m_weAppNewYearContactInfo;
+@property(nonatomic) unsigned int uiLastUpdateAppVersionInfoTime; // @synthesize uiLastUpdateAppVersionInfoTime=_uiLastUpdateAppVersionInfoTime;
+@property(nonatomic) unsigned int m_uiWxAppOpt; // @synthesize m_uiWxAppOpt=_m_uiWxAppOpt;
+@property(copy, nonatomic) NSString *m_nsAppId; // @synthesize m_nsAppId=_m_nsAppId;
+@property(nonatomic) unsigned int m_uiDebugModeType; // @synthesize m_uiDebugModeType=_m_uiDebugModeType;
+@property(nonatomic) unsigned int m_uiMetaFlag; // @synthesize m_uiMetaFlag=_m_uiMetaFlag;
+@property(nonatomic) unsigned int m_uiLastUpdate; // @synthesize m_uiLastUpdate=_m_uiLastUpdate;
+@property(nonatomic) _Bool m_bFromNewDB; // @synthesize m_bFromNewDB=_m_bFromNewDB;
+@property(retain, nonatomic) NSString *m_nsWorkID; // @synthesize m_nsWorkID;
+- (void)setExternalInfoJSONCache:(id)arg1;
+- (id)externalInfoJSONCache;
+@property(retain, nonatomic) NSString *m_nsWeiDianInfo; // @synthesize m_nsWeiDianInfo;
+@property(retain, nonatomic) ChatRoomDetail *m_ChatRoomDetail; // @synthesize m_ChatRoomDetail;
+@property(retain, nonatomic) NSArray *m_arrPhoneItem; // @synthesize m_arrPhoneItem;
+@property(retain, nonatomic) NSString *m_nsLabelIDList; // @synthesize m_nsLabelIDList;
+@property(retain, nonatomic) NSString *m_nsCardUrl; // @synthesize m_nsCardUrl;
+@property(retain, nonatomic) NSString *m_nsDescription; // @synthesize m_nsDescription;
+@property(nonatomic) unsigned int m_uiDeleteFlag; // @synthesize m_uiDeleteFlag;
+@property(nonatomic) unsigned int m_uiChatRoomVersion; // @synthesize m_uiChatRoomVersion;
+@property(nonatomic) unsigned int m_uiChatRoomMaxCount; // @synthesize m_uiChatRoomMaxCount;
+@property(retain, nonatomic) NSString *m_nsLinkedInPublicUrl; // @synthesize m_nsLinkedInPublicUrl;
+@property(retain, nonatomic) NSString *m_nsLinkedInName; // @synthesize m_nsLinkedInName;
+@property(retain, nonatomic) NSString *m_nsLinkedInID; // @synthesize m_nsLinkedInID;
+@property(retain, nonatomic) NSString *m_nsMobileFullHash; // @synthesize m_nsMobileFullHash;
+@property(retain, nonatomic) NSString *m_nsMobileHash; // @synthesize m_nsMobileHash;
+@property(nonatomic) _Bool m_isShowRedDot; // @synthesize m_isShowRedDot;
+@property(nonatomic) unsigned int m_uiChatRoomAccessType; // @synthesize m_uiChatRoomAccessType;
+@property(nonatomic) _Bool m_isExtInfoValid; // @synthesize m_isExtInfoValid;
+@property(retain, nonatomic) NSString *m_nsBrandIconUrl; // @synthesize m_nsBrandIconUrl;
+@property(retain, nonatomic) SubscriptBrandInfo *m_subBrandInfo; // @synthesize m_subBrandInfo;
+@property(nonatomic) unsigned int m_uiBrandSubscriptionSettings; // @synthesize m_uiBrandSubscriptionSettings;
+@property(retain, nonatomic) NSString *m_nsBrandSubscriptConfigUrl; // @synthesize m_nsBrandSubscriptConfigUrl;
+@property(retain, nonatomic) NSString *m_nsExternalInfo; // @synthesize m_nsExternalInfo;
+@property(retain, nonatomic) NSString *m_pcWCBGImgID; // @synthesize m_pcWCBGImgID;
+@property(nonatomic) int m_iWCFlag; // @synthesize m_iWCFlag;
+@property(retain, nonatomic) NSString *m_nsWCBGImgObjectID; // @synthesize m_nsWCBGImgObjectID;
+@property(nonatomic) unsigned int m_uiNeedUpdate; // @synthesize m_uiNeedUpdate;
+@property(retain, nonatomic) NSString *m_nsFBID; // @synthesize m_nsFBID;
+@property(retain, nonatomic) NSString *m_nsFBNickName; // @synthesize m_nsFBNickName;
+@property(retain, nonatomic) NSString *m_nsOwner; // @synthesize m_nsOwner;
+@property(retain, nonatomic) NSString *m_nsCertificationInfo; // @synthesize m_nsCertificationInfo;
+@property(nonatomic) unsigned int m_uiCertificationFlag; // @synthesize m_uiCertificationFlag;
+@property(retain, nonatomic) NSString *m_nsSignature; // @synthesize m_nsSignature;
+@property(retain, nonatomic) NSString *m_nsCity; // @synthesize m_nsCity;
+@property(retain, nonatomic) NSString *m_nsProvince; // @synthesize m_nsProvince;
+@property(retain, nonatomic) NSString *m_nsCountry; // @synthesize m_nsCountry;
+@property(nonatomic) unsigned int m_uiChatRoomStatus; // @synthesize m_uiChatRoomStatus;
+@property(retain, nonatomic) NSString *m_nsChatRoomMemList; // @synthesize m_nsChatRoomMemList;
+- (_Bool)isWeAppNewYearContact;
+- (_Bool)IsUserInChatRoom:(id)arg1;
+- (id)getLabelIDList;
+- (_Bool)isAccountDeleted;
+@property(readonly, nonatomic) NSDictionary *m_dicWeiDianInfo; // @synthesize m_dicWeiDianInfo=_m_dicWeiDianInfo;
+- (_Bool)isHasWeiDian;
+- (_Bool)isShowLinkedIn;
+- (_Bool)needShowUnreadCountOnSession;
+- (void)setChatStatusNotifyOpen:(_Bool)arg1;
+- (_Bool)isChatStatusNotifyOpen;
+- (_Bool)isContactFrozen;
+- (_Bool)isContactSessionTop;
+- (_Bool)isChatroomNeedAccessVerify;
+- (_Bool)isShowChatRoomDisplayName;
+- (_Bool)isAdmin;
+- (id)xmlForMessageWrapContent;
+- (id)getChatRoomMembrGroupNickName:(id)arg1;
+- (id)getChatRoomMemberNickName:(id)arg1;
+- (id)getChatRoomMemberDisplayName:(id)arg1;
+- (id)getNormalContactDisplayDesc;
+- (long long)compareForFavourGroup:(id)arg1;
+- (_Bool)isLocalizedContact;
+- (_Bool)isHolderContact;
+- (_Bool)isVerified;
+- (_Bool)isIgnoreBrandContat;
+- (_Bool)isVerifiedBrandContact;
+- (_Bool)isBrandContact;
+- (_Bool)IsAddFromShake;
+- (_Bool)IsAddFromLbs;
+- (_Bool)isMyContact;
+- (void)tryLoadExtInfo;
+@property(readonly, copy) NSString *description;
+- (_Bool)copyPatialFieldFromContact:(id)arg1;
+- (_Bool)copyFieldFromContact:(id)arg1;
+- (id)initWithCoder:(id)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (id)initWithModContact:(id)arg1;
+- (id)initWithShareCardMsgWrapContent:(id)arg1;
+- (id)initWithShareCardMsgWrap:(id)arg1;
+- (void)genContactFromShareCardMsgWrapContent:(id)arg1;
+- (_Bool)genContactFromShareCardMsgWrap:(id)arg1;
+- (id)init;
+- (_Bool)isHasMobile;
+- (id)getMobileList;
+- (_Bool)hasMatchHashPhone;
+- (id)getMobileNumString;
+- (id)getMobileDisplayName;
+- (_Bool)isContactTypeShouldDelete;
+- (id)getNewChatroomData;
+@property(retain, nonatomic) ChatRoomData *m_ChatRoomData; // @synthesize m_ChatRoomData;
+@property(retain, nonatomic) NSString *m_nsChatRoomData; // @synthesize m_nsChatRoomData;
+- (void)setSignatureWithoutEmojiChange:(id)arg1;
+- (void)setChatRoomDataWithoutEmojiChange:(id)arg1;
+- (const map_ *)getValueTagIndexMap;
+- (id)getValueTypeTable;
+- (id)getWeAppProfileCategoryList;
+- (long long)getWeAppBizWxaOpenFlag;
+- (id)getWeAppProfileBindBrandList;
+- (id)getBrandProfileBindWeAppList;
+- (id)getWeAppInfo;
+- (_Bool)hasWeAppVersionInfo;
+- (_Bool)hasWeAppInfo;
+- (_Bool)isBlockWeAppSessionMessage;
+- (_Bool)isWeAppContact;
+- (unsigned int)getCDNUrlLifeSpanSecond;
+- (id)getCDNDownloadUrl;
+- (id)getWeAppConfigList;
+- (id)getVerisonMD5;
+- (id)getAppBrandSologanImageURL;
+- (id)getAppID;
+- (id)getAppBrandInfo;
+- (_Bool)hasAppBrandInfo;
+- (id)getMainPageUrl;
+- (_Bool)isOpenMainPage;
+- (unsigned int)getFunctionFlag;
+- (id)getSupportEmoticonLinkPrefix;
+- (id)getConferenceVerifyButtonTitle;
+- (id)getConferenceVerifyPromptTitle;
+- (unsigned int)getConferenceContactExpireTime;
+- (id)getBrandBusinessScope;
+- (id)getBrandMerchantSecurityUrl;
+- (id)getBrandMerchantSecurity;
+- (id)getBrandEvaluateCount;
+- (id)getBrandMerchantRatings;
+- (id)brandUrls;
+- (id)brandPrivileges;
+- (id)getBrandRegisterSourceIntroUrl;
+- (id)getBrandRegisterSourceBody;
+- (_Bool)getIsTrademarkProtection;
+- (id)getBrandVerifySubTitle;
+- (id)getBrandVerifySourceIntroUrl;
+- (id)getBrandVerifySourceDescription;
+- (id)getBrandVerifySourceName;
+- (unsigned int)getBrandVerifySourceType;
+- (id)getBrandTrademarkName;
+- (id)getBrandTrademarkUrl;
+- (id)getCustomizeMenu;
+- (id)bizMenuInfoFromContact;
+- (long long)getInteractiveMode;
+- (_Bool)isShowToolBarInMsg;
+- (_Bool)isShowHeadImgInMsg;
+- (long long)getScanQRCodeType;
+- (long long)getReportLocationType;
+- (long long)getAudioPlayType;
+- (_Bool)isContactCanReceiveSpeexVoice;
+- (_Bool)containKFWorkerInfo;
+- (id)getSpecifyWorkerOpenID;
+- (long long)getConnectorMsgType;
+- (_Bool)canSupportMessageNotify;
+- (_Bool)isHardDeviceHideSubtitle;
+- (_Bool)isInternalMyDeviceBrand;
+- (_Bool)isInternalSportBrand;
+- (id)getNearFieldDesc;
+- (_Bool)isSupportPublicWifi;
+- (_Bool)isHardDeviceTestBrand;
+- (_Bool)isHardDeviceBrand;
+- (_Bool)isEnterpriseDisableBrand;
+- (_Bool)isEnterpriseWebSubBrand;
+- (_Bool)isEnterpriseChatSubBrand;
+- (_Bool)isEnterpriseSubBrand;
+- (id)getEnterpriseSubBrandChatExtUrl;
+- (id)getEnterpriseSubBrandUrl;
+- (unsigned int)getEnterpriseSubBrandChildType;
+- (_Bool)isEnterpriseBrand;
+- (_Bool)isEnterpriseMainBrand;
+- (id)getEnterpriseBrandFrozenWording;
+- (id)getEnterpriseMainBrandUserName;
+- (int)getBrandContactType;
+- (id)getExternalInfoDictionary;
+- (void)updateWithBizAttrChanged:(id)arg1;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly) Class superclass;
+
+@end
+
+@interface CQQContact : CBaseContact
+{
+    unsigned int m_uiAge;
+    unsigned int m_uiUin;
+    NSString *m_nsSign;
+    NSString *m_nsAddress;
+    NSString *m_nsBirthday;
+}
+
+@property(retain, nonatomic) NSString *m_nsBirthday; // @synthesize m_nsBirthday;
+@property(retain, nonatomic) NSString *m_nsAddress; // @synthesize m_nsAddress;
+@property(retain, nonatomic, setter=setNsSignature:) NSString *m_nsSign; // @synthesize m_nsSign;
+@property(nonatomic) unsigned int m_uiUin; // @synthesize m_uiUin;
+@property(nonatomic) unsigned int m_uiAge; // @synthesize m_uiAge;
+- (id)description;
+- (_Bool)isMyQQ;
+- (_Bool)copyFrom:(id)arg1;
+- (id)init;
+
+@end
+
+@interface VideoParamsSource : NSObject
+{
+    NSURL *_videoURL;
+    MMAsset *_videoMMAsset;
+}
+
++ (id)videoParamsSourceFromMMAsset:(id)arg1;
++ (id)videoParamsSourceFromURL:(id)arg1;
+@property(retain, nonatomic) MMAsset *videoMMAsset; // @synthesize videoMMAsset=_videoMMAsset;
+@property(retain, nonatomic) NSURL *videoURL; // @synthesize videoURL=_videoURL;
+- (id)genVideoParamsInfoFromAVAsset:(id)arg1;
+- (id)genVideoParamsInfoFromMMAsset:(id)arg1;
+- (id)genVideoParamsInfoFromURL:(id)arg1;
+- (id)genVideoParamsInfo;
+
+@end
+
+@interface BaseResponse : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) SKBuiltinString_t *errMsg; // @dynamic errMsg;
+@property(nonatomic) int ret; // @dynamic ret;
+
+@end
+
+@interface HongBaoReq : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) BaseRequest *baseRequest; // @dynamic baseRequest;
+@property(nonatomic) unsigned int cgiCmd; // @dynamic cgiCmd;
+@property(nonatomic) unsigned int outPutType; // @dynamic outPutType;
+@property(retain, nonatomic) SKBuiltinBuffer_t *reqText; // @dynamic reqText;
+
+@end
+
+@interface FestivalHongBaoReq : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) BaseRequest *baseRequest; // @dynamic baseRequest;
+@property(nonatomic) unsigned int cgiCmd; // @dynamic cgiCmd;
+@property(nonatomic) unsigned int outPutType; // @dynamic outPutType;
+@property(retain, nonatomic) SKBuiltinBuffer_t *reqText; // @dynamic reqText;
+@property(nonatomic) unsigned long long reqTime; // @dynamic reqTime;
+@property(retain, nonatomic) NSData *sendKey; // @dynamic sendKey;
+@property(nonatomic) unsigned int subscribe; // @dynamic subscribe;
+
+@end
+
+@protocol IContactProfileMgrExt
+
+@optional
+- (void)DidGetQQContactProfile:(CQQContact *)arg1 withImage:(_Bool)arg2;
+@end
+
+@protocol IStrangerContactMgrExt <NSObject>
+
+@optional
+- (void)onStrangerContactUpdateForbidden:(NSString *)arg1;
+- (void)onStrangerContactUpdated:(NSString *)arg1 Contact:(CContact *)arg2;
+- (void)onStrangerContactUpdated:(NSArray *)arg1;
+@end
+
+@interface VideoUploadStatInfo : NSObject
+{
+    _Bool _sourceVideoContainsWXTag;
+    unsigned int _uploadStartTime;
+    unsigned int _cpStatus;
+    unsigned int _sendScene;
+    NSString *_toUsername;
+    NSString *_fileId;
+    NSString *_videoNewMd5;
+    NSString *_msgSource;
+    NSString *_snsCommitId;
+    VideoParamsSource *_oriVideoParamsSource;
+    VideoParamsSource *_cpVideoParamsSource;
+    NSString *_cdnIp;
+    NSString *_snsUrl;
+    VideoParamsInfo *_srcVideoParams;
+    VideoParamsInfo *_cpVideoParams;
+}
+
+@property(retain, nonatomic) VideoParamsInfo *cpVideoParams; // @synthesize cpVideoParams=_cpVideoParams;
+@property(retain, nonatomic) VideoParamsInfo *srcVideoParams; // @synthesize srcVideoParams=_srcVideoParams;
+@property(nonatomic) _Bool sourceVideoContainsWXTag; // @synthesize sourceVideoContainsWXTag=_sourceVideoContainsWXTag;
+@property(retain, nonatomic) NSString *snsUrl; // @synthesize snsUrl=_snsUrl;
+@property(retain, nonatomic) NSString *cdnIp; // @synthesize cdnIp=_cdnIp;
+@property(nonatomic) unsigned int sendScene; // @synthesize sendScene=_sendScene;
+@property(nonatomic) unsigned int cpStatus; // @synthesize cpStatus=_cpStatus;
+@property(retain, nonatomic) VideoParamsSource *cpVideoParamsSource; // @synthesize cpVideoParamsSource=_cpVideoParamsSource;
+@property(retain, nonatomic) VideoParamsSource *oriVideoParamsSource; // @synthesize oriVideoParamsSource=_oriVideoParamsSource;
+@property(nonatomic) unsigned int uploadStartTime; // @synthesize uploadStartTime=_uploadStartTime;
+@property(retain, nonatomic) NSString *snsCommitId; // @synthesize snsCommitId=_snsCommitId;
+@property(retain, nonatomic) NSString *msgSource; // @synthesize msgSource=_msgSource;
+@property(retain, nonatomic) NSString *videoNewMd5; // @synthesize videoNewMd5=_videoNewMd5;
+@property(retain, nonatomic) NSString *fileId; // @synthesize fileId=_fileId;
+@property(retain, nonatomic) NSString *toUsername; // @synthesize toUsername=_toUsername;
+- (void)reportKV;
+- (id)getBigVideoStatInfo;
+- (void)mergeInfoFromSnsTaskInfo:(id)arg1;
+- (void)mergeInfoFromTaskInfo:(id)arg1;
+- (void)mergeInfoFromUploadTaskInfo:(id)arg1;
+- (id)init;
+
+@end
+
+@interface AsyncBizSubscribeResponse : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) BaseResponse *baseResponse; // @dynamic baseResponse;
+
+@end
+
+@interface HongBaoRes : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) BaseResponse *baseResponse; // @dynamic baseResponse;
+@property(nonatomic) int cgiCmdid; // @dynamic cgiCmdid;
+@property(retain, nonatomic) NSString *errorMsg; // @dynamic errorMsg;
+@property(nonatomic) int errorType; // @dynamic errorType;
+@property(retain, nonatomic) NSString *platMsg; // @dynamic platMsg;
+@property(nonatomic) int platRet; // @dynamic platRet;
+@property(retain, nonatomic) SKBuiltinBuffer_t *retText; // @dynamic retText;
+
+@end
+
+@interface FestivalHongBaoRes : WXPBGeneratedMessage
+{
+}
+
++ (void)initialize;
+
+// Remaining properties
+@property(retain, nonatomic) BaseResponse *baseResponse; // @dynamic baseResponse;
+@property(nonatomic) int cgiCmdid; // @dynamic cgiCmdid;
+@property(retain, nonatomic) NSString *errorMsg; // @dynamic errorMsg;
+@property(nonatomic) int errorType; // @dynamic errorType;
+@property(retain, nonatomic) NSString *platMsg; // @dynamic platMsg;
+@property(nonatomic) int platRet; // @dynamic platRet;
+@property(retain, nonatomic) SKBuiltinBuffer_t *retText; // @dynamic retText;
+
+@end
+
+@protocol WCRedEnvelopesNetworkHelperDelegate <NSObject>
+- (void)OnWCToAsyncBizSubscribeResponse:(AsyncBizSubscribeResponse *)arg1 Request:(AsyncBizSubscribeRequest *)arg2;
+- (void)OnWCToBizHBCommonErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+- (void)OnWCToBizHBCommonSystemErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+- (void)OnWCToBizHBCommonResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+- (void)OnWCToEnterpriseHBCommonErrorResponse:(FestivalHongBaoRes *)arg1 Request:(FestivalHongBaoReq *)arg2;
+- (void)OnWCToEnterpriseHBCommonSystemErrorResponse:(FestivalHongBaoRes *)arg1 Request:(FestivalHongBaoReq *)arg2;
+- (void)OnWCToEnterpriseHBCommonResponse:(FestivalHongBaoRes *)arg1 Request:(FestivalHongBaoReq *)arg2;
+- (void)OnWCToHongbaoCommonErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+- (void)OnWCToHongbaoCommonSystemErrorResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+- (void)OnWCToHongbaoCommonResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2;
+@end
+
+@interface ContactUpdateHelper : NSObject <IStrangerContactMgrExt>
+{
+    NSString *_m_moduleName;
+    NSString *_m_userName;
+    CDUnknownBlockType _m_block;
+}
+
+@property(copy, nonatomic) CDUnknownBlockType m_block; // @synthesize m_block=_m_block;
+@property(retain, nonatomic) NSString *m_userName; // @synthesize m_userName=_m_userName;
+@property(retain, nonatomic) NSString *m_moduleName; // @synthesize m_moduleName=_m_moduleName;
+- (void)onStrangerContactUpdateForbidden:(id)arg1;
+- (void)onStrangerContactUpdated:(id)arg1 Contact:(id)arg2;
+- (void)clearBlock;
+- (void)updateStangerContact;
+- (_Bool)strangerContactToBlock;
+- (_Bool)normalContactToBlock;
+- (void)startWithUserName:(id)arg1 onUpdate:(CDUnknownBlockType)arg2;
+- (id)initWithModuleName:(id)arg1;
+- (void)dealloc;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+@interface WCRedEnvelopesNetworkHelper : MMObject <PBMessageObserverDelegate>
+{
+    id <WCRedEnvelopesNetworkHelperDelegate> m_delegate;
+    NSMutableDictionary *m_dicCGIStartedTime;
+}
+
++ (void)idkeyCmdReport:(unsigned int)arg1 keyName:(id)arg2 value:(unsigned int)arg3;
++ (void)idkeyCmdReport:(unsigned int)arg1 keyName:(id)arg2;
++ (void)initialize;
+@property(nonatomic) __weak id <WCRedEnvelopesNetworkHelperDelegate> m_delegate; // @synthesize m_delegate;
+- (void)MessageReturn:(id)arg1 Event:(unsigned int)arg2;
+- (void)MessageReturnOnAsyncBizSubScribe:(id)arg1 Event:(unsigned int)arg2;
+- (void)MessageReturnOnCommonBizHongbao:(id)arg1 Event:(unsigned int)arg2;
+- (void)MessageReturnOnEnterpriseHongbao:(id)arg1 Event:(unsigned int)arg2;
+- (void)MessageReturnOnHongbao:(id)arg1 Event:(unsigned int)arg2;
+- (void)WCToAsyncBizSubcribeReq:(id)arg1;
+- (void)WCToEnterpriseCommonBizReq:(id)arg1;
+- (void)WCToEnterpriseHBBizReq:(id)arg1;
+- (void)WCToYearHongbaoRequest:(id)arg1;
+- (void)WCToHongbaoCommonRequest:(id)arg1;
+- (void)dealloc;
+- (id)init;
+
+@end
+
+@interface WCRedEnvelopesLogicMgr : MMService <WCRedEnvelopesNetworkHelperDelegate>
+{
+    WCRedEnvelopesNetworkHelper *m_networkHelper;
+    ContactUpdateHelper *_m_senderNickNameHelper;
+}
+
+@property(retain, nonatomic) ContactUpdateHelper *m_senderNickNameHelper; // @synthesize m_senderNickNameHelper=_m_senderNickNameHelper;
+- (void)AsyncBizSubcribeRequest:(id)arg1;
+- (void)CheckAuthBizEnterpriseRedEnvelopesRequest:(id)arg1;
+- (void)OpenBizEnterpriseRedEnvelopesRequest:(id)arg1;
+- (void)ReceiveBizEnterpriseRedEnvelopesRequest:(id)arg1;
+- (void)OpenEnterpriseRedEnvelopesRequest:(id)arg1 SendKey:(id)arg2 ShouldSubscribe:(_Bool)arg3;
+- (void)ThanksForRedEnvelopesRequest:(id)arg1;
+- (void)ClearserSendOrReceiveRedEnveloperListRequest:(id)arg1;
+- (void)DeleteRedEnvelopesRecord:(id)arg1;
+- (void)QueryUserSendOrReceiveRedEnveloperListRequest:(id)arg1;
+- (void)QueryRedEnvelopesDetailRequest:(id)arg1;
+- (void)OpenRedEnvelopesRequest:(id)arg1;
+- (void)ReceiverQueryRedEnvelopesRequest:(id)arg1;
+- (void)SendShareRedEnvelopesoRequest:(id)arg1;
+- (void)GenYearRedEnvelopesPayRequest:(id)arg1;
+- (void)GenH5RedEnvelopesPayRequest:(id)arg1;
+- (void)GenRedEnvelopesPayRequest:(id)arg1;
+- (void)QueryRedEnvelopesUserInfoNoCache:(id)arg1;
+- (void)QueryRedEnvelopesUserInfo:(id)arg1;
+- (void)GetEnterpriseHongbaoBizRequest:(id)arg1 CMDID:(unsigned int)arg2 SendKey:(id)arg3 OutputType:(unsigned int)arg4;
+- (void)GetEnterpriseHongbaoBusinessRequest:(id)arg1 CMDID:(unsigned int)arg2 SendKey:(id)arg3 OutputType:(unsigned int)arg4 ShouldSubscribe:(_Bool)arg5;
+- (void)GetYearHongbaoRequest:(id)arg1 CMDID:(unsigned int)arg2 OutputType:(unsigned int)arg3;
+- (void)GetHongbaoBusinessRequest:(id)arg1 CMDID:(unsigned int)arg2 OutputType:(unsigned int)arg3;
+- (void)OnWCToAsyncBizSubscribeResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToBizHBCommonResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToBizHBCommonSystemErrorResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToBizHBCommonErrorResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToEnterpriseHBCommonResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToEnterpriseHBCommonSystemErrorResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToEnterpriseHBCommonErrorResponse:(id)arg1 Request:(id)arg2;
+- (void)addReceiveSystemMsgWithDic:(id)arg1;
+- (void)OnWCToHongbaoCommonResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToHongbaoCommonErrorResponse:(id)arg1 Request:(id)arg2;
+- (void)OnWCToHongbaoCommonSystemErrorResponse:(id)arg1 Request:(id)arg2;
+- (id)init;
+
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
+@property(readonly) Class superclass;
+
+@end
+
+struct WCDBConditionBase {
+    _Bool _field1;
+};
+
+
+@protocol IAppMsgPathMgr <NSObject>
+
+@optional
++ (void)GetPathOfAppRemindAttach:(CMessageWrap *)arg1 retStrPath:(id *)arg2;
++ (void)GetPathOfAppThumb:(NSString *)arg1 LocalID:(unsigned int)arg2 retStrPath:(id *)arg3;
++ (void)GetPathOfMaskedAppThumb:(NSString *)arg1 LocalID:(unsigned int)arg2 retStrPath:(id *)arg3;
++ (void)GetPathOfAppDataTemp:(NSString *)arg1 LocalID:(unsigned int)arg2 retStrPath:(id *)arg3;
++ (void)GetPathOfAppDataTemp:(NSString *)arg1 LocalID:(unsigned int)arg2 AttachId:(NSString *)arg3 retStrPath:(id *)arg4;
++ (void)GetPathOfAppDataByUserName:(NSString *)arg1 andMessageWrap:(CMessageWrap *)arg2 retStrPath:(id *)arg3;
++ (void)GetPathOfAppDataByUserName:(NSString *)arg1 andMessageWrap:(CMessageWrap *)arg2 andAttachId:(NSString *)arg3 andAttachFileExt:(NSString *)arg4 retStrPath:(id *)arg5;
++ (void)GetPathOfAppData:(NSString *)arg1 LocalID:(unsigned int)arg2 FileExt:(NSString *)arg3 retStrPath:(id *)arg4;
++ (void)GetPathOfAppDir:(NSString *)arg1 retStrPath:(id *)arg2;
+@end
+
+@protocol IMsgExtendOperation <NSObject>
+@property(retain, nonatomic) CMessageWrap *m_refMessageWrap;
+- (id)copy;
+
+@optional
+- (NSString *)GetDisplaySessionContent;
+- (NSString *)GetDisplayContent;
+- (void)UpdateMassSendContent:(NSString *)arg1;
+- (_Bool)genImageFromMMAssetAndNotify:(id)arg1;
+- (_Bool)IsHDImg;
+- (void)setImage:(UIImage *)arg1 withImageInfo:(ImageInfo *)arg2 isLongOriginImage:(_Bool)arg3;
+- (void)setImage:(UIImage *)arg1 withData:(NSData *)arg2 withImageInfo:(ImageInfo *)arg3 isLongOriginImage:(_Bool)arg4;
+- (void)setImage:(UIImage *)arg1 withData:(NSData *)arg2 isLongOriginImage:(_Bool)arg3;
+- (void)setImage:(UIImage *)arg1 isLongOriginImage:(_Bool)arg2;
+- (void)SetOriginal:(_Bool)arg1;
+- (unsigned int)GetContentAttributeBitSetFlag;
+- (_Bool)GetDownloadThumbStatus:(unsigned int *)arg1;
+- (_Bool)isShowAppMessageBlockButton;
+- (_Bool)isShowAppBottomButton;
+- (unsigned int)GetPreviewType;
+- (NSString *)getFileExt;
+- (void)UpdateVideoStatus:(CMessageDB *)arg1;
+- (void)SetPlaySounded:(_Bool)arg1;
+- (_Bool)IsPlaySounded;
+- (_Bool)IsRecording;
+- (void)SetPlayed;
+- (_Bool)IsDownloadEnded;
+- (_Bool)IsUnPlayed;
+- (_Bool)SaveMesVoice:(NSString *)arg1;
+- (NSString *)GetDownloadThumbPath;
+- (NSString *)GetThumbPath;
+- (void)ChangeForBackup;
+- (void)UpdateGameInfo:(NSString *)arg1;
+- (NSString *)GetGameStatReportString;
+- (NSString *)GetContent;
+- (void)UpdateContent:(NSString *)arg1;
+- (void)ChangeForDisplayAnyhow;
+- (void)ChangeForDisplay;
+@end
+
+@protocol WCDBHandleWrapProtocol <NSObject>
+- (void)handleWrapWillEnd:(WCDBHandleWrap *)arg1;
 @end
 
 @interface WCDataBase : NSObject <WCDBCorruptReportInterface, WCDBHandlesPoolProtocol>
@@ -954,73 +2620,6 @@ struct set_;
 
 @end
 
-@interface WXPBGeneratedMessage : NSObject
-{
-    int _has_bits_[3];
-    int _serializedSize;
-    struct PBClassInfo *_classInfo;
-    id *_ivarValueDict;
-}
-
-+ (id)parseFromData:(id)arg1;
-- (_Bool)hasProperty:(int)arg1;
-- (unsigned int)continueFlag;
-- (id)baseResponse;
-- (void)setBaseRequest:(id)arg1;
-- (void)writeValueToCodedOutputDataNoTag:(struct CodedOutputData *)arg1 value:(id)arg2 fieldType:(unsigned char)arg3;
-- (void)writeValueToCodedOutputData:(struct CodedOutputData *)arg1 value:(id)arg2 fieldNumber:(int)arg3 fieldType:(unsigned char)arg4;
-- (void)writeToCodedOutputData:(struct CodedOutputData *)arg1;
-- (int)computeValueSizeNoTag:(id)arg1 fieldType:(unsigned char)arg2;
-- (int)computeValueSize:(id)arg1 fieldNumber:(int)arg2 fieldType:(unsigned char)arg3;
-- (int)serializedSize;
-- (id)serializedData;
-- (_Bool)isInitialized;
-- (_Bool)isMessageInitialized:(id)arg1;
-- (id)readValueFromCodedInputData:(struct CodedInputData *)arg1 fieldType:(unsigned char)arg2;
-- (id)mergeFromCodedInputData:(struct CodedInputData *)arg1;
-- (id)mergeFromData:(id)arg1;
-- (id)valueAtIndex:(int)arg1;
-- (void)setValue:(id)arg1 atIndex:(int)arg2;
-- (int)indexOfPropertyWithSetter:(const char *)arg1;
-- (int)indexOfPropertyWithGetter:(const char *)arg1;
-- (void)dealloc;
-- (id)init;
-
-@end
-
-@interface MMTimer : NSObject
-{
-    _Bool _paused;
-    NSTimer *_m_timer;
-    NSDate *_pauseStart;
-    NSDate *_previousFireDate;
-}
-
-+ (id)startTimeCheckWithInterval:(double)arg1 target:(id)arg2 selector:(SEL)arg3;
-+ (id)scheduledNoRetainTimerWithTimeInterval:(double)arg1 target:(id)arg2 selector:(SEL)arg3 userInfo:(id)arg4 repeats:(_Bool)arg5;
-@property(retain, nonatomic) NSDate *previousFireDate; // @synthesize previousFireDate=_previousFireDate;
-@property(retain, nonatomic) NSDate *pauseStart; // @synthesize pauseStart=_pauseStart;
-@property(nonatomic) _Bool paused; // @synthesize paused=_paused;
-@property(retain, nonatomic) NSTimer *m_timer; // @synthesize m_timer=_m_timer;
-- (void)resumeTimer;
-- (void)pauseTimer;
-- (void)invalidate;
-- (void)stopTimeCheck;
-- (void)dealloc;
-
-@end
-
-@interface MMService : NSObject
-{
-    _Bool m_isServiceRemoved;
-    _Bool m_isServicePersistent;
-}
-
-@property _Bool m_isServicePersistent; // @synthesize m_isServicePersistent;
-@property _Bool m_isServiceRemoved; // @synthesize m_isServiceRemoved;
-
-@end
-
 @interface WCDBHandlesPool : NSObject <WCDBHandleWrapProtocol>
 {
     WCDBRWLock *m_handleLock;
@@ -1053,21 +2652,6 @@ struct set_;
 
 @end
 
-@interface WCDBCorruptReport : NSObject
-{
-    _Bool m_hasDirectReport;
-    unsigned int m_corruptNum;
-}
-
-@property _Bool m_hasDirectReport; // @synthesize m_hasDirectReport;
-@property unsigned int m_corruptNum; // @synthesize m_corruptNum;
-- (void)reportCorruptOnMainThread:(id)arg1;
-- (void)ClearCorruptNumWithDBID:(unsigned int)arg1;
-- (void)DirectReportCorruptWithDBID:(unsigned int)arg1 dbObject:(id)arg2 dbPath:(id)arg3 errorCode:(unsigned int)arg4 important:(_Bool)arg5;
-- (void)RecordCorruptWithDBID:(unsigned int)arg1 dbObject:(id)arg2 dbPath:(id)arg3 errorCode:(unsigned int)arg4 important:(_Bool)arg5;
-
-@end
-
 @interface WCDBHandleWrap : NSObject
 {
     NSThread *m_usedThread;
@@ -1088,539 +2672,6 @@ struct set_;
 @property(readonly, nonatomic) __weak NSThread *usedThread;
 @property(readonly, nonatomic) struct sqlite3 *handle;
 - (id)initWithHandle:(struct sqlite3 *)arg1 andDelegate:(id)arg2;
-
-@end
-
-@interface GiftCardItem : MMObject <PBCoding, NSCopying>
-{
-    unsigned int bizUin;
-    NSString *orderId;
-    NSString *_appName;
-    NSString *_recvDigest;
-    NSString *_sendDigest;
-    NSString *_backgroundPicUrl;
-    NSString *_titleColorStr;
-    NSString *_descColorStr;
-}
-
-+ (void)initialize;
-@property(retain, nonatomic) NSString *descColorStr; // @synthesize descColorStr=_descColorStr;
-@property(retain, nonatomic) NSString *titleColorStr; // @synthesize titleColorStr=_titleColorStr;
-@property(retain, nonatomic) NSString *backgroundPicUrl; // @synthesize backgroundPicUrl=_backgroundPicUrl;
-@property(retain, nonatomic) NSString *sendDigest; // @synthesize sendDigest=_sendDigest;
-@property(retain, nonatomic) NSString *recvDigest; // @synthesize recvDigest=_recvDigest;
-@property(retain, nonatomic) NSString *appName; // @synthesize appName=_appName;
-@property(retain, nonatomic) NSString *orderId; // @synthesize orderId;
-@property(nonatomic) unsigned int bizUin; // @synthesize bizUin;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)toXML;
-- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
-- (id)init;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface MMWCPushInfo : MMObject <WCDBCoding>
-{
-    _Bool finishDownload;
-    unsigned int pushId;
-    unsigned int subType;
-    unsigned int networkType;
-    unsigned int scene;
-    unsigned int expireTime;
-    NSString *appId;
-    NSString *base;
-    NSArray *resUrls;
-    NSString *packageId;
-    NSString *domain;
-    NSString *bizId;
-    long long m___rowID;
-}
-
-+ (id)parseCacheNode:(struct XmlReaderNode_t *)arg1;
-+ (id)parseString:(const char *)arg1;
-+ (unsigned int)parseSubType:(const char *)arg1;
-+ (unsigned int)parseExpireTime:(const char *)arg1;
-+ (unsigned int)parseNetType:(const char *)arg1;
-+ (unsigned int)parseUInt32:(const char *)arg1;
-+ (const basic_string_ *)getWCDBPrimaryColumnName;
-+ (const struct WCDBIndexHelper *)getWCDBIndexArray;
-+ (unsigned long long)getWCDBIndexArrayCount;
-+ (const map_ *)getFileValueTagIndexMap;
-+ (id)getFileValueTypeTable;
-+ (const map_ *)getPackedValueTagIndexMap;
-+ (id)getPackedValueTypeTable;
-+ (const map_ *)getValueNameIndexMap;
-+ (id)getValueTable;
-+ (id)dummyObject;
-@property(nonatomic) long long __rowID; // @synthesize __rowID=m___rowID;
-@property(nonatomic) _Bool finishDownload; // @synthesize finishDownload;
-@property(retain, nonatomic) NSString *bizId; // @synthesize bizId;
-@property(retain, nonatomic) NSString *domain; // @synthesize domain;
-@property(retain, nonatomic) NSString *packageId; // @synthesize packageId;
-@property(retain, nonatomic) NSArray *resUrls; // @synthesize resUrls;
-@property(retain, nonatomic) NSString *base; // @synthesize base;
-@property(retain, nonatomic) NSString *appId; // @synthesize appId;
-@property(nonatomic) unsigned int expireTime; // @synthesize expireTime;
-@property(nonatomic) unsigned int scene; // @synthesize scene;
-@property(nonatomic) unsigned int networkType; // @synthesize networkType;
-@property(nonatomic) unsigned int subType; // @synthesize subType;
-@property(nonatomic) unsigned int pushId; // @synthesize pushId;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface WCRedEnvelopesLogicMgr : MMService <WCRedEnvelopesNetworkHelperDelegate>
-{
-    WCRedEnvelopesNetworkHelper *m_networkHelper;
-    ContactUpdateHelper *_m_senderNickNameHelper;
-}
-
-@property(retain, nonatomic) ContactUpdateHelper *m_senderNickNameHelper; // @synthesize m_senderNickNameHelper=_m_senderNickNameHelper;
-- (void)AsyncBizSubcribeRequest:(id)arg1;
-- (void)CheckAuthBizEnterpriseRedEnvelopesRequest:(id)arg1;
-- (void)OpenBizEnterpriseRedEnvelopesRequest:(id)arg1;
-- (void)ReceiveBizEnterpriseRedEnvelopesRequest:(id)arg1;
-- (void)OpenEnterpriseRedEnvelopesRequest:(id)arg1 SendKey:(id)arg2 ShouldSubscribe:(_Bool)arg3;
-- (void)ThanksForRedEnvelopesRequest:(id)arg1;
-- (void)ClearserSendOrReceiveRedEnveloperListRequest:(id)arg1;
-- (void)DeleteRedEnvelopesRecord:(id)arg1;
-- (void)QueryUserSendOrReceiveRedEnveloperListRequest:(id)arg1;
-- (void)QueryRedEnvelopesDetailRequest:(id)arg1;
-- (void)OpenRedEnvelopesRequest:(id)arg1;
-- (void)ReceiverQueryRedEnvelopesRequest:(id)arg1;
-- (void)SendShareRedEnvelopesoRequest:(id)arg1;
-- (void)GenYearRedEnvelopesPayRequest:(id)arg1;
-- (void)GenH5RedEnvelopesPayRequest:(id)arg1;
-- (void)GenRedEnvelopesPayRequest:(id)arg1;
-- (void)QueryRedEnvelopesUserInfoNoCache:(id)arg1;
-- (void)QueryRedEnvelopesUserInfo:(id)arg1;
-- (void)GetEnterpriseHongbaoBizRequest:(id)arg1 CMDID:(unsigned int)arg2 SendKey:(id)arg3 OutputType:(unsigned int)arg4;
-- (void)GetEnterpriseHongbaoBusinessRequest:(id)arg1 CMDID:(unsigned int)arg2 SendKey:(id)arg3 OutputType:(unsigned int)arg4 ShouldSubscribe:(_Bool)arg5;
-- (void)GetYearHongbaoRequest:(id)arg1 CMDID:(unsigned int)arg2 OutputType:(unsigned int)arg3;
-- (void)GetHongbaoBusinessRequest:(id)arg1 CMDID:(unsigned int)arg2 OutputType:(unsigned int)arg3;
-- (void)OnWCToAsyncBizSubscribeResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToBizHBCommonResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToBizHBCommonSystemErrorResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToBizHBCommonErrorResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToEnterpriseHBCommonResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToEnterpriseHBCommonSystemErrorResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToEnterpriseHBCommonErrorResponse:(id)arg1 Request:(id)arg2;
-- (void)addReceiveSystemMsgWithDic:(id)arg1;
-- (void)OnWCToHongbaoCommonResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToHongbaoCommonErrorResponse:(id)arg1 Request:(id)arg2;
-- (void)OnWCToHongbaoCommonSystemErrorResponse:(id)arg1 Request:(id)arg2;
-- (id)init;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface ContactUpdateHelper : NSObject <IStrangerContactMgrExt>
-{
-    NSString *_m_moduleName;
-    NSString *_m_userName;
-    CDUnknownBlockType _m_block;
-}
-
-@property(copy, nonatomic) CDUnknownBlockType m_block; // @synthesize m_block=_m_block;
-@property(retain, nonatomic) NSString *m_userName; // @synthesize m_userName=_m_userName;
-@property(retain, nonatomic) NSString *m_moduleName; // @synthesize m_moduleName=_m_moduleName;
-- (void)onStrangerContactUpdateForbidden:(id)arg1;
-- (void)onStrangerContactUpdated:(id)arg1 Contact:(id)arg2;
-- (void)clearBlock;
-- (void)updateStangerContact;
-- (_Bool)strangerContactToBlock;
-- (_Bool)normalContactToBlock;
-- (void)startWithUserName:(id)arg1 onUpdate:(CDUnknownBlockType)arg2;
-- (id)initWithModuleName:(id)arg1;
-- (void)dealloc;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface WCRedEnvelopesNetworkHelper : MMObject <PBMessageObserverDelegate>
-{
-    id <WCRedEnvelopesNetworkHelperDelegate> m_delegate;
-    NSMutableDictionary *m_dicCGIStartedTime;
-}
-
-+ (void)idkeyCmdReport:(unsigned int)arg1 keyName:(id)arg2 value:(unsigned int)arg3;
-+ (void)idkeyCmdReport:(unsigned int)arg1 keyName:(id)arg2;
-+ (void)initialize;
-@property(nonatomic) __weak id <WCRedEnvelopesNetworkHelperDelegate> m_delegate; // @synthesize m_delegate;
-- (void)MessageReturn:(id)arg1 Event:(unsigned int)arg2;
-- (void)MessageReturnOnAsyncBizSubScribe:(id)arg1 Event:(unsigned int)arg2;
-- (void)MessageReturnOnCommonBizHongbao:(id)arg1 Event:(unsigned int)arg2;
-- (void)MessageReturnOnEnterpriseHongbao:(id)arg1 Event:(unsigned int)arg2;
-- (void)MessageReturnOnHongbao:(id)arg1 Event:(unsigned int)arg2;
-- (void)WCToAsyncBizSubcribeReq:(id)arg1;
-- (void)WCToEnterpriseCommonBizReq:(id)arg1;
-- (void)WCToEnterpriseHBBizReq:(id)arg1;
-- (void)WCToYearHongbaoRequest:(id)arg1;
-- (void)WCToHongbaoCommonRequest:(id)arg1;
-- (void)dealloc;
-- (id)init;
-
-@end
-
-@interface RecoverDataItem : NSObject
-{
-    unsigned int m_dataType;
-    unsigned int m_operationType;
-    NSString *m_nsDescription;
-    NSString *m_nsPath;
-}
-
-@property(retain, nonatomic) NSString *m_nsPath; // @synthesize m_nsPath;
-@property(nonatomic) unsigned int m_operationType; // @synthesize m_operationType;
-@property(nonatomic) unsigned int m_dataType; // @synthesize m_dataType;
-@property(retain, nonatomic) NSString *m_nsDescription; // @synthesize m_nsDescription;
-- (id)description;
-- (id)init;
-
-@end
-
-@interface PushMailWrap : NSObject <NSCopying>
-{
-    NSString *nsSender;
-    NSString *nsSenderAddress;
-    NSString *nsSubject;
-    NSString *nsDigest;
-    NSString *nsDate;
-    NSString *nsWapLink;
-    NSString *nsMailID;
-    NSString *nsAccount;
-    NSString *nsArgs;
-    unsigned long long uiUin;
-    _Bool bHasAttachment;
-    NSMutableArray *arrToList;
-    NSMutableArray *arrCCList;
-}
-
-@property(retain, nonatomic) NSMutableArray *arrCCList; // @synthesize arrCCList;
-@property(retain, nonatomic) NSMutableArray *arrToList; // @synthesize arrToList;
-@property(nonatomic) unsigned long long uiUin; // @synthesize uiUin;
-@property(nonatomic) _Bool bHasAttachment; // @synthesize bHasAttachment;
-@property(retain, nonatomic) NSString *nsArgs; // @synthesize nsArgs;
-@property(retain, nonatomic) NSString *nsAccount; // @synthesize nsAccount;
-@property(retain, nonatomic) NSString *nsMailID; // @synthesize nsMailID;
-@property(retain, nonatomic) NSString *nsWapLink; // @synthesize nsWapLink;
-@property(retain, nonatomic) NSString *nsDate; // @synthesize nsDate;
-@property(retain, nonatomic) NSString *nsDigest; // @synthesize nsDigest;
-@property(retain, nonatomic) NSString *nsSubject; // @synthesize nsSubject;
-@property(retain, nonatomic) NSString *nsSenderAddress; // @synthesize nsSenderAddress;
-@property(retain, nonatomic) NSString *nsSender; // @synthesize nsSender;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (void)dealloc;
-- (id)init;
-
-@end
-
-@interface FavLocationItem : NSObject
-{
-    double _lng;
-    double _lat;
-    double _scale;
-    NSString *_label;
-    NSString *_poiname;
-}
-
-@property(retain, nonatomic) NSString *poiname; // @synthesize poiname=_poiname;
-@property(retain, nonatomic) NSString *label; // @synthesize label=_label;
-@property(nonatomic) double scale; // @synthesize scale=_scale;
-@property(nonatomic) double lat; // @synthesize lat=_lat;
-@property(nonatomic) double lng; // @synthesize lng=_lng;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)init;
-
-@end
-
-@interface FavURLItem : NSObject
-{
-    NSString *_title;
-    NSString *_description;
-    NSString *_cleanUrl;
-    NSString *_thumbUrl;
-    int _openCache;
-    unsigned int _contentAttributeBitSetFlag;
-    NSString *_canvasInfoXml;
-}
-
-@property(retain, nonatomic) NSString *canvasInfoXml; // @synthesize canvasInfoXml=_canvasInfoXml;
-@property(nonatomic) unsigned int contentAttributeBitSetFlag; // @synthesize contentAttributeBitSetFlag=_contentAttributeBitSetFlag;
-@property(nonatomic) int openCache; // @synthesize openCache=_openCache;
-@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
-@property(retain, nonatomic) NSString *cleanUrl; // @synthesize cleanUrl=_cleanUrl;
-@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
-@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
-- (void)setContentOriginal:(_Bool)arg1;
-- (_Bool)isContentOriginal;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)init;
-
-@end
-
-@interface FavProductItem : NSObject
-{
-    NSString *_title;
-    NSString *_description;
-    NSString *_thumbUrl;
-    NSString *_info;
-    NSString *_sellerName;
-    NSString *_productUrl;
-}
-
-@property(retain, nonatomic) NSString *productUrl; // @synthesize productUrl=_productUrl;
-@property(retain, nonatomic) NSString *sellerName; // @synthesize sellerName=_sellerName;
-@property(retain, nonatomic) NSString *info; // @synthesize info=_info;
-@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
-@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
-@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)init;
-
-@end
-
-@interface FavTVItem : NSObject
-{
-    NSString *_title;
-    NSString *_description;
-    NSString *_thumbUrl;
-    NSString *_info;
-}
-
-@property(retain, nonatomic) NSString *info; // @synthesize info=_info;
-@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
-@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
-@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)init;
-
-@end
-
-@interface FavWeAppItem : NSObject
-{
-    NSString *_appUserName;
-    NSString *_title;
-    NSString *_desc;
-    NSString *_thumbUrl;
-    NSString *_pagePath;
-    unsigned int _debugMode;
-}
-
-@property(nonatomic) unsigned int debugMode; // @synthesize debugMode=_debugMode;
-@property(retain, nonatomic) NSString *pagePath; // @synthesize pagePath=_pagePath;
-@property(retain, nonatomic) NSString *thumbUrl; // @synthesize thumbUrl=_thumbUrl;
-@property(retain, nonatomic) NSString *desc; // @synthesize desc=_desc;
-@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
-@property(retain, nonatomic) NSString *appUserName; // @synthesize appUserName=_appUserName;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-
-@end
-
-@interface FavoritesItem : NSObject <NSCoding>
-{
-    unsigned int _favId;
-    int _type;
-    int _status;
-    unsigned int _updateSeq;
-    unsigned int _localUpdateSeq;
-    unsigned int _updateTime;
-    int _sourceType;
-    unsigned int _editTime;
-    NSString *_title;
-    NSString *_description;
-    NSString *_link;
-    unsigned int _ctrlFlag;
-    NSString *_sourceId;
-    NSString *_fromUsr;
-    NSString *_toUsr;
-    NSString *_realChatName;
-    long long _n64MsgID;
-    NSString *_eventId;
-    NSString *_appId;
-    unsigned int _srcCreateTime;
-    NSString *_brandId;
-    NSMutableArray *_dataList;
-    unsigned int _totalDataSize;
-    FavLocationItem *_locItem;
-    FavURLItem *_urlItem;
-    FavProductItem *_productItem;
-    FavTVItem *_tvItem;
-    NSString *_remark;
-    unsigned int _remarkTime;
-    FavWeAppItem *_weAppItem;
-    NSMutableArray *_tagList;
-    NSMutableArray *_recommendTagList;
-    unsigned int m_uiFromScene;
-    NSString *m_nsFavUsername;
-    unsigned int m_preMsgIndex;
-    int _localStatus;
-    unsigned int _localId;
-    int _countMd5Status;
-    int _retryTimes;
-    NSDate *_startUploadTime;
-    double _cellHeight;
-    unsigned long long _sightLegalityType;
-    _Bool _isFromFavToChat;
-    unsigned int _version;
-    NSString *_deviceid;
-}
-
-+ (id)xmlOfStreamVideo:(id)arg1;
-+ (void)parseStreamVideoNode:(struct XmlReaderNode_t *)arg1 dataField:(id)arg2;
-+ (id)FavritesItemToXML:(id)arg1;
-+ (id)replacePathPrefix:(id)arg1;
-+ (id)parseTagXml:(struct XmlReaderNode_t *)arg1;
-+ (_Bool)ParseItemXML:(id)arg1 ToItem:(id)arg2;
-@property(nonatomic) _Bool isFromFavToChat; // @synthesize isFromFavToChat=_isFromFavToChat;
-@property(retain, nonatomic) NSString *deviceid; // @synthesize deviceid=_deviceid;
-@property(nonatomic) unsigned int version; // @synthesize version=_version;
-@property(nonatomic) unsigned int m_preMsgIndex; // @synthesize m_preMsgIndex;
-@property(retain, nonatomic) NSString *m_nsFavUsername; // @synthesize m_nsFavUsername;
-@property(nonatomic) unsigned int m_uiFromScene; // @synthesize m_uiFromScene;
-@property(nonatomic) double cellHeight; // @synthesize cellHeight=_cellHeight;
-@property(retain, nonatomic) NSDate *startUploadTime; // @synthesize startUploadTime=_startUploadTime;
-@property(nonatomic) int retryTimes; // @synthesize retryTimes=_retryTimes;
-@property(nonatomic) int countMd5Status; // @synthesize countMd5Status=_countMd5Status;
-@property(nonatomic) unsigned int localId; // @synthesize localId=_localId;
-@property(nonatomic) int localStatus; // @synthesize localStatus=_localStatus;
-@property(retain, nonatomic) NSArray *recommendTagList; // @synthesize recommendTagList=_recommendTagList;
-@property(retain, nonatomic) NSArray *tagList; // @synthesize tagList=_tagList;
-@property(nonatomic) unsigned int remarkTime; // @synthesize remarkTime=_remarkTime;
-@property(retain, nonatomic) NSString *remark; // @synthesize remark=_remark;
-@property(retain, nonatomic) FavWeAppItem *weAppItem; // @synthesize weAppItem=_weAppItem;
-@property(retain, nonatomic) FavTVItem *tvItem; // @synthesize tvItem=_tvItem;
-@property(retain, nonatomic) FavProductItem *productItem; // @synthesize productItem=_productItem;
-@property(retain, nonatomic) FavURLItem *urlItem; // @synthesize urlItem=_urlItem;
-@property(retain, nonatomic) FavLocationItem *locItem; // @synthesize locItem=_locItem;
-@property(nonatomic) unsigned int totalDataSize; // @synthesize totalDataSize=_totalDataSize;
-@property(retain, nonatomic) NSArray *dataList; // @synthesize dataList=_dataList;
-@property(retain, nonatomic) NSString *brandId; // @synthesize brandId=_brandId;
-@property(nonatomic) unsigned int srcCreateTime; // @synthesize srcCreateTime=_srcCreateTime;
-@property(retain, nonatomic) NSString *appId; // @synthesize appId=_appId;
-@property(retain, nonatomic) NSString *eventId; // @synthesize eventId=_eventId;
-@property(nonatomic) long long n64MsgID; // @synthesize n64MsgID=_n64MsgID;
-@property(retain, nonatomic) NSString *realChatName; // @synthesize realChatName=_realChatName;
-@property(retain, nonatomic) NSString *toUsr; // @synthesize toUsr=_toUsr;
-@property(retain, nonatomic) NSString *fromUsr; // @synthesize fromUsr=_fromUsr;
-@property(retain, nonatomic) NSString *sourceId; // @synthesize sourceId=_sourceId;
-@property(nonatomic) unsigned int ctrlFlag; // @synthesize ctrlFlag=_ctrlFlag;
-@property(retain, nonatomic) NSString *link; // @synthesize link=_link;
-@property(retain, nonatomic) NSString *description; // @synthesize description=_description;
-@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
-@property(nonatomic) unsigned int editTime; // @synthesize editTime=_editTime;
-@property(nonatomic) int sourceType; // @synthesize sourceType=_sourceType;
-@property(nonatomic) unsigned int localUpdateSeq; // @synthesize localUpdateSeq=_localUpdateSeq;
-@property(nonatomic) unsigned int updateSeq; // @synthesize updateSeq=_updateSeq;
-@property(nonatomic) int status; // @synthesize status=_status;
-@property(nonatomic) unsigned int updateTime; // @synthesize updateTime=_updateTime;
-@property(nonatomic) int type; // @synthesize type=_type;
-@property(nonatomic) unsigned int favId; // @synthesize favId=_favId;
-- (_Bool)containsIllegalData;
-- (_Bool)needBatchGet;
-- (_Bool)canBeForward;
-- (_Bool)checkSightLegality;
-- (id)canBeForwardWithMsg;
-- (id)getFirstMediaData;
-- (_Bool)isRecordItem;
-- (id)getFavDataWrapByLocalDataID:(id)arg1;
-- (id)getDataWraps;
-- (_Bool)hasCDNData;
-- (unsigned int)itemServerSize;
-- (unsigned int)itemTotalSize;
-- (_Bool)canAutoDownload;
-- (_Bool)canAutoUpload;
-- (void)changeToFavSearchItem:(id)arg1;
-- (id)changeToFavSearchString;
-- (_Bool)dataHasBeenCopyedToTarget;
-- (void)addData:(id)arg1 Index:(int)arg2;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithAddFavItem:(id)arg1;
-- (id)init;
-
-@end
-
-@interface MMAsset : MMObject <NSCopying>
-{
-    _Bool _m_isNeedOriginImage;
-    _Bool _m_isFailedFromIcloud;
-    _Bool _m_isLoadingFromIcloud;
-    int _sourceForSNSUploadStat;
-}
-
-+ (_Bool)isAsset:(id)arg1 CreateWithInSecond:(double)arg2;
-+ (struct CGSize)LongImageSizeWithTargetEdge:(double)arg1 originSize:(struct CGSize)arg2;
-+ (id)decodeXmlString:(id)arg1;
-@property(nonatomic) int sourceForSNSUploadStat; // @synthesize sourceForSNSUploadStat=_sourceForSNSUploadStat;
-@property(nonatomic) _Bool m_isLoadingFromIcloud; // @synthesize m_isLoadingFromIcloud=_m_isLoadingFromIcloud;
-@property(nonatomic) _Bool m_isFailedFromIcloud; // @synthesize m_isFailedFromIcloud=_m_isFailedFromIcloud;
-@property(nonatomic) _Bool m_isNeedOriginImage; // @synthesize m_isNeedOriginImage=_m_isNeedOriginImage;
-- (_Bool)getIsEdited;
-- (id)getDrawLayerArray;
-- (void)setEditedImage:(id)arg1 withDrawLayer:(id)arg2 withEdited:(_Bool)arg3;
-- (void)asyncGetMetadata:(CDUnknownBlockType)arg1;
-- (void)stopGetBigImageICloudActivity;
-- (void)stopICloudActivity;
-- (struct CGSize)getImageRatioSize;
-- (id)getCreatedDate;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (void)asyncGetVideoFileSizeWithBlock:(CDUnknownBlockType)arg1;
-- (void)asyncGetVideoAssetWithBlock:(CDUnknownBlockType)arg1;
-- (id)getVideoUrl;
-- (void)getVideoDurationForDisplayWithCompletion:(CDUnknownBlockType)arg1;
-- (id)videoDuration;
-- (_Bool)isTimeLapseVideo;
-- (_Bool)isSlowMotionVideo;
-- (_Bool)isVideo;
-- (id)getOriginImageDataSize;
-- (_Bool)isGif;
-- (_Bool)isPicture;
-- (id)encodeXmlString;
-- (double)longitude;
-- (double)latitude;
-- (_Bool)hasLocation;
-- (id)alAssetReferenceUrl;
-- (id)assetUrl;
-- (void)asyncGetAspectRatioThumbnailWithTargetSize:(struct CGSize)arg1 andResult:(CDUnknownBlockType)arg2;
-- (void)asyncGetThumbnail:(CDUnknownBlockType)arg1;
-- (id)getThumbnail;
-- (id)getThumbImage;
-- (void)getDisplayImageWithCompressConfig:(id)arg1 ResultBlock:(CDUnknownBlockType)arg2 ErrorBlock:(CDUnknownBlockType)arg3;
-- (void)getBigImageWithCompressConfig:(id)arg1 ProcessBlock:(CDUnknownBlockType)arg2 ResultBlock:(CDUnknownBlockType)arg3 ErrorBlock:(CDUnknownBlockType)arg4;
-- (id)initWithUrl:(id)arg1 IsNeedOrigin:(_Bool)arg2;
 
 @end
 
@@ -1658,26 +2709,6 @@ struct set_;
 - (_Bool)runTransaction:(CDUnknownBlockType)arg1 stateDidChanged:(CDUnknownBlockType)arg2;
 - (_Bool)runTransaction:(CDUnknownBlockType)arg1;
 - (void)initDB:(id)arg1;
-- (id)init;
-
-@end
-
-@interface CContactOPLog : NSObject
-{
-    NSMutableDictionary *m_dicSkipContacts;
-}
-
-+ (unsigned int)start_ModifyContact:(id)arg1;
-+ (id)getModifyContactData:(id)arg1 addScene:(unsigned int)arg2 delScene:(unsigned int)arg3;
-- (_Bool)add_ModifyNotifyStatus:(id)arg1 withStatus:(unsigned int)arg2 NeedSync:(_Bool)arg3;
-- (_Bool)add_DeleteChatMsg:(id)arg1 sync:(_Bool)arg2;
-- (_Bool)add_DeleteChatContact:(id)arg1 sync:(_Bool)arg2;
-- (_Bool)add_ModifyContact:(id)arg1 delScene:(unsigned int)arg2 sync:(_Bool)arg3;
-- (_Bool)add_ModifyContact:(id)arg1 addScene:(unsigned int)arg2 sync:(_Bool)arg3;
-- (_Bool)add_ModifyContact:(id)arg1 sync:(_Bool)arg2;
-- (_Bool)add_ModifyContact:(id)arg1 addScene:(unsigned int)arg2 delScene:(unsigned int)arg3 sync:(_Bool)arg4;
-- (_Bool)isSkipContact:(id)arg1;
-- (void)add_SkipContact:(id)arg1;
 - (id)init;
 
 @end
@@ -2050,502 +3081,6 @@ struct set_;
 
 @end
 
-@interface CBaseContact : NSObject <PBCoding, NSCoding>
-{
-    NSString *m_nsUsrName;
-    NSString *m_nsEncodeUserName;
-    NSString *m_nsAliasName;
-    unsigned int m_uiConType;
-    NSString *m_nsNickName;
-    NSString *m_nsFullPY;
-    NSString *m_nsShortPY;
-    NSString *m_nsRemark;
-    NSString *m_nsRemarkPYShort;
-    NSString *m_nsRemarkPYFull;
-    NSString *m_nsDisplayNamePY;
-    unsigned int m_uiSex;
-    unsigned int m_uiType;
-    unsigned int m_uiChatState;
-    NSData *m_dtUsrImg;
-    NSString *m_nsImgStatus;
-    NSString *m_nsHDImgStatus;
-    NSString *m_nsHeadImgUrl;
-    NSString *m_nsHeadHDImgUrl;
-    NSString *m_nsHeadHDMd5;
-    NSString *m_nsDraft;
-    unsigned int m_uiDraftTime;
-    NSString *m_nsAtUserList;
-    unsigned int m_uiQQUin;
-    NSString *m_nsQQNickName;
-    NSString *m_nsQQRemark;
-    NSString *m_nsMobileIdentify;
-    NSString *m_nsGoogleContactName;
-    NSString *m_nsGoogleContactNickName;
-    unsigned int m_uiFriendScene;
-    unsigned int m_uiImgKey;
-    unsigned int m_uiExtKey;
-    unsigned int m_uiImgKeyAtLastGet;
-    unsigned int m_uiExtKeyAtLastGet;
-    _Bool m_hasDetectPlugin;
-    _Bool m_isPlugin;
-    _Bool m_hasDetectSelf;
-    _Bool m_isSelf;
-    NSString *m_nsAntispamTicket;
-    NSDictionary *_externalInfoJSONCache;
-}
-
-+ (void)initialize;
-@property(retain, nonatomic) NSDictionary *externalInfoJSONCache; // @synthesize externalInfoJSONCache=_externalInfoJSONCache;
-@property(retain, nonatomic) NSString *m_nsDisplayNamePY; // @synthesize m_nsDisplayNamePY;
-@property(retain, nonatomic) NSString *m_nsAntispamTicket; // @synthesize m_nsAntispamTicket;
-@property(retain, nonatomic) NSString *m_nsShortPY; // @synthesize m_nsShortPY;
-@property(retain, nonatomic) NSString *m_nsAtUserList; // @synthesize m_nsAtUserList;
-@property(nonatomic) unsigned int m_uiDraftTime; // @synthesize m_uiDraftTime;
-@property(nonatomic) unsigned int m_uiFriendScene; // @synthesize m_uiFriendScene;
-@property(retain, nonatomic) NSString *m_nsGoogleContactNickName; // @synthesize m_nsGoogleContactNickName;
-@property(retain, nonatomic) NSString *m_nsGoogleContactName; // @synthesize m_nsGoogleContactName;
-@property(retain, nonatomic) NSString *m_nsMobileIdentify; // @synthesize m_nsMobileIdentify;
-@property(retain, nonatomic) NSString *m_nsQQRemark; // @synthesize m_nsQQRemark;
-@property(retain, nonatomic) NSString *m_nsQQNickName; // @synthesize m_nsQQNickName;
-@property(nonatomic) unsigned int m_uiQQUin; // @synthesize m_uiQQUin;
-@property(nonatomic) unsigned int m_uiExtKeyAtLastGet; // @synthesize m_uiExtKeyAtLastGet;
-@property(nonatomic) unsigned int m_uiImgKeyAtLastGet; // @synthesize m_uiImgKeyAtLastGet;
-@property(nonatomic) unsigned int m_uiExtKey; // @synthesize m_uiExtKey;
-@property(nonatomic) unsigned int m_uiImgKey; // @synthesize m_uiImgKey;
-@property(retain, nonatomic) NSString *m_nsDraft; // @synthesize m_nsDraft;
-@property(retain, nonatomic) NSString *m_nsHeadHDMd5; // @synthesize m_nsHeadHDMd5;
-@property(retain, nonatomic) NSString *m_nsHeadHDImgUrl; // @synthesize m_nsHeadHDImgUrl;
-@property(retain, nonatomic) NSString *m_nsHeadImgUrl; // @synthesize m_nsHeadImgUrl;
-@property(retain, nonatomic) NSString *m_nsHDImgStatus; // @synthesize m_nsHDImgStatus;
-@property(retain, nonatomic) NSString *m_nsImgStatus; // @synthesize m_nsImgStatus;
-@property(retain, nonatomic) NSData *m_dtUsrImg; // @synthesize m_dtUsrImg;
-@property(nonatomic) unsigned int m_uiChatState; // @synthesize m_uiChatState;
-@property(nonatomic) unsigned int m_uiType; // @synthesize m_uiType;
-@property(nonatomic) unsigned int m_uiSex; // @synthesize m_uiSex;
-@property(retain, nonatomic) NSString *m_nsRemarkPYFull; // @synthesize m_nsRemarkPYFull;
-@property(retain, nonatomic) NSString *m_nsRemarkPYShort; // @synthesize m_nsRemarkPYShort;
-@property(retain, nonatomic) NSString *m_nsRemark; // @synthesize m_nsRemark;
-@property(retain, nonatomic) NSString *m_nsFullPY; // @synthesize m_nsFullPY;
-@property(nonatomic) unsigned int m_uiConType; // @synthesize m_uiConType;
-@property(retain, nonatomic) NSString *m_nsAliasName; // @synthesize m_nsAliasName;
-@property(retain, nonatomic) NSString *m_nsEncodeUserName; // @synthesize m_nsEncodeUserName;
-@property(retain, nonatomic) NSString *m_nsUsrName; // @synthesize m_nsUsrName;
-@property(readonly, nonatomic) _Bool m_isPlugin; // @synthesize m_isPlugin;
-- (id)localizedStringForMale:(id)arg1 female:(id)arg2 andUnkownSex:(id)arg3;
-- (int)getImageStatusCode;
-- (_Bool)isHasGMail;
-- (id)getQQDisplayName;
-- (_Bool)isHasQQDisplayName;
-- (_Bool)isHasQQ;
-- (_Bool)isWeixinTeamContact;
-- (_Bool)isSelf;
-- (_Bool)hasContactDisplayUsrNameByCache;
-- (_Bool)hasContactDisplayUsrName;
-- (id)getContactDisplayUsrName;
-- (id)getContactTalkRoomName;
-- (id)getContactDisplayName;
-- (void)setDisplayNamePY;
-- (id)getRemark;
-- (void)saveUserImage;
-- (id)getContactHeadImage;
-- (_Bool)isNeedGetHDImg;
-- (_Bool)isHasHDImg;
-- (_Bool)isNeedGetUsrImgWithoutCheckLocalFile;
-- (_Bool)isNeedGetUsrImg;
-- (_Bool)isEnterpriseContact;
-- (_Bool)isWeSportContact;
-- (_Bool)isChatStatusNotifyOpen;
-- (_Bool)isMacHelper;
-- (_Bool)isQQ;
-- (_Bool)isQQMBlog;
-- (_Bool)isTemplateMsgHolder;
-- (_Bool)isFileHelper;
-- (_Bool)isBrandSessionHolder;
-- (_Bool)isGroupCard;
-- (_Bool)isChatroom;
-- (_Bool)isLbsroom;
-- (_Bool)isWeixin;
-- (_Bool)isMMContact;
-- (_Bool)isFavour;
-- (void)setSnsBlack:(_Bool)arg1;
-- (_Bool)isSnsBlack;
-- (void)setBlack:(_Bool)arg1;
-- (_Bool)isBlack;
-- (_Bool)isEqualToName:(id)arg1;
-- (_Bool)isEqualToContact:(id)arg1;
-- (id)getEncodeUserName;
-- (_Bool)isValid;
-- (void)setChatRoomTopic:(id)arg1;
-- (id)chatRoomTopic;
-- (long long)compare:(id)arg1;
-@property(readonly, copy) NSString *description;
-- (_Bool)copyFrom:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)init;
-- (void)setRemarkWithoutEmojiChange:(id)arg1;
-- (void)setNickNameWithoutEmojiChange:(id)arg1;
-@property(retain, nonatomic) NSString *m_nsNickName; // @synthesize m_nsNickName;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly) Class superclass;
-
-@end
-
-@interface SubscriptBrandInfo : NSObject <PBCoding, NSCoding>
-{
-    unsigned int m_brandListCount;
-    unsigned int m_brandListVersion;
-}
-
-+ (void)initialize;
-@property(nonatomic) unsigned int m_brandListVersion; // @synthesize m_brandListVersion;
-@property(nonatomic) unsigned int m_brandListCount; // @synthesize m_brandListCount;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface ChatRoomDetail : NSObject <PBCoding, NSCoding>
-{
-    unsigned int m_uiChatRoomInfoVersion;
-    unsigned int m_uiChatRoomInfoSvrVersion;
-    NSString *m_nsChatRoomDesc;
-    NSString *m_nsChatRoomDescModer;
-    unsigned long long m_uiChatRoomDescTime;
-    _Bool m_bChatRoomDescReaded;
-    unsigned int m_uiChatRoomStatus;
-    unsigned int m_uiLocalInfoVersion;
-}
-
-+ (void)initialize;
-@property(nonatomic) unsigned int m_uiLocalInfoVersion; // @synthesize m_uiLocalInfoVersion;
-@property(nonatomic) unsigned int m_uiChatRoomStatus; // @synthesize m_uiChatRoomStatus;
-@property(nonatomic) _Bool m_bChatRoomDescReaded; // @synthesize m_bChatRoomDescReaded;
-@property(nonatomic) unsigned long long m_uiChatRoomDescTime; // @synthesize m_uiChatRoomDescTime;
-@property(retain, nonatomic) NSString *m_nsChatRoomDescModer; // @synthesize m_nsChatRoomDescModer;
-@property(retain, nonatomic) NSString *m_nsChatRoomDesc; // @synthesize m_nsChatRoomDesc;
-@property(nonatomic) unsigned int m_uiChatRoomInfoSvrVersion; // @synthesize m_uiChatRoomInfoSvrVersion;
-@property(nonatomic) unsigned int m_uiChatRoomInfoVersion; // @synthesize m_uiChatRoomInfoVersion;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (id)init;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface CContact : CBaseContact <PBCoding, NSCoding>
-{
-    unsigned int m_uiChatRoomStatus;
-    NSString *m_nsChatRoomMemList;
-    unsigned int m_uiChatRoomAccessType;
-    unsigned int m_uiChatRoomMaxCount;
-    unsigned int m_uiChatRoomVersion;
-    ChatRoomDetail *m_ChatRoomDetail;
-    NSString *m_nsChatRoomData;
-    ChatRoomData *m_ChatRoomData;
-    NSString *m_nsCountry;
-    NSString *m_nsProvince;
-    NSString *m_nsCity;
-    NSString *m_nsSignature;
-    unsigned int m_uiCertificationFlag;
-    NSString *m_nsCertificationInfo;
-    NSString *m_nsOwner;
-    NSString *m_nsFBNickName;
-    NSString *m_nsFBID;
-    unsigned int m_uiNeedUpdate;
-    NSString *m_nsWCBGImgObjectID;
-    int m_iWCFlag;
-    NSString *m_pcWCBGImgID;
-    NSString *m_nsExternalInfo;
-    NSString *m_nsBrandSubscriptConfigUrl;
-    unsigned int m_uiBrandSubscriptionSettings;
-    SubscriptBrandInfo *m_subBrandInfo;
-    NSString *m_nsBrandIconUrl;
-    _Bool m_isExtInfoValid;
-    NSDictionary *externalInfoJSONCache;
-    _Bool m_isShowRedDot;
-    NSString *m_nsMobileHash;
-    NSString *m_nsMobileFullHash;
-    NSString *m_nsLinkedInID;
-    NSString *m_nsLinkedInName;
-    NSString *m_nsLinkedInPublicUrl;
-    unsigned int m_uiDeleteFlag;
-    NSString *m_nsDescription;
-    NSString *m_nsCardUrl;
-    NSString *m_nsWorkID;
-    NSString *m_nsLabelIDList;
-    NSArray *m_arrPhoneItem;
-    NSRecursiveLock *m_lockForChatRoomData;
-    _Bool _m_bFromNewDB;
-    unsigned int _m_uiLastUpdate;
-    unsigned int _m_uiMetaFlag;
-    unsigned int _m_uiDebugModeType;
-    unsigned int _m_uiWxAppOpt;
-    unsigned int _uiLastUpdateAppVersionInfoTime;
-    NSString *m_nsWeiDianInfo;
-    NSDictionary *_m_dicWeiDianInfo;
-    NSString *_m_nsAppId;
-    WANewYearContactInfo *_m_weAppNewYearContactInfo;
-}
-
-+ (_Bool)isHeadImgUpdated:(id)arg1 Local:(id)arg2;
-+ (void)HandleChatMemUsrImg:(struct tagMMModChatRoomMember *)arg1 Contatct:(id)arg2 DocPath:(id)arg3;
-+ (void)HandleUsrImgPB:(id)arg1 Contatct:(id)arg2 DocPath:(id)arg3;
-+ (void)HandleUsrImg:(struct tagMMModContact *)arg1 Contatct:(id)arg2 DocPath:(id)arg3;
-+ (id)genChatRoomName:(id)arg1 appendTail:(_Bool)arg2;
-+ (id)genChatRoomName:(id)arg1;
-+ (id)getChatRoomMemberWithoutMyself:(id)arg1;
-+ (id)getChatRoomMember:(id)arg1;
-+ (id)getChatRoomMemberUserName:(id)arg1;
-+ (unsigned long long)getChatRoomMemberCount:(id)arg1;
-+ (id)getMicroBlogUsrDisplayName:(id)arg1;
-+ (id)parseContactKey:(id)arg1;
-+ (id)SubscriptedBrandsFromString:(id)arg1;
-+ (void)initialize;
-+ (_Bool)isWeAppUserName:(id)arg1;
-@property(retain, nonatomic) WANewYearContactInfo *m_weAppNewYearContactInfo; // @synthesize m_weAppNewYearContactInfo=_m_weAppNewYearContactInfo;
-@property(nonatomic) unsigned int uiLastUpdateAppVersionInfoTime; // @synthesize uiLastUpdateAppVersionInfoTime=_uiLastUpdateAppVersionInfoTime;
-@property(nonatomic) unsigned int m_uiWxAppOpt; // @synthesize m_uiWxAppOpt=_m_uiWxAppOpt;
-@property(copy, nonatomic) NSString *m_nsAppId; // @synthesize m_nsAppId=_m_nsAppId;
-@property(nonatomic) unsigned int m_uiDebugModeType; // @synthesize m_uiDebugModeType=_m_uiDebugModeType;
-@property(nonatomic) unsigned int m_uiMetaFlag; // @synthesize m_uiMetaFlag=_m_uiMetaFlag;
-@property(nonatomic) unsigned int m_uiLastUpdate; // @synthesize m_uiLastUpdate=_m_uiLastUpdate;
-@property(nonatomic) _Bool m_bFromNewDB; // @synthesize m_bFromNewDB=_m_bFromNewDB;
-@property(retain, nonatomic) NSString *m_nsWorkID; // @synthesize m_nsWorkID;
-- (void)setExternalInfoJSONCache:(id)arg1;
-- (id)externalInfoJSONCache;
-@property(retain, nonatomic) NSString *m_nsWeiDianInfo; // @synthesize m_nsWeiDianInfo;
-@property(retain, nonatomic) ChatRoomDetail *m_ChatRoomDetail; // @synthesize m_ChatRoomDetail;
-@property(retain, nonatomic) NSArray *m_arrPhoneItem; // @synthesize m_arrPhoneItem;
-@property(retain, nonatomic) NSString *m_nsLabelIDList; // @synthesize m_nsLabelIDList;
-@property(retain, nonatomic) NSString *m_nsCardUrl; // @synthesize m_nsCardUrl;
-@property(retain, nonatomic) NSString *m_nsDescription; // @synthesize m_nsDescription;
-@property(nonatomic) unsigned int m_uiDeleteFlag; // @synthesize m_uiDeleteFlag;
-@property(nonatomic) unsigned int m_uiChatRoomVersion; // @synthesize m_uiChatRoomVersion;
-@property(nonatomic) unsigned int m_uiChatRoomMaxCount; // @synthesize m_uiChatRoomMaxCount;
-@property(retain, nonatomic) NSString *m_nsLinkedInPublicUrl; // @synthesize m_nsLinkedInPublicUrl;
-@property(retain, nonatomic) NSString *m_nsLinkedInName; // @synthesize m_nsLinkedInName;
-@property(retain, nonatomic) NSString *m_nsLinkedInID; // @synthesize m_nsLinkedInID;
-@property(retain, nonatomic) NSString *m_nsMobileFullHash; // @synthesize m_nsMobileFullHash;
-@property(retain, nonatomic) NSString *m_nsMobileHash; // @synthesize m_nsMobileHash;
-@property(nonatomic) _Bool m_isShowRedDot; // @synthesize m_isShowRedDot;
-@property(nonatomic) unsigned int m_uiChatRoomAccessType; // @synthesize m_uiChatRoomAccessType;
-@property(nonatomic) _Bool m_isExtInfoValid; // @synthesize m_isExtInfoValid;
-@property(retain, nonatomic) NSString *m_nsBrandIconUrl; // @synthesize m_nsBrandIconUrl;
-@property(retain, nonatomic) SubscriptBrandInfo *m_subBrandInfo; // @synthesize m_subBrandInfo;
-@property(nonatomic) unsigned int m_uiBrandSubscriptionSettings; // @synthesize m_uiBrandSubscriptionSettings;
-@property(retain, nonatomic) NSString *m_nsBrandSubscriptConfigUrl; // @synthesize m_nsBrandSubscriptConfigUrl;
-@property(retain, nonatomic) NSString *m_nsExternalInfo; // @synthesize m_nsExternalInfo;
-@property(retain, nonatomic) NSString *m_pcWCBGImgID; // @synthesize m_pcWCBGImgID;
-@property(nonatomic) int m_iWCFlag; // @synthesize m_iWCFlag;
-@property(retain, nonatomic) NSString *m_nsWCBGImgObjectID; // @synthesize m_nsWCBGImgObjectID;
-@property(nonatomic) unsigned int m_uiNeedUpdate; // @synthesize m_uiNeedUpdate;
-@property(retain, nonatomic) NSString *m_nsFBID; // @synthesize m_nsFBID;
-@property(retain, nonatomic) NSString *m_nsFBNickName; // @synthesize m_nsFBNickName;
-@property(retain, nonatomic) NSString *m_nsOwner; // @synthesize m_nsOwner;
-@property(retain, nonatomic) NSString *m_nsCertificationInfo; // @synthesize m_nsCertificationInfo;
-@property(nonatomic) unsigned int m_uiCertificationFlag; // @synthesize m_uiCertificationFlag;
-@property(retain, nonatomic) NSString *m_nsSignature; // @synthesize m_nsSignature;
-@property(retain, nonatomic) NSString *m_nsCity; // @synthesize m_nsCity;
-@property(retain, nonatomic) NSString *m_nsProvince; // @synthesize m_nsProvince;
-@property(retain, nonatomic) NSString *m_nsCountry; // @synthesize m_nsCountry;
-@property(nonatomic) unsigned int m_uiChatRoomStatus; // @synthesize m_uiChatRoomStatus;
-@property(retain, nonatomic) NSString *m_nsChatRoomMemList; // @synthesize m_nsChatRoomMemList;
-- (_Bool)isWeAppNewYearContact;
-- (_Bool)IsUserInChatRoom:(id)arg1;
-- (id)getLabelIDList;
-- (_Bool)isAccountDeleted;
-@property(readonly, nonatomic) NSDictionary *m_dicWeiDianInfo; // @synthesize m_dicWeiDianInfo=_m_dicWeiDianInfo;
-- (_Bool)isHasWeiDian;
-- (_Bool)isShowLinkedIn;
-- (_Bool)needShowUnreadCountOnSession;
-- (void)setChatStatusNotifyOpen:(_Bool)arg1;
-- (_Bool)isChatStatusNotifyOpen;
-- (_Bool)isContactFrozen;
-- (_Bool)isContactSessionTop;
-- (_Bool)isChatroomNeedAccessVerify;
-- (_Bool)isShowChatRoomDisplayName;
-- (_Bool)isAdmin;
-- (id)xmlForMessageWrapContent;
-- (id)getChatRoomMembrGroupNickName:(id)arg1;
-- (id)getChatRoomMemberNickName:(id)arg1;
-- (id)getChatRoomMemberDisplayName:(id)arg1;
-- (id)getNormalContactDisplayDesc;
-- (long long)compareForFavourGroup:(id)arg1;
-- (_Bool)isLocalizedContact;
-- (_Bool)isHolderContact;
-- (_Bool)isVerified;
-- (_Bool)isIgnoreBrandContat;
-- (_Bool)isVerifiedBrandContact;
-- (_Bool)isBrandContact;
-- (_Bool)IsAddFromShake;
-- (_Bool)IsAddFromLbs;
-- (_Bool)isMyContact;
-- (void)tryLoadExtInfo;
-@property(readonly, copy) NSString *description;
-- (_Bool)copyPatialFieldFromContact:(id)arg1;
-- (_Bool)copyFieldFromContact:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithModContact:(id)arg1;
-- (id)initWithShareCardMsgWrapContent:(id)arg1;
-- (id)initWithShareCardMsgWrap:(id)arg1;
-- (void)genContactFromShareCardMsgWrapContent:(id)arg1;
-- (_Bool)genContactFromShareCardMsgWrap:(id)arg1;
-- (id)init;
-- (_Bool)isHasMobile;
-- (id)getMobileList;
-- (_Bool)hasMatchHashPhone;
-- (id)getMobileNumString;
-- (id)getMobileDisplayName;
-- (_Bool)isContactTypeShouldDelete;
-- (id)getNewChatroomData;
-@property(retain, nonatomic) ChatRoomData *m_ChatRoomData; // @synthesize m_ChatRoomData;
-@property(retain, nonatomic) NSString *m_nsChatRoomData; // @synthesize m_nsChatRoomData;
-- (void)setSignatureWithoutEmojiChange:(id)arg1;
-- (void)setChatRoomDataWithoutEmojiChange:(id)arg1;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-- (id)getWeAppProfileCategoryList;
-- (long long)getWeAppBizWxaOpenFlag;
-- (id)getWeAppProfileBindBrandList;
-- (id)getBrandProfileBindWeAppList;
-- (id)getWeAppInfo;
-- (_Bool)hasWeAppVersionInfo;
-- (_Bool)hasWeAppInfo;
-- (_Bool)isBlockWeAppSessionMessage;
-- (_Bool)isWeAppContact;
-- (unsigned int)getCDNUrlLifeSpanSecond;
-- (id)getCDNDownloadUrl;
-- (id)getWeAppConfigList;
-- (id)getVerisonMD5;
-- (id)getAppBrandSologanImageURL;
-- (id)getAppID;
-- (id)getAppBrandInfo;
-- (_Bool)hasAppBrandInfo;
-- (id)getMainPageUrl;
-- (_Bool)isOpenMainPage;
-- (unsigned int)getFunctionFlag;
-- (id)getSupportEmoticonLinkPrefix;
-- (id)getConferenceVerifyButtonTitle;
-- (id)getConferenceVerifyPromptTitle;
-- (unsigned int)getConferenceContactExpireTime;
-- (id)getBrandBusinessScope;
-- (id)getBrandMerchantSecurityUrl;
-- (id)getBrandMerchantSecurity;
-- (id)getBrandEvaluateCount;
-- (id)getBrandMerchantRatings;
-- (id)brandUrls;
-- (id)brandPrivileges;
-- (id)getBrandRegisterSourceIntroUrl;
-- (id)getBrandRegisterSourceBody;
-- (_Bool)getIsTrademarkProtection;
-- (id)getBrandVerifySubTitle;
-- (id)getBrandVerifySourceIntroUrl;
-- (id)getBrandVerifySourceDescription;
-- (id)getBrandVerifySourceName;
-- (unsigned int)getBrandVerifySourceType;
-- (id)getBrandTrademarkName;
-- (id)getBrandTrademarkUrl;
-- (id)getCustomizeMenu;
-- (id)bizMenuInfoFromContact;
-- (long long)getInteractiveMode;
-- (_Bool)isShowToolBarInMsg;
-- (_Bool)isShowHeadImgInMsg;
-- (long long)getScanQRCodeType;
-- (long long)getReportLocationType;
-- (long long)getAudioPlayType;
-- (_Bool)isContactCanReceiveSpeexVoice;
-- (_Bool)containKFWorkerInfo;
-- (id)getSpecifyWorkerOpenID;
-- (long long)getConnectorMsgType;
-- (_Bool)canSupportMessageNotify;
-- (_Bool)isHardDeviceHideSubtitle;
-- (_Bool)isInternalMyDeviceBrand;
-- (_Bool)isInternalSportBrand;
-- (id)getNearFieldDesc;
-- (_Bool)isSupportPublicWifi;
-- (_Bool)isHardDeviceTestBrand;
-- (_Bool)isHardDeviceBrand;
-- (_Bool)isEnterpriseDisableBrand;
-- (_Bool)isEnterpriseWebSubBrand;
-- (_Bool)isEnterpriseChatSubBrand;
-- (_Bool)isEnterpriseSubBrand;
-- (id)getEnterpriseSubBrandChatExtUrl;
-- (id)getEnterpriseSubBrandUrl;
-- (unsigned int)getEnterpriseSubBrandChildType;
-- (_Bool)isEnterpriseBrand;
-- (_Bool)isEnterpriseMainBrand;
-- (id)getEnterpriseBrandFrozenWording;
-- (id)getEnterpriseMainBrandUserName;
-- (int)getBrandContactType;
-- (id)getExternalInfoDictionary;
-- (void)updateWithBizAttrChanged:(id)arg1;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly) Class superclass;
-
-@end
-
-@interface CQQContact : CBaseContact
-{
-    unsigned int m_uiAge;
-    unsigned int m_uiUin;
-    NSString *m_nsSign;
-    NSString *m_nsAddress;
-    NSString *m_nsBirthday;
-}
-
-@property(retain, nonatomic) NSString *m_nsBirthday; // @synthesize m_nsBirthday;
-@property(retain, nonatomic) NSString *m_nsAddress; // @synthesize m_nsAddress;
-@property(retain, nonatomic, setter=setNsSignature:) NSString *m_nsSign; // @synthesize m_nsSign;
-@property(nonatomic) unsigned int m_uiUin; // @synthesize m_uiUin;
-@property(nonatomic) unsigned int m_uiAge; // @synthesize m_uiAge;
-- (id)description;
-- (_Bool)isMyQQ;
-- (_Bool)copyFrom:(id)arg1;
-- (id)init;
-
-@end
-
-@interface WANewYearContactInfo : NSObject
-{
-    unsigned int _resSubType;
-    unsigned int _startTime;
-    unsigned int _endTime;
-    unsigned int _reportID;
-    NSString *_scanMatchText;
-    NSString *_errorURL;
-}
-
-@property(retain, nonatomic) NSString *errorURL; // @synthesize errorURL=_errorURL;
-@property(nonatomic) unsigned int reportID; // @synthesize reportID=_reportID;
-@property(nonatomic) unsigned int endTime; // @synthesize endTime=_endTime;
-@property(nonatomic) unsigned int startTime; // @synthesize startTime=_startTime;
-@property(nonatomic) unsigned int resSubType; // @synthesize resSubType=_resSubType;
-@property(retain, nonatomic) NSString *scanMatchText; // @synthesize scanMatchText=_scanMatchText;
-- (_Bool)isInValidTime;
-
-@end
-
 @interface NewContactDB : NSObject <MMDBRRepairerExt, WCDBRestoreProtocol, RecoverCustomDataWorker>
 {
     WCDataBase *m_contactDB;
@@ -2601,127 +3136,6 @@ struct set_;
 @property(readonly, copy) NSString *debugDescription;
 @property(readonly, copy) NSString *description;
 @property(readonly) Class superclass;
-
-@end
-
-@interface VideoParamsInfo : NSObject
-{
-    unsigned int _fileSize;
-    unsigned int _duration;
-    unsigned int _videoBitrate;
-    unsigned int _audioBitrate;
-    unsigned int _audioChannel;
-    unsigned int _fps;
-    unsigned int _width;
-    unsigned int _height;
-}
-
-@property(nonatomic) unsigned int height; // @synthesize height=_height;
-@property(nonatomic) unsigned int width; // @synthesize width=_width;
-@property(nonatomic) unsigned int fps; // @synthesize fps=_fps;
-@property(nonatomic) unsigned int audioChannel; // @synthesize audioChannel=_audioChannel;
-@property(nonatomic) unsigned int audioBitrate; // @synthesize audioBitrate=_audioBitrate;
-@property(nonatomic) unsigned int videoBitrate; // @synthesize videoBitrate=_videoBitrate;
-@property(nonatomic) unsigned int duration; // @synthesize duration=_duration;
-@property(nonatomic) unsigned int fileSize; // @synthesize fileSize=_fileSize;
-
-@end
-
-@interface VideoParamsSource : NSObject
-{
-    NSURL *_videoURL;
-    MMAsset *_videoMMAsset;
-}
-
-+ (id)videoParamsSourceFromMMAsset:(id)arg1;
-+ (id)videoParamsSourceFromURL:(id)arg1;
-@property(retain, nonatomic) MMAsset *videoMMAsset; // @synthesize videoMMAsset=_videoMMAsset;
-@property(retain, nonatomic) NSURL *videoURL; // @synthesize videoURL=_videoURL;
-- (id)genVideoParamsInfoFromAVAsset:(id)arg1;
-- (id)genVideoParamsInfoFromMMAsset:(id)arg1;
-- (id)genVideoParamsInfoFromURL:(id)arg1;
-- (id)genVideoParamsInfo;
-
-@end
-
-@interface VideoUploadStatInfo : NSObject
-{
-    _Bool _sourceVideoContainsWXTag;
-    unsigned int _uploadStartTime;
-    unsigned int _cpStatus;
-    unsigned int _sendScene;
-    NSString *_toUsername;
-    NSString *_fileId;
-    NSString *_videoNewMd5;
-    NSString *_msgSource;
-    NSString *_snsCommitId;
-    VideoParamsSource *_oriVideoParamsSource;
-    VideoParamsSource *_cpVideoParamsSource;
-    NSString *_cdnIp;
-    NSString *_snsUrl;
-    VideoParamsInfo *_srcVideoParams;
-    VideoParamsInfo *_cpVideoParams;
-}
-
-@property(retain, nonatomic) VideoParamsInfo *cpVideoParams; // @synthesize cpVideoParams=_cpVideoParams;
-@property(retain, nonatomic) VideoParamsInfo *srcVideoParams; // @synthesize srcVideoParams=_srcVideoParams;
-@property(nonatomic) _Bool sourceVideoContainsWXTag; // @synthesize sourceVideoContainsWXTag=_sourceVideoContainsWXTag;
-@property(retain, nonatomic) NSString *snsUrl; // @synthesize snsUrl=_snsUrl;
-@property(retain, nonatomic) NSString *cdnIp; // @synthesize cdnIp=_cdnIp;
-@property(nonatomic) unsigned int sendScene; // @synthesize sendScene=_sendScene;
-@property(nonatomic) unsigned int cpStatus; // @synthesize cpStatus=_cpStatus;
-@property(retain, nonatomic) VideoParamsSource *cpVideoParamsSource; // @synthesize cpVideoParamsSource=_cpVideoParamsSource;
-@property(retain, nonatomic) VideoParamsSource *oriVideoParamsSource; // @synthesize oriVideoParamsSource=_oriVideoParamsSource;
-@property(nonatomic) unsigned int uploadStartTime; // @synthesize uploadStartTime=_uploadStartTime;
-@property(retain, nonatomic) NSString *snsCommitId; // @synthesize snsCommitId=_snsCommitId;
-@property(retain, nonatomic) NSString *msgSource; // @synthesize msgSource=_msgSource;
-@property(retain, nonatomic) NSString *videoNewMd5; // @synthesize videoNewMd5=_videoNewMd5;
-@property(retain, nonatomic) NSString *fileId; // @synthesize fileId=_fileId;
-@property(retain, nonatomic) NSString *toUsername; // @synthesize toUsername=_toUsername;
-- (void)reportKV;
-- (id)getBigVideoStatInfo;
-- (void)mergeInfoFromSnsTaskInfo:(id)arg1;
-- (void)mergeInfoFromTaskInfo:(id)arg1;
-- (void)mergeInfoFromUploadTaskInfo:(id)arg1;
-- (id)init;
-
-@end
-
-@interface ChatRoomData : NSObject
-{
-    NSMutableDictionary *m_dicData;
-    unsigned int m_maxMemberCount;
-    unsigned int m_chatRoomVersion;
-    unsigned int m_uiLocalMemberVersion;
-    _Bool isSimplify;
-    NSRecursiveLock *_lock;
-}
-
-@property(nonatomic) _Bool isSimplify; // @synthesize isSimplify;
-@property(nonatomic) unsigned int localMemberVersion; // @synthesize localMemberVersion=m_uiLocalMemberVersion;
-@property(nonatomic) unsigned int chatRoomVersion; // @synthesize chatRoomVersion=m_chatRoomVersion;
-@property(nonatomic) unsigned int maxMemberCount; // @synthesize maxMemberCount=m_maxMemberCount;
-- (void)updateDicData:(struct XmlReaderNode_t *)arg1;
-- (unsigned int)getXmlNodeIntValue:(struct XmlReaderNode_t *)arg1 forName:(const char *)arg2;
-- (_Bool)isUndeliverCountOpen;
-- (void)setUndeliverCountOpen:(_Bool)arg1;
-- (_Bool)isShowDislayName;
-- (void)setShowDislayName:(_Bool)arg1;
-- (void)setInviterNameName:(id)arg1 forUserName:(id)arg2;
-- (id)getInviterNameForUsername:(id)arg1;
-- (id)getDislayNameForUserName:(id)arg1;
-- (void)setDislayName:(id)arg1 forUserName:(id)arg2;
-- (void)updateChatRoomData:(struct XmlReaderNode_t *)arg1;
-- (id)getDataDescription;
-- (id)getDataXml;
-- (void)parseData:(id)arg1;
-- (void)setDataForUserName:(id)arg1 key:(id)arg2 value:(id)arg3;
-- (id)getDataForUserName:(id)arg1 key:(id)arg2;
-- (void)mergeOldDetail:(id)arg1;
-- (void)merge:(id)arg1;
-- (id)initWithNewChatRoomData:(id)arg1;
-- (id)initWithChatRoomData:(id)arg1;
-- (id)init;
 
 @end
 
@@ -3267,143 +3681,6 @@ struct set_;
 
 @end
 
-@interface ImageInfo : NSObject <NSCopying>
-{
-    unsigned int m_uiImageSource;
-    NSURL *m_nuImageSourceURL;
-}
-
-@property(retain, nonatomic) NSURL *m_nuImageSourceURL; // @synthesize m_nuImageSourceURL;
-@property(nonatomic) unsigned int m_uiImageSource; // @synthesize m_uiImageSource;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)init;
-
-@end
-
-@interface UrlInfo : NSObject <NSCopying>
-{
-    NSString *m_nsRequestUrl;
-    NSData *m_dtResponseData;
-    NSString *m_nsRefer;
-    _Bool m_bGetMethod;
-    NSData *m_dtBodyData;
-    NSDictionary *m_dicReq;
-    NSDictionary *m_dicResp;
-    _Bool m_bCdn;
-    NSString *m_nsRequestUrlSuffix;
-    unsigned int m_uiRecvTime;
-    unsigned int m_uiRetCode;
-    unsigned int m_uiDataSize;
-    unsigned int m_uiDnsCostTime;
-    unsigned int m_uiConnectCostTime;
-    unsigned int m_uiSendCostTime;
-    unsigned int m_uiWaitResponseCostTime;
-    unsigned int m_uiReceiveCostTime;
-    NSString *m_nsClientIP;
-    NSString *m_nsServerIP;
-    unsigned int m_uiDnsType;
-    NSString *m_host;
-    NSString *m_nsXErrno;
-    NSMutableArray *m_aryReceiveData;
-    NSString *m_fileMd5;
-    _Bool m_bSupportValidateMd5;
-    _Bool m_bContinueReceive;
-    NSString *m_filePath;
-    _Bool m_useDCIP;
-    _Bool m_fromSns;
-    _Bool m_useXorEncrypt;
-    unsigned long long m_xorEncryKey;
-    unsigned int m_uiXEncIdx;
-    NSString *m_nsXEnc;
-    NSString *m_nsXEncToken;
-}
-
-@property(nonatomic) unsigned int m_uiXEncIdx; // @synthesize m_uiXEncIdx;
-@property(retain, nonatomic) NSString *m_nsXEncToken; // @synthesize m_nsXEncToken;
-@property(retain, nonatomic) NSString *m_nsXEnc; // @synthesize m_nsXEnc;
-@property(nonatomic) unsigned long long m_xorEncryKey; // @synthesize m_xorEncryKey;
-@property(retain, nonatomic) NSMutableArray *m_aryReceiveData; // @synthesize m_aryReceiveData;
-@property(nonatomic) _Bool m_useXorEncrypt; // @synthesize m_useXorEncrypt;
-@property(nonatomic) _Bool m_fromSns; // @synthesize m_fromSns;
-@property(nonatomic) _Bool m_useDCIP; // @synthesize m_useDCIP;
-@property(nonatomic) _Bool m_bSupportValidateMd5; // @synthesize m_bSupportValidateMd5;
-@property(retain, nonatomic) NSString *m_fileMd5; // @synthesize m_fileMd5;
-@property(retain, nonatomic) NSString *m_filePath; // @synthesize m_filePath;
-@property(nonatomic) _Bool m_bContinueReceive; // @synthesize m_bContinueReceive;
-@property(retain, nonatomic) NSString *m_nsXErrno; // @synthesize m_nsXErrno;
-@property(retain, nonatomic) NSString *m_nsRequestUrlSuffix; // @synthesize m_nsRequestUrlSuffix;
-@property(retain, nonatomic) NSString *m_host; // @synthesize m_host;
-@property(nonatomic) unsigned int m_uiDnsType; // @synthesize m_uiDnsType;
-@property(retain, nonatomic) NSString *m_nsServerIP; // @synthesize m_nsServerIP;
-@property(retain, nonatomic) NSString *m_nsClientIP; // @synthesize m_nsClientIP;
-@property(nonatomic) unsigned int m_uiReceiveCostTime; // @synthesize m_uiReceiveCostTime;
-@property(nonatomic) unsigned int m_uiWaitResponseCostTime; // @synthesize m_uiWaitResponseCostTime;
-@property(nonatomic) unsigned int m_uiSendCostTime; // @synthesize m_uiSendCostTime;
-@property(nonatomic) unsigned int m_uiConnectCostTime; // @synthesize m_uiConnectCostTime;
-@property(nonatomic) unsigned int m_uiDnsCostTime; // @synthesize m_uiDnsCostTime;
-@property(nonatomic) unsigned int m_uiDataSize; // @synthesize m_uiDataSize;
-@property(nonatomic) unsigned int m_uiRetCode; // @synthesize m_uiRetCode;
-@property(nonatomic) unsigned int m_uiRecvTime; // @synthesize m_uiRecvTime;
-@property(nonatomic) _Bool m_bCdn; // @synthesize m_bCdn;
-@property(retain, nonatomic) NSDictionary *m_dicResp; // @synthesize m_dicResp;
-@property(retain, nonatomic) NSDictionary *m_dicReq; // @synthesize m_dicReq;
-@property(retain, nonatomic) NSData *m_dtBodyData; // @synthesize m_dtBodyData;
-@property(nonatomic) _Bool m_bGetMethod; // @synthesize m_bGetMethod;
-@property(retain, nonatomic) NSString *m_nsRefer; // @synthesize m_nsRefer;
-@property(retain, nonatomic) NSData *m_dtResponseData; // @synthesize m_dtResponseData;
-@property(retain, nonatomic) NSString *m_nsRequestUrl; // @synthesize m_nsRequestUrl;
-- (id)GenStatStringWithDataType:(int)arg1;
-- (id)GenStatString;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)init;
-
-@end
-
-@interface ProtobufCGIWrap : NSObject <NSCopying>
-{
-    WXPBGeneratedMessage *m_pbRequest;
-    Class m_pbRespClass;
-    WXPBGeneratedMessage *m_pbResponse;
-    unsigned int m_uiChannelType;
-    unsigned int m_uiCgi;
-    unsigned int m_uiScene;
-    NSString *m_nsCgiName;
-    NSString *m_nsUri;
-    unsigned int m_uiRequestEncryptType;
-    NSData *m_dtResponseDecryptKey;
-    unsigned int m_uiMessage;
-    Class m_eventHandlerClass;
-    NSObject *m_oUserData;
-    UrlInfo *m_oUrlInfo;
-    _Bool m_bNotifyPartLen;
-    unsigned int m_uiRetryCount;
-    double m_douTimeout;
-    int m_netwrokStrategy;
-}
-
-@property(nonatomic) int m_netwrokStrategy; // @synthesize m_netwrokStrategy;
-@property(nonatomic) double m_douTimeout; // @synthesize m_douTimeout;
-@property(nonatomic) unsigned int m_uiRetryCount; // @synthesize m_uiRetryCount;
-@property(nonatomic) _Bool m_bNotifyPartLen; // @synthesize m_bNotifyPartLen;
-@property(retain, nonatomic) UrlInfo *m_oUrlInfo; // @synthesize m_oUrlInfo;
-@property(retain, nonatomic) NSObject *m_oUserData; // @synthesize m_oUserData;
-@property(nonatomic) Class m_eventHandlerClass; // @synthesize m_eventHandlerClass;
-@property(nonatomic) unsigned int m_uiMessage; // @synthesize m_uiMessage;
-@property(retain, nonatomic) NSData *m_dtResponseDecryptKey; // @synthesize m_dtResponseDecryptKey;
-@property(nonatomic) unsigned int m_uiRequestEncryptType; // @synthesize m_uiRequestEncryptType;
-@property(nonatomic) unsigned int m_uiChannelType; // @synthesize m_uiChannelType;
-@property(retain, nonatomic) NSString *m_nsUri; // @synthesize m_nsUri;
-@property(retain, nonatomic) NSString *m_nsCgiName; // @synthesize m_nsCgiName;
-@property(nonatomic) unsigned int m_uiScene; // @synthesize m_uiScene;
-@property(nonatomic) unsigned int m_uiCgi; // @synthesize m_uiCgi;
-@property(retain, nonatomic) WXPBGeneratedMessage *m_pbResponse; // @synthesize m_pbResponse;
-@property(nonatomic) Class m_pbRespClass; // @synthesize m_pbRespClass;
-@property(retain, nonatomic) WXPBGeneratedMessage *m_pbRequest; // @synthesize m_pbRequest;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (id)init;
-
-@end
-
 @interface OpLogDB : NSObject
 {
     WCDataBase *m_db;
@@ -3420,285 +3697,4 @@ struct set_;
 
 @end
 
-@interface WCCanvasPageItem : NSObject <PBCoding, NSCopying>
-{
-    NSString *canvasPageXml;
-}
-
-+ (void)initialize;
-@property(retain, nonatomic) NSString *canvasPageXml; // @synthesize canvasPageXml;
-- (id)toXML;
-- (_Bool)fromXML:(struct XmlReaderNode_t *)arg1;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (const map_ *)getValueTagIndexMap;
-- (id)getValueTypeTable;
-
-// Remaining properties
-@property(readonly, copy) NSString *debugDescription;
-@property(readonly, copy) NSString *description;
-@property(readonly) Class superclass;
-
-@end
-
-@interface BaseRequest : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(nonatomic) int clientVersion; // @dynamic clientVersion;
-@property(retain, nonatomic) NSData *deviceId; // @dynamic deviceId;
-@property(retain, nonatomic) NSData *deviceType; // @dynamic deviceType;
-@property(nonatomic) unsigned int scene; // @dynamic scene;
-@property(retain, nonatomic) NSData *sessionKey; // @dynamic sessionKey;
-@property(nonatomic) unsigned int uin; // @dynamic uin;
-
-@end
-
-@interface BaseResponse : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) SKBuiltinString_t *errMsg; // @dynamic errMsg;
-@property(nonatomic) int ret; // @dynamic ret;
-
-@end
-
-@interface SKBuiltinBuffer_t : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-+ (id)skBufferWithData:(id)arg1;
-
-// Remaining properties
-@property(retain, nonatomic) NSData *buffer; // @dynamic buffer;
-@property(nonatomic) unsigned int iLen; // @dynamic iLen;
-
-@end
-
-@interface SKBuiltinString_t : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-+ (id)skStringWithString:(id)arg1;
-
-// Remaining properties
-@property(retain, nonatomic) NSString *string; // @dynamic string;
-
-@end
-
-@interface AsyncBizSubscribeRequest : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) NSString *bizUserName; // @dynamic bizUserName;
-
-@end
-
-@interface AsyncBizSubscribeResponse : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) BaseResponse *baseResponse; // @dynamic baseResponse;
-
-@end
-
-@interface HongBaoReq : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) BaseRequest *baseRequest; // @dynamic baseRequest;
-@property(nonatomic) unsigned int cgiCmd; // @dynamic cgiCmd;
-@property(nonatomic) unsigned int outPutType; // @dynamic outPutType;
-@property(retain, nonatomic) SKBuiltinBuffer_t *reqText; // @dynamic reqText;
-
-@end
-
-@interface HongBaoRes : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) BaseResponse *baseResponse; // @dynamic baseResponse;
-@property(nonatomic) int cgiCmdid; // @dynamic cgiCmdid;
-@property(retain, nonatomic) NSString *errorMsg; // @dynamic errorMsg;
-@property(nonatomic) int errorType; // @dynamic errorType;
-@property(retain, nonatomic) NSString *platMsg; // @dynamic platMsg;
-@property(nonatomic) int platRet; // @dynamic platRet;
-@property(retain, nonatomic) SKBuiltinBuffer_t *retText; // @dynamic retText;
-
-@end
-
-@interface FestivalHongBaoReq : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) BaseRequest *baseRequest; // @dynamic baseRequest;
-@property(nonatomic) unsigned int cgiCmd; // @dynamic cgiCmd;
-@property(nonatomic) unsigned int outPutType; // @dynamic outPutType;
-@property(retain, nonatomic) SKBuiltinBuffer_t *reqText; // @dynamic reqText;
-@property(nonatomic) unsigned long long reqTime; // @dynamic reqTime;
-@property(retain, nonatomic) NSData *sendKey; // @dynamic sendKey;
-@property(nonatomic) unsigned int subscribe; // @dynamic subscribe;
-
-@end
-
-@interface FestivalHongBaoRes : WXPBGeneratedMessage
-{
-}
-
-+ (void)initialize;
-
-// Remaining properties
-@property(retain, nonatomic) BaseResponse *baseResponse; // @dynamic baseResponse;
-@property(nonatomic) int cgiCmdid; // @dynamic cgiCmdid;
-@property(retain, nonatomic) NSString *errorMsg; // @dynamic errorMsg;
-@property(nonatomic) int errorType; // @dynamic errorType;
-@property(retain, nonatomic) NSString *platMsg; // @dynamic platMsg;
-@property(nonatomic) int platRet; // @dynamic platRet;
-@property(retain, nonatomic) SKBuiltinBuffer_t *retText; // @dynamic retText;
-
-@end
-
-@interface MMServiceCenter : NSObject
-{
-    NSMutableDictionary *m_dicService;
-    NSRecursiveLock *m_lock;
-}
-
-- (void)callClearData;
-- (void)callReloadData;
-- (void)callServiceMemoryWarning;
-- (void)callTerminate;
-- (void)callEnterBackground;
-- (void)callEnterForeground;
-- (void)removeService:(Class)arg1;
-- (id)getService:(Class)arg1;
-- (void)dealloc;
-- (id)init;
-
-@end
-
-@interface WCBizUtil : NSObject
-{
-}
-
-+ (id)getActionLocation;
-+ (void)reportLocationAlert:(int)arg1 type:(int)arg2;
-+ (id)parseRealnameGuideInfo:(id)arg1 alertViewScene:(int)arg2;
-+ (void)logRealnameAction:(int)arg1;
-+ (id)getBankResource:(id)arg1;
-+ (void)logBannerUserAction:(int)arg1 bannerType:(int)arg2;
-+ (void)playCoinSound;
-+ (void)bizReportBannerUserAction:(int)arg1 bannType:(int)arg2;
-+ (id)GetWCBizMainWindow;
-+ (void)SetWCBizMainWindow:(id)arg1;
-+ (void)ClearWCBizMainWindow;
-+ (id)getTempFullPathOfYearHBImageForSender:(id)arg1;
-+ (id)getFullPathOfYearHBImageWithFileId:(id)arg1 userName:(id)arg2;
-+ (id)imageWithColor:(id)arg1;
-+ (unsigned int)convertTenpayCmdIdToNewCGI:(unsigned int)arg1 payScene:(unsigned int)arg2;
-+ (id)convertCGIEnumToString:(unsigned int)arg1;
-+ (void)logOfflinePayGetToken:(int)arg1;
-+ (void)logUserAction:(int)arg1;
-+ (_Bool)validateUrl:(id)arg1;
-+ (void)logLoanMoneyAction:(int)arg1;
-+ (void)logTransferAction:(int)arg1;
-+ (id)feeSymbolFromType:(id)arg1;
-+ (id)feeTextFromType:(id)arg1 fee:(long long)arg2;
-+ (_Bool)isEmptyKey:(id)arg1 inDictionary:(id)arg2;
-+ (_Bool)isDomesticOrderWithMulitOrderDetail:(id)arg1;
-+ (_Bool)isDomesticUserWithCardUserFlag:(unsigned int)arg1;
-+ (_Bool)isOverseasUserWithCardUserFlag:(unsigned int)arg1;
-+ (_Bool)isDomesticCardWithCardBankTag:(unsigned int)arg1;
-+ (_Bool)isOverseasCardWithCardBankTag:(unsigned int)arg1;
-+ (unsigned int)differntCharactorCountCompareString:(id)arg1 WithOriginalString:(id)arg2;
-+ (id)getAddressBookTelphoneNumberDictionary;
-+ (id)validWCMallPhoneNumber:(id)arg1;
-+ (id)dictionaryWithDecodedComponets:(id)arg1 separator:(id)arg2;
-+ (id)stringWithFormEncodedComponentsAscending:(id)arg1 ascending:(_Bool)arg2 skipempty:(_Bool)arg3 separator:(id)arg4;
-+ (id)getWCBizLoginTitle:(id)arg1 MaxWidth:(double)arg2;
-+ (id)getWCBizAuthTitle:(id)arg1 MaxWidth:(double)arg2;
-+ (id)getTitleViewWithTitle:(id)arg1 SubTitle:(id)arg2 LandscapeMode:(_Bool)arg3 MaxWidth:(double)arg4;
-+ (id)getTitleViewWithTitle:(id)arg1 LandscapeMode:(_Bool)arg2 MaxWidth:(double)arg3;
-+ (id)getWCBizLoginTitle:(id)arg1 LandscapeMode:(_Bool)arg2 MaxWidth:(double)arg3;
-+ (id)getWCBizAuthTitle:(id)arg1 LandscapeMode:(_Bool)arg2 MaxWidth:(double)arg3;
-+ (id)getSaveStyleBarItemTitle:(id)arg1 target:(id)arg2 sel:(SEL)arg3;
-+ (id)getWCFacingReceiveSettingDataPath;
-+ (id)getWCPayCgiResponseCachePathWith:(id)arg1;
-+ (id)getWCPayDigitalCrtPath;
-+ (id)getWCPayRealnameWordingPath;
-+ (id)getWCPayBankResourcePath;
-+ (id)getWCPayPayManagePath;
-+ (id)getWCRedEnvelopesLastRadomHBSelctedCountPath;
-+ (id)getWCRedEnvelopesUserInfoPath;
-+ (id)getWCMallFunctionListPath;
-+ (id)getWCPayServerDynamicWordingPath;
-+ (id)getFiltedTruthName:(id)arg1;
-+ (id)getCreditCardHadViewFilePath;
-+ (id)getWCAddressStageDataFilePath;
-+ (id)getWCMallShowedInActivityCellProductId;
-+ (id)getWCMallShowedBannerId;
-+ (id)getWCMallShowedProductId;
-+ (id)getWCMallShowedRedCodePath;
-+ (id)getWCMallShowedNewPath;
-+ (id)getWCMallTicketsListPath;
-+ (id)getWCMallLatestActivityTipsPath;
-+ (id)getWCMallTelephoneDictionaryPath;
-+ (id)getWCMallTelephoneListPath;
-+ (id)getWCAddressYiXunFilePath;
-+ (id)getWCAddressFilePath;
-+ (id)getWCPayLoanEntryInfoPath;
-+ (id)getWCPayTransferedUserListPath;
-+ (id)getWCPayNoticeInfoPath;
-+ (id)getWCPayBalancePath;
-+ (id)getWCPaySwitchInfoPath;
-+ (id)getWCPayUserInfoPath;
-+ (id)getWCPayCreditCardShowedNewInfoPath;
-+ (id)getWCPayOfflinePayShowedNewInfoPath;
-+ (id)getWCPayOfflinePayQueryUsrerInfoPath;
-+ (id)getWCPayOfflinePayQueryInfoPath;
-+ (id)getWCPayOfflinePayUserUinPath;
-+ (id)getWCPayOfflinePayFreezeInfoPath;
-+ (id)getWCPayOfflinePayDeviceIDPath;
-+ (id)getWCPayOfflinePayCrtPath;
-+ (id)getWCPayAvalibleCardBinInfoPath;
-+ (id)getWCPayAllScenePayCardListPath;
-+ (id)getWCPayPayCardListPath;
-+ (id)getWCPaySettingPath;
-+ (id)getWCBizImgCachedPath:(id)arg1;
-+ (_Bool)isBindCardInfoFull:(id)arg1;
-+ (id)getHeaderTipView:(id)arg1;
-+ (id)getHeaderErrorTipView:(id)arg1;
-+ (double)getFooterTipViewHeight:(id)arg1;
-+ (id)getFooterTipView:(id)arg1;
-+ (id)getFooterErrorTipView:(id)arg1;
-+ (id)getStringFromBindCardInfo:(id)arg1;
-+ (id)getCardTypeName:(id)arg1;
-+ (_Bool)IsWCGroupPayAppServiceInPlane:(id)arg1;
-+ (_Bool)IsWCRedEnvelopesAppServiceInPlane:(id)arg1;
-+ (_Bool)IsWCPayTransferAppServiceInPlane:(id)arg1;
-+ (unsigned char)GetWCPayVersion;
-
-@end
 
