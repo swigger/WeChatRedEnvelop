@@ -13,7 +13,7 @@ static void ocrq_set(NSString* skey, NSObject* svalue)
 {
 	CFTypeRef cobj = (__bridge CFTypeRef)svalue;
 	if (cobj) CFRetain(cobj);
-	if (!oc_rq) oc_rq = rq_create();
+	if (!oc_rq) oc_rq = rq_create((void(*)(void*))&CFRelease);
 	rq_set(oc_rq, [skey UTF8String], (void*)cobj);
 }
 

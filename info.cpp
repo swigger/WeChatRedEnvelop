@@ -5,10 +5,12 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <pthread.h>
 
 #include <mach-o/dyld.h>
 #include <string>
 #include <set>
+
 using std::set;
 
 #include "info.h"
@@ -98,6 +100,9 @@ class CRecentQueue
 	set<RQV*, order_by_key> bkey;
 	set<RQV*, order_by_id> bid;
 	long m_seqidx;
+	void (*delfunc)(void*);
+	pthread_mutex_t m_mutex;
+
 protected:
 	RQV* _find(set<RQV*, order_by_key> & which, const char * key)
 	{
@@ -122,23 +127,40 @@ protected:
 	}
 
 public:
-	CRecentQueue()
+	CRecentQueue(void (*f)(void*))
 	{
+		this->delfunc = f;
+		pthread_mutex_init(&m_mutex,0);
 	}
-	~CRecentQueue(){}
+	~CRecentQueue()
+	{
+		for (auto i : bkey)
+		{
+			(*delfunc)(i->obj);
+			delete i;
+		}
+		bkey.clear();
+		bid.clear();
+		pthread_mutex_destroy(&m_mutex);
+	}
 public:
 	void get(const char * key, void ** v)
 	{
+		pthread_mutex_lock(&m_mutex);
 		clear_to();
 		RQV * r1 = _find(bkey, key);
 		*v = r1 ? r1->obj : 0;
+		pthread_mutex_unlock(&m_mutex);
 	}
 	void set(const char * key, void * v)
 	{
+		pthread_mutex_lock(&m_mutex);
 		clear_to();
 		RQV * r1 = _find(bkey, key);
 		if (r1)
 		{
+			delfunc(r1->obj);
+			r1->obj = 0;
 			if (v)
 			{
 				bid.erase(r1);
@@ -164,12 +186,13 @@ public:
 			bid.insert(prqv);
 			bkey.insert(prqv);
 		}
+		pthread_mutex_unlock(&m_mutex);
 	}
 };
 
-void * rq_create()
+void * rq_create(void (*f)(void*))
 {
-	return new CRecentQueue();
+	return new CRecentQueue(f);
 }
 
 void rq_set(void * rq, const char * key, void * obj)
