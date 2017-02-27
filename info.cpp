@@ -81,10 +81,25 @@ class CRecentQueue
 		int64_t seq;
 		RQV(const char * key):skey(key){}
 	};
-	set<RQV*> bkey, bid;
+	struct order_by_key
+	{
+		bool operator ()(const RQV* a, const RQV*b)
+		{
+			return a->skey < b->skey;
+		}
+	};
+	struct order_by_id
+	{
+		bool operator ()(const RQV* a, const RQV*b)
+		{
+			return a->seq < b->seq;
+		}
+	};
+	set<RQV*, order_by_key> bkey;
+	set<RQV*, order_by_id> bid;
 	long m_seqidx;
 protected:
-	RQV* _find(set<RQV*> & which, const char * key)
+	RQV* _find(set<RQV*, order_by_key> & which, const char * key)
 	{
 		RQV val(key);
 		auto it = which.find(&val);
@@ -92,14 +107,14 @@ protected:
 	}
 	void clear_to()
 	{
-		int32_t tick = GetTickCount64b();
+		int64_t tick = GetTickCount64b();
 		for (auto it = bid.begin(); it != bid.end(); )
 		{
 			RQV * w = *it;
 			if (w->tick + TIMEOUT < tick)
 			{
 				bkey.erase(w);
-				it = bid.erase(it++);
+				it = bid.erase(it);
 			}
 			else
 				break;
