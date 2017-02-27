@@ -179,33 +179,35 @@ NSMutableDictionary * loadSettings()
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		NSString *nativeUrl = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl];
-		nativeUrl = [nativeUrl substringFromIndex:[@"wxpay://c2cbizmessagehandler/hongbao/receivehongbao?" length]];
-		NSDictionary *nativeUrlDict = [%c(WCBizUtil) dictionaryWithDecodedComponets:nativeUrl separator:@"&"];
+		std::string msgtype = req_find([nativeUrl UTF8String], -1, "msgtype");
+		std::string sendid = req_find([nativeUrl UTF8String], -1, "sendid");
+		std::string chanid = req_find([nativeUrl UTF8String], -1, "channelid");
+
 		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
 		sl_printf("%s 打开红包！延时%lf秒", ssig, (double) delayTime);
 
 		CContactMgr *contactManager = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("CContactMgr") class]];
 		CContact *selfContact = [contactManager getSelfContact];
 		NSMutableDictionary *par_open = [[NSMutableDictionary alloc] init];
-		par_open[@"msgType"] = nativeUrlDict[@"msgtype"] ?: @"1";
-		par_open[@"sendId"] = nativeUrlDict[@"sendid"] ?: @"";
-		par_open[@"channelId"] = nativeUrlDict[@"channelid"] ?: @"1";
+		par_open[@"msgType"] = [NSString stringWithUTF8String:msgtype.c_str()];
+		par_open[@"sendId"] = [NSString stringWithUTF8String:sendid.c_str()];
+		par_open[@"channelId"] = [NSString stringWithUTF8String:chanid.c_str()];
 		par_open[@"nickName"] = [selfContact getContactDisplayName] ?: @"小锅";
 		par_open[@"headImg"] = [selfContact m_nsHeadImgUrl] ?: @"";
 		par_open[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
 		par_open[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
 
-		NSString* xxkey = nativeUrlDict[@"sendid"];
+		NSString* xxkey = [NSString stringWithUTF8String:sendid.c_str()];
 		sl_printf("setting xxkey is %s\n", [xxkey UTF8String]); 
 		ocrq_set(xxkey, par_open);
 
 		NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
 		params[@"agreeDuty"] = @"0";
-		params[@"channelId"] = nativeUrlDict[@"channelid"] ?: @"1";
+		params[@"channelId"] = [NSString stringWithUTF8String:chanid.c_str()];
 		params[@"inWay"] = @"0";
-		params[@"msgType"] = nativeUrlDict[@"msgtype"] ?: @"1";
+		params[@"msgType"] = [NSString stringWithUTF8String:msgtype.c_str()];
 		params[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
-		params[@"sendId"] = nativeUrlDict[@"sendid"] ?: @"";
+		params[@"sendId"] = [NSString stringWithUTF8String:sendid.c_str()];
 		[logicMgr ReceiverQueryRedEnvelopesRequest:params];
     });
 }

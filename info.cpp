@@ -231,6 +231,7 @@ string decode_uri(const char * data, size_t dtlen)
 
 string req_find(const char * bytes, size_t len, const char * key0)
 {
+	if (len==-1) len = strlen(bytes);
 	const char * p = bytes, *ps=p, *peq=0;
 	const char * pe = bytes+len;
 
