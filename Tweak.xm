@@ -67,14 +67,30 @@ NSMutableDictionary * loadSettings()
 	if (!dictionary[@"timingIdentifier"])
 		return;
 
-	NSString* xxkey = @"";
+	NSString * xxkey;
+	{
+		NSData * dtreq = [[arg2 reqText]buffer];
+		NSString* sreq = dtreq ? [[NSString alloc] initWithData:dtreq encoding:NSUTF8StringEncoding] : nil;
+		NSDictionary * reqdict = sreq ? [%c(WCBizUtil) dictionaryWithDecodedComponets:sreq separator:@"&"] : nil;
+		NSString * nativeurl = reqdict ? reqdict[@"nativeUrl"] : nil;
+		NSString * nup = nativeurl ? [nativeurl substringFromIndex:1+[nativeurl rangeOfString:@"?"].location] : nil;
+		NSDictionary * d2 = nup ? [%c(WCBizUtil) dictionaryWithDecodedComponets:nup separator:@"&"] : nil;
+		xxkey = d2 ? d2[@"sendid"] : nil;
+	}
+
 	NSMutableDictionary * par_open = 0;
 	ocrq_get(xxkey, &par_open);
+	ocrq_set(xxkey, 0);
 	if (par_open)
 	{
+		sl_printf("真的打开红包了\n");
 		par_open[@"timingIdentifier"] = dictionary[@"timingIdentifier"];
 		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
 		[logicMgr OpenRedEnvelopesRequest:par_open];
+	}
+	else
+	{
+		sl_printf("未取到近期参数\n");
 	}
 }
 %end
@@ -180,7 +196,7 @@ NSMutableDictionary * loadSettings()
 		par_open[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
 		par_open[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
 
-		NSString* xxkey = @"";
+		NSString* xxkey = nativeUrlDict[@"sendid"];
 		ocrq_set(xxkey, par_open);
 
 		NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
