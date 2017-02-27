@@ -9,8 +9,8 @@ include theos/makefiles/common.mk
 TWEAK_NAME = WeChatRedEnvelop
 WeChatRedEnvelop_FILES = Tweak.xm Debug.mm info.cpp xpruntime.c
 WeChatRedEnvelop_FRAMEWORKS = UIKit AudioToolbox
-WeChatRedEnvelop_CPPFLAGS=-std=c++11
-#CCFLAGS=-std=c++11
+#WeChatRedEnvelop_CPPFLAGS=-std=c++11
+CCFLAGS=-std=c++11
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

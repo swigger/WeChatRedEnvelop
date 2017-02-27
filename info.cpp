@@ -189,3 +189,73 @@ void rq_delete(void * rq)
 	CRecentQueue * rq_ = (CRecentQueue*)rq;
 	delete rq_;
 }
+
+static unsigned char hexval(char ch1)
+{
+	if (ch1>='a'&&ch1<='f') return ch1-'a'+10;
+	if (ch1>='A'&&ch1<='F') return ch1-'A'+10;
+	if (ch1>='0'&&ch1<='9') return ch1-'0';
+	return 0xff;
+}
+static unsigned char hexchr(char ch1, char ch2)
+{
+	ch1 = hexval(ch1);
+	ch2 = hexval(ch2);
+	if (ch1=='\xff'||ch2=='\xff')
+		return 0;
+	return (ch1<<4)+ch2;
+}
+string decode_uri(const char * data, size_t dtlen)
+{
+	string od;
+	if (dtlen == (size_t)-1) dtlen = strlen(data);
+	od.reserve(dtlen);
+	for (size_t i=0; i<dtlen; ++i)
+	{
+		char ch = data[i];
+		if (ch == '%')
+		{
+			if (i+2<dtlen)
+			{
+				od += hexchr(data[i+1], data[i+2]);
+				i+=2;
+			}
+			else
+				return od;
+		}
+		else
+			od += ch;
+	}
+	return od;
+}
+
+string req_find(const char * bytes, size_t len, const char * key0)
+{
+	const char * p = bytes, *ps=p, *peq=0;
+	const char * pe = bytes+len;
+
+	for (;p<=pe;++p)
+	{
+		if (p==pe || *p=='&')
+		{
+			if (peq)
+			{
+				string key = decode_uri(ps, peq-ps);
+				string val = decode_uri(peq+1, p-peq-1);
+				if (key==key0) return val;
+			}
+			ps = p+1;
+			peq = 0;
+		}
+		else if (*p=='?')
+		{
+			ps = p+1;
+			peq = 0;
+		}
+		else if (*p=='=' && !peq)
+		{
+			peq = p;
+		}
+	}
+	return "";
+}

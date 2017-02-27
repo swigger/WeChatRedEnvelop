@@ -2,6 +2,7 @@
 #import "Debug.h"
 #import "info.h"
 #include <sys/stat.h>
+#include <string>
 
 #define PL_PATH "/private/var/mobile/Library/Preferences/com.tencent.wcreopt.plist"
 
@@ -69,13 +70,11 @@ NSMutableDictionary * loadSettings()
 
 	NSString * xxkey;
 	{
-		NSData * dtreq = [[arg2 reqText]buffer];
-		NSString* sreq = dtreq ? [[NSString alloc] initWithData:dtreq encoding:NSUTF8StringEncoding] : nil;
-		NSDictionary * reqdict = sreq ? [%c(WCBizUtil) dictionaryWithDecodedComponets:sreq separator:@"&"] : nil;
-		NSString * nativeurl = reqdict ? reqdict[@"nativeUrl"] : nil;
-		NSString * nup = nativeurl ? [nativeurl substringFromIndex:1+[nativeurl rangeOfString:@"?"].location] : nil;
-		NSDictionary * d2 = nup ? [%c(WCBizUtil) dictionaryWithDecodedComponets:nup separator:@"&"] : nil;
-		xxkey = d2 ? d2[@"sendid"] : nil;
+		NSData * dreq = [[arg2 reqText] buffer];
+		std::string s = req_find((char*)[dreq bytes], [dreq length], "nativeUrl");
+		std::string t = req_find(s.data(), s.length(), "sendid");
+		xxkey = [NSString stringWithUTF8String:t.c_str()];
+		sl_printf("==> xxkey is %s\n", t.c_str()); 
 	}
 
 	NSMutableDictionary * par_open = 0;
@@ -197,6 +196,7 @@ NSMutableDictionary * loadSettings()
 		par_open[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
 
 		NSString* xxkey = nativeUrlDict[@"sendid"];
+		sl_printf("setting xxkey is %s\n", [xxkey UTF8String]); 
 		ocrq_set(xxkey, par_open);
 
 		NSMutableDictionary *params = [[NSMutableDictionary alloc]init];

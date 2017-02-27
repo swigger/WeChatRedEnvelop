@@ -17,4 +17,7 @@ extern "C"{
 
 #ifdef __cplusplus
 }
+
+#include <string>
+std::string req_find(const char * bytes, size_t len, const char * key0);
 #endif
