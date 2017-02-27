@@ -5,6 +5,27 @@
 
 #define PL_PATH "/private/var/mobile/Library/Preferences/com.tencent.wcreopt.plist"
 
+
+static void * oc_rq = 0;
+
+static void ocrq_set(NSString* skey, NSObject* svalue)
+{
+	CFTypeRef cobj = (__bridge CFTypeRef)svalue;
+	if (cobj) CFRetain(cobj);
+	if (!oc_rq) oc_rq = rq_create();
+	rq_set(oc_rq, [skey UTF8String], (void*)cobj);
+}
+
+static Boolean ocrq_get(NSString* skey, NSObject** svalue)
+{
+	void * cobj = 0;
+	if (!skey || !svalue || !oc_rq) return FALSE;
+	rq_get(oc_rq, [skey UTF8String], &cobj);
+	if (!cobj) return FALSE;
+	*svalue = (__bridge NSObject*)cobj;
+	return TRUE;
+}
+
 NSMutableDictionary * loadSettings()
 {
 	static int64_t timeid = -1;
@@ -22,6 +43,42 @@ NSMutableDictionary * loadSettings()
 	return oldinfo;
 }
 
+
+%hook WCRedEnvelopesLogicMgr
+- (void)OnWCToHongbaoCommonResponse:(HongBaoRes *)arg1 Request:(HongBaoReq *)arg2
+{
+	%orig;
+
+	// 非参数查询请求
+	if (arg1.cgiCmdid != 3) return;
+
+	NSString *string = [[NSString alloc] initWithData:arg1.retText.buffer encoding:NSUTF8StringEncoding];
+	NSDictionary *dictionary = [string JSONDictionary];
+
+	// 自己已经抢过
+	if ([dictionary[@"receiveStatus"] integerValue] == 2)
+		return;
+
+	// 红包被抢完
+	if ([dictionary[@"hbStatus"] integerValue] == 4)
+		return;
+
+	// 没有这个字段会被判定为使用外挂
+	if (!dictionary[@"timingIdentifier"])
+		return;
+
+	NSString* xxkey = @"";
+	NSMutableDictionary * par_open = 0;
+	ocrq_get(xxkey, &par_open);
+	if (par_open)
+	{
+		par_open[@"timingIdentifier"] = dictionary[@"timingIdentifier"];
+		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
+		[logicMgr OpenRedEnvelopesRequest:par_open];
+	}
+}
+%end
+
 %hook CMessageMgr
 - (void)AsyncOnAddMsg:(NSString *)msg MsgWrap:(CMessageWrap *)wrap {
 	%orig;
@@ -35,16 +92,11 @@ NSMutableDictionary * loadSettings()
 	CContact *selfContact = [contactManager getSelfContact];
 
 	if (msgType != 49) return;
-	BOOL isMesasgeFromMe = NO;
+
 	if ([wrap.m_nsFromUsr isEqualToString:selfContact.m_nsUsrName]) {
-		isMesasgeFromMe = YES;
-	}
-	if (isMesasgeFromMe)
-	{
 		// 自己发的红包，就不需要机器人来抢了吧？？
 		return;
 	}
-
 	if ([wrap.m_nsContent rangeOfString:@"wxpay://"].location == NSNotFound)
 		return; //不是红包？？
 	if ([wrap.m_nsFromUsr rangeOfString:@"@chatroom"].location == NSNotFound)
@@ -114,21 +166,31 @@ NSMutableDictionary * loadSettings()
 		NSString *nativeUrl = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl];
 		nativeUrl = [nativeUrl substringFromIndex:[@"wxpay://c2cbizmessagehandler/hongbao/receivehongbao?" length]];
 		NSDictionary *nativeUrlDict = [%c(WCBizUtil) dictionaryWithDecodedComponets:nativeUrl separator:@"&"];
+		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
+		sl_printf("%s 打开红包！延时%lf秒", ssig, (double) delayTime);
 
-		/** 构造参数 */
-		NSMutableDictionary *params = [@{} mutableCopy];
-		params[@"msgType"] = nativeUrlDict[@"msgtype"] ?: @"1";
-		params[@"sendId"] = nativeUrlDict[@"sendid"] ?: @"";
+		CContactMgr *contactManager = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("CContactMgr") class]];
+		CContact *selfContact = [contactManager getSelfContact];
+		NSMutableDictionary *par_open = [[NSMutableDictionary alloc] init];
+		par_open[@"msgType"] = nativeUrlDict[@"msgtype"] ?: @"1";
+		par_open[@"sendId"] = nativeUrlDict[@"sendid"] ?: @"";
+		par_open[@"channelId"] = nativeUrlDict[@"channelid"] ?: @"1";
+		par_open[@"nickName"] = [selfContact getContactDisplayName] ?: @"小锅";
+		par_open[@"headImg"] = [selfContact m_nsHeadImgUrl] ?: @"";
+		par_open[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
+		par_open[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
+
+		NSString* xxkey = @"";
+		ocrq_set(xxkey, par_open);
+
+		NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
+		params[@"agreeDuty"] = @"0";
 		params[@"channelId"] = nativeUrlDict[@"channelid"] ?: @"1";
-		params[@"nickName"] = [selfContact getContactDisplayName] ?: @"小锅";
-		params[@"headImg"] = [selfContact m_nsHeadImgUrl] ?: @"";
+		params[@"inWay"] = @"0";
+		params[@"msgType"] = nativeUrlDict[@"msgtype"] ?: @"1";
 		params[@"nativeUrl"] = [[wrap m_oWCPayInfoItem] m_c2cNativeUrl] ?: @"";
-		params[@"sessionUserName"] = wrap.m_nsFromUsr ?: @"";
-
-		MMServiceCenter * center = (MMServiceCenter*)[objc_getClass("MMServiceCenter") defaultCenter];
-		WCRedEnvelopesLogicMgr *logicMgr = [center getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
-		sl_printf("%s 打开红包！！延时%lf秒", ssig, (double) delayTime);
-		[logicMgr OpenRedEnvelopesRequest:params];
+		params[@"sendId"] = nativeUrlDict[@"sendid"] ?: @"";
+		[logicMgr ReceiverQueryRedEnvelopesRequest:params];
     });
 }
 %end

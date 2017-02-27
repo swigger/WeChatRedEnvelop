@@ -20,6 +20,11 @@ struct set_;
 
 typedef void (^CDUnknownBlockType)(void); // return type and parameters are unknown
 
+@interface NSString (NSString_SBJSON)
+- (id)JSONDictionary;
+- (id)JSONArray;
+- (id)JSONValue;
+@end
 
 @interface NSError (SimpleConstructor)
 + (_Bool)clearError:(id *)arg1;

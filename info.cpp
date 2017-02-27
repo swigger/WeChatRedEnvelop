@@ -8,9 +8,12 @@
 
 #include <mach-o/dyld.h>
 #include <string>
+#include <set>
+using std::set;
 
 #include "info.h"
 #include "Debug.h"
+#include "xpruntime.h"
 
 using std::string;
 
@@ -66,4 +69,108 @@ int dont_open(const char * content, const char * kwds)
 		}
 	}
 	return 0;
+}
+
+class CRecentQueue
+{
+	enum {TIMEOUT=60000};
+	struct RQV{
+		string skey;
+		void * obj;
+		int64_t tick;
+		int64_t seq;
+		RQV(const char * key):skey(key){}
+	};
+	set<RQV*> bkey, bid;
+	long m_seqidx;
+protected:
+	RQV* _find(set<RQV*> & which, const char * key)
+	{
+		RQV val(key);
+		auto it = which.find(&val);
+		return (it == which.end()) ? 0 : *it;
+	}
+	void clear_to()
+	{
+		int32_t tick = GetTickCount64b();
+		for (auto it = bid.begin(); it != bid.end(); )
+		{
+			RQV * w = *it;
+			if (w->tick + TIMEOUT < tick)
+			{
+				bkey.erase(w);
+				it = bid.erase(it++);
+			}
+			else
+				break;
+		}
+	}
+
+public:
+	CRecentQueue()
+	{
+	}
+	~CRecentQueue(){}
+public:
+	void get(const char * key, void ** v)
+	{
+		clear_to();
+		RQV * r1 = _find(bkey, key);
+		*v = r1 ? r1->obj : 0;
+	}
+	void set(const char * key, void * v)
+	{
+		clear_to();
+		RQV * r1 = _find(bkey, key);
+		if (r1)
+		{
+			if (v)
+			{
+				bid.erase(r1);
+				r1->obj = v;
+				r1->seq = ++m_seqidx;
+				r1->tick = GetTickCount64b();
+				bid.insert(r1);
+			}
+			else
+			{
+				bid.erase(r1);
+				bkey.erase(r1);
+				delete r1;
+			}
+		}
+		else if (v)
+		{
+			//new add.
+			RQV * prqv = new RQV(key);
+			prqv->obj = v;
+			prqv->seq = ++m_seqidx;
+			prqv->tick = GetTickCount64b();
+			bid.insert(prqv);
+			bkey.insert(prqv);
+		}
+	}
+};
+
+void * rq_create()
+{
+	return new CRecentQueue();
+}
+
+void rq_set(void * rq, const char * key, void * obj)
+{
+	CRecentQueue * rq_ = (CRecentQueue*)rq;
+	return rq_->set(key, obj);
+}
+
+void rq_get(void * rq, const char * key, void ** pobj)
+{
+	CRecentQueue * rq_ = (CRecentQueue*)rq;
+	return rq_->get(key, pobj);
+}
+
+void rq_delete(void * rq)
+{
+	CRecentQueue * rq_ = (CRecentQueue*)rq;
+	delete rq_;
 }

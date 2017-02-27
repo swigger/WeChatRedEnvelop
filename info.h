@@ -10,6 +10,11 @@ extern "C"{
 	// 特定文字是否抢红包
 	int dont_open(const char * content, const char * kwds);
 
+	void * rq_create();
+	void rq_set(void * rq, const char * key, void * obj);
+	void rq_get(void * rq, const char * key, void ** pobj);
+	void rq_delete(void * rq);
+
 #ifdef __cplusplus
 }
 #endif
