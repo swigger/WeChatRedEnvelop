@@ -79,13 +79,13 @@ NSMutableDictionary * loadSettings()
 
 	NSMutableDictionary * par_open = 0;
 	ocrq_get(xxkey, &par_open);
-	ocrq_set(xxkey, 0);
 	if (par_open)
 	{
 		sl_printf("真的打开红包了\n");
 		par_open[@"timingIdentifier"] = dictionary[@"timingIdentifier"];
 		WCRedEnvelopesLogicMgr *logicMgr = [[objc_getClass("MMServiceCenter") defaultCenter] getService:[objc_getClass("WCRedEnvelopesLogicMgr") class]];
 		[logicMgr OpenRedEnvelopesRequest:par_open];
+		ocrq_set(xxkey, 0);
 	}
 	else
 	{
